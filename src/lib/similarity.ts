@@ -144,3 +144,16 @@ export function getCardTextSimilarities(card: Card, texts: string[]): number[] {
   const vectors = getVectors([getCardText(card), ...texts]);
   return texts.map((_, index) => getCosine(vectors[0], vectors[index + 1]));
 }
+
+export function getCardsForQuery(query: string, cards: Card[], limit = 6): Match<Card>[] {
+  const vectors = getVectors([query, ...cards.map(getCardText)]);
+  return cards
+    .map((card, index) => ({
+      item: card,
+      similarity: getCosine(vectors[0], vectors[index + 1]),
+      reasons: getMatchReasons(card, query, null),
+    }))
+    .filter((match) => match.similarity >= MATCH_SIMILARITY)
+    .sort((first, second) => second.similarity - first.similarity)
+    .slice(0, limit);
+}
