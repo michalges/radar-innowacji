@@ -1,12 +1,16 @@
 import Link from "next/link";
 import { Suspense } from "react";
+import { LogoMark } from "@/components/LogoMark";
 import { ActiveNavLinks, NavLinks } from "@/components/NavLinks";
 
 export function SiteHeader() {
   return (
     <header className="flex flex-wrap items-center justify-between gap-x-6 gap-y-2 border-b md:gap-x-1 border-line-soft px-4 py-3 sm:px-8 lg:px-14">
-      <Link href="/" className="font-display text-[22px] md:mr-auto font-extrabold tracking-tight text-ink no-underline">
-        radar<span className="text-teal">●</span>innowacji
+      <Link href="/" className="flex items-center gap-2 font-display text-[22px] font-extrabold tracking-tight text-ink no-underline md:mr-auto">
+        <LogoMark className="size-8" />
+        <span>
+          radar<span className="text-teal">innowacji</span>
+        </span>
       </Link>
       <Link
         href="/zglos"
