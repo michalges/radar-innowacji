@@ -23,6 +23,10 @@
 }
 
 @layer base {
+  html {
+    scrollbar-gutter: stable;
+  }
+
   body {
     background: #ffffff;
     color: var(--color-ink);
