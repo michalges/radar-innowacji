@@ -4,6 +4,7 @@ import { Suspense } from "react";
 import { claimCard, reportCard, sendMessage } from "@/app/actions";
 import { CardHeader, CardPath, CardProfile, CardScore, CardTimeline, PANEL_CLASS } from "@/components/CardDetails";
 import { ClaimForm, ContactForm, ReportForm } from "@/components/CardForms";
+import { FundingPanel } from "@/components/FundingPanel";
 import { DUPLICATE_SIMILARITY } from "@/lib/constants";
 import { getCard, getCardEditToken, getCardEvents, getCards, getChallenges } from "@/lib/repository";
 import { getChallengesForCard, getSimilarCards } from "@/lib/similarity";
@@ -69,6 +70,7 @@ async function IdeaPageContent({ params, searchParams }: PageProps<"/pomysl/[id]
           <ContactForm action={sendMessage.bind(null, card.id)} />
         </section>
         <div className="flex min-w-0 flex-[2_1_320px] flex-col gap-6">
+          <FundingPanel card={card} />
           {!card.isClaimed && (
             <section id="przejmij" className={`${PANEL_CLASS} bg-mint`}>
               <h2 className="font-display text-xl font-semibold">To Twój pomysł?</h2>

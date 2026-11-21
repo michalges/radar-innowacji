@@ -139,3 +139,8 @@ export function getSimilarityMatrix(cards: Card[]): number[][] {
   const vectors = getVectors(cards.map(getCardText));
   return vectors.map((first, i) => vectors.map((second, j) => (i === j ? 1 : getCosine(first, second))));
 }
+
+export function getCardTextSimilarities(card: Card, texts: string[]): number[] {
+  const vectors = getVectors([getCardText(card), ...texts]);
+  return texts.map((_, index) => getCosine(vectors[0], vectors[index + 1]));
+}
