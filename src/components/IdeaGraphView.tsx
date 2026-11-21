@@ -4,9 +4,9 @@ import { select } from "d3-selection";
 import "d3-transition";
 import { zoom, zoomIdentity, type ZoomBehavior, type ZoomTransform } from "d3-zoom";
 import Link from "next/link";
-import { useEffect, useRef, useState, useTransition, type ReactNode } from "react";
+import { useEffect, useRef, useState, useTransition } from "react";
 import { searchMap, type MapSearch } from "@/app/actions";
-import { MapSearchForm, MapSearchResults, MapSearchSkeleton } from "@/components/MapSearchPanel";
+import { MapSearchForm, MapSearchIntro, MapSearchResults, MapSearchSkeleton, MapSearchSuggestions } from "@/components/MapSearchPanel";
 import type { GraphNode, IdeaGraph } from "@/lib/graph";
 import { DEFAULT_MIN_RELEVANCE, getMapPin, getPlacedHits, type MapPin } from "@/lib/mapSearch";
 
@@ -17,16 +17,16 @@ const MIN_SCALE = 0.3;
 const MAX_SCALE = 8;
 
 const CLUSTER_COLORS = [
-  { fill: "#CDE6EE", text: "#074A5C" },
-  { fill: "#E4F5C4", text: "#3F6212" },
-  { fill: "#FCE7B2", text: "#7A4A00" },
-  { fill: "#D6E6FB", text: "#1D4F91" },
-  { fill: "#F4D9EC", text: "#8A2463" },
-  { fill: "#E5DDFB", text: "#4C2FA8" },
-  { fill: "#FBDCCF", text: "#8A3412" },
-  { fill: "#D3F1F6", text: "#155E75" },
-  { fill: "#EDE7DA", text: "#5B4B2A" },
-  { fill: "#E2E8F0", text: "#334155" },
+  { text: "#074A5C" },
+  { text: "#3F6212" },
+  { text: "#7A4A00" },
+  { text: "#1D4F91" },
+  { text: "#8A2463" },
+  { text: "#4C2FA8" },
+  { text: "#8A3412" },
+  { text: "#155E75" },
+  { text: "#5B4B2A" },
+  { text: "#334155" },
 ];
 
 const PIN_PATH = "M32 54 C22 42 16 34 16 25 A16 16 0 0 1 48 25 C48 34 42 42 32 54 Z";
@@ -34,6 +34,7 @@ const PIN_PATH = "M32 54 C22 42 16 34 16 25 A16 16 0 0 1 48 25 C48 34 42 42 32 5
 type Size = { width: number; height: number };
 type Point = { x: number; y: number };
 type Insets = { left: number; top: number; right: number; bottom: number };
+type PendingFit = { points: Point[]; maxScale: number };
 
 function getClusterColor(index: number) {
   return CLUSTER_COLORS[index % CLUSTER_COLORS.length];
@@ -48,13 +49,13 @@ function getEdges(nodes: GraphNode[], nodesById: Map<string, GraphNode>) {
   );
 }
 
-/** The side panel covers part of the canvas, so the graph is fitted into the area beside or below it. */
+/** The search panel covers part of the canvas, so the graph is fitted into the area beside or below it. */
 function getInsets(size: Size, panelRect: DOMRect | null): Insets {
   const isSidePanel = panelRect !== null && panelRect.right < size.width * 0.5;
   if (isSidePanel) {
     return { left: panelRect.right + 48, top: 72, right: 96, bottom: 96 };
   }
-  return { left: 24, top: (panelRect?.bottom ?? 0) + 24, right: 72, bottom: 72 };
+  return { left: 24, top: (panelRect?.bottom ?? 0) + 24, right: 72, bottom: 48 };
 }
 
 /** Cluster names sit above their dots so they never cover them. */
@@ -107,7 +108,7 @@ function getFitTransform(nodes: Point[], size: Size, maxScale: number, panelRect
   return zoomIdentity.translate(centerX - scale * (minX + boundsWidth / 2), centerY - scale * (minY + boundsHeight / 2)).scale(scale);
 }
 
-export function IdeaGraphView({ graph, header, initialQuery }: { graph: IdeaGraph; header: ReactNode; initialQuery: string }) {
+export function IdeaGraphView({ graph, suggestions, initialQuery }: { graph: IdeaGraph; suggestions: string[]; initialQuery: string }) {
   const containerRef = useRef<HTMLDivElement>(null);
   const svgRef = useRef<SVGSVGElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
@@ -116,11 +117,12 @@ export function IdeaGraphView({ graph, header, initialQuery }: { graph: IdeaGrap
   const [transform, setTransform] = useState<ZoomTransform>(zoomIdentity);
   const [hoveredId, setHoveredId] = useState<string | null>(null);
   const [selectedId, setSelectedId] = useState<string | null>(null);
-  const [activeClusterIndex, setActiveClusterIndex] = useState<number | null>(null);
+  const [query, setQuery] = useState(initialQuery);
   const [search, setSearch] = useState<MapSearch | null>(null);
   const [minRelevance, setMinRelevance] = useState(DEFAULT_MIN_RELEVANCE);
   const [isSearching, startSearch] = useTransition();
   const hasRunInitialSearchRef = useRef(false);
+  const pendingFitRef = useRef<PendingFit | null>(null);
 
   useEffect(() => {
     const container = containerRef.current;
@@ -153,6 +155,15 @@ export function IdeaGraphView({ graph, header, initialQuery }: { graph: IdeaGrap
     }
   }, [graph.nodes, size]);
 
+  /** Fits run after commit, because docking or undocking the search panel changes the free area of the map. */
+  useEffect(() => {
+    const pendingFit = pendingFitRef.current;
+    if (pendingFit) {
+      pendingFitRef.current = null;
+      animateTo(getFitTransform(pendingFit.points, size, pendingFit.maxScale, getPanelRect()));
+    }
+  });
+
   useEffect(() => {
     if (initialQuery && size.width > 0 && !hasRunInitialSearchRef.current) {
       hasRunInitialSearchRef.current = true;
@@ -160,27 +171,29 @@ export function IdeaGraphView({ graph, header, initialQuery }: { graph: IdeaGrap
     }
   });
 
-  function runSearch(query: string) {
+  function runSearch(nextQuery: string) {
+    setQuery(nextQuery);
     startSearch(async () => {
-      const result = await searchMap(query);
+      const result = await searchMap(nextQuery);
       window.history.replaceState(null, "", getSearchUrl(result?.query ?? ""));
       setSearch(result);
       setMinRelevance(DEFAULT_MIN_RELEVANCE);
       setSelectedId(null);
-      setActiveClusterIndex(null);
       if (result) {
         const resultHits = getPlacedHits(result.hits, nodesById);
         const resultVisibleHits = resultHits.filter((hit) => hit.relevance >= DEFAULT_MIN_RELEVANCE);
         const resultPin = getMapPin(resultHits, resultVisibleHits, graph.nodes);
-        animateTo(getFitTransform([resultPin, ...resultVisibleHits.map((hit) => hit.node)], size, 3.5, getPanelRect()));
+        pendingFitRef.current = { points: [resultPin, ...resultVisibleHits.map((hit) => hit.node)], maxScale: 3.5 };
       }
     });
   }
 
   function clearSearch() {
     setSearch(null);
+    setQuery("");
+    setSelectedId(null);
     window.history.replaceState(null, "", getSearchUrl(""));
-    resetView();
+    pendingFitRef.current = { points: graph.nodes, maxScale: 3 };
   }
 
   function getPanelRect(): DOMRect | null {
@@ -212,24 +225,12 @@ export function IdeaGraphView({ graph, header, initialQuery }: { graph: IdeaGrap
 
   function resetView() {
     setSelectedId(null);
-    setActiveClusterIndex(null);
     animateTo(getFitTransform(graph.nodes, size, 3, getPanelRect()));
   }
 
   function selectNode(node: GraphNode) {
     setSelectedId(node.id);
-    setActiveClusterIndex(null);
     flyToNodes([node, ...node.neighborIds.flatMap((id) => nodesById.get(id) ?? [])]);
-  }
-
-  function selectCluster(clusterIndex: number) {
-    if (activeClusterIndex === clusterIndex) {
-      resetView();
-      return;
-    }
-    setSelectedId(null);
-    setActiveClusterIndex(clusterIndex);
-    flyToNodes(graph.nodes.filter((node) => node.clusterIndex === clusterIndex));
   }
 
   const nodesById = new Map(graph.nodes.map((node) => [node.id, node]));
@@ -244,6 +245,7 @@ export function IdeaGraphView({ graph, header, initialQuery }: { graph: IdeaGrap
   const visibleHitsById = new Map(visibleHits.map((hit) => [hit.id, hit]));
   const pin = search ? getMapPin(placedHits, visibleHits, graph.nodes) : null;
   const isSearchActive = search !== null;
+  const isDocked = isSearchActive || isSearching;
 
   function getIsHighlighted(node: GraphNode): boolean {
     if (focusNode) {
@@ -252,7 +254,7 @@ export function IdeaGraphView({ graph, header, initialQuery }: { graph: IdeaGrap
     if (isSearchActive) {
       return visibleHitsById.has(node.id);
     }
-    return activeClusterIndex === null || node.clusterIndex === activeClusterIndex;
+    return true;
   }
 
   function getNodeOpacity(node: GraphNode, isHighlighted: boolean): number {
@@ -272,10 +274,7 @@ export function IdeaGraphView({ graph, header, initialQuery }: { graph: IdeaGrap
         role="img"
         aria-label="Mapa pomysłów — podobne pomysły leżą blisko siebie"
         className="block size-full cursor-grab touch-none active:cursor-grabbing"
-        onClick={() => {
-          setSelectedId(null);
-          setActiveClusterIndex(null);
-        }}
+        onClick={() => setSelectedId(null)}
       >
         <defs>
           <pattern id="map-grid" width={28} height={28} patternUnits="userSpaceOnUse" patternTransform={`translate(${transform.x} ${transform.y})`}>
@@ -298,7 +297,7 @@ export function IdeaGraphView({ graph, header, initialQuery }: { graph: IdeaGrap
               stroke="#F7FAF9"
               strokeWidth={4 / scale}
               strokeLinejoin="round"
-              opacity={focusNode || activeClusterIndex !== null || isSearchActive || isShowingAllLabels ? 0 : 0.9}
+              opacity={focusNode || isSearchActive || isShowingAllLabels ? 0 : 0.9}
               className="pointer-events-none font-display font-bold uppercase transition-opacity duration-300"
             >
               {cluster.label}
@@ -308,8 +307,7 @@ export function IdeaGraphView({ graph, header, initialQuery }: { graph: IdeaGrap
           {edges.map(({ source, target }) => {
             const isFocusedEdge = focusNode !== undefined && (focusNode.id === source.id || focusNode.id === target.id);
             const isSameCluster = source.clusterIndex === target.clusterIndex;
-            const isInActiveCluster = activeClusterIndex !== null && isSameCluster && source.clusterIndex === activeClusterIndex;
-            const isDimmed = (focusNode !== undefined && !isFocusedEdge) || (activeClusterIndex !== null && !isInActiveCluster) || (isSearchActive && !isFocusedEdge);
+            const isDimmed = (focusNode !== undefined || isSearchActive) && !isFocusedEdge;
             return (
               <line
                 key={`${source.id}-${target.id}`}
@@ -378,7 +376,7 @@ export function IdeaGraphView({ graph, header, initialQuery }: { graph: IdeaGrap
                   stroke="#fff"
                   strokeWidth={2 / scale}
                 />
-                {(isFocused || isSearchHit || (!isSearchActive && (isShowingAllLabels || (activeClusterIndex !== null && isHighlighted)))) && (
+                {(isFocused || isSearchHit || (!isSearchActive && isShowingAllLabels)) && (
                   <text
                     x={node.x}
                     y={node.y - 12 / Math.sqrt(scale)}
@@ -402,14 +400,24 @@ export function IdeaGraphView({ graph, header, initialQuery }: { graph: IdeaGrap
         </g>
       </svg>
 
+      {!isDocked && (
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-x-0 top-0 h-[28rem] bg-[radial-gradient(ellipse_70%_100%_at_50%_0%,rgb(244_248_246/0.96)_35%,transparent)]"
+        />
+      )}
+
       <div
         ref={panelRef}
-        className="pointer-events-none absolute inset-x-4 top-4 flex max-h-[calc(100%-32px)] flex-col gap-3 sm:inset-x-8 sm:top-6 lg:right-auto lg:w-80"
+        className={`pointer-events-none absolute flex flex-col ${
+          isDocked
+            ? "inset-x-4 top-4 max-h-[calc(100%-32px)] gap-3 sm:inset-x-8 sm:top-6 lg:right-auto lg:w-88"
+            : "inset-x-4 top-8 mx-auto max-w-xl items-center gap-4 sm:top-12 sm:gap-5"
+        }`}
       >
-        <div className={`pointer-events-auto flex flex-col gap-2.5 rounded-3xl px-4 py-3 sm:max-w-md sm:gap-3 sm:px-5 sm:py-4 lg:max-w-none ${GLASS}`}>
-          {header}
-          <MapSearchForm initialQuery={initialQuery} isSearching={isSearching} onSearch={runSearch} />
-        </div>
+        {!isDocked && <MapSearchIntro />}
+        <MapSearchForm query={query} isHero={!isDocked} isSearching={isSearching} onQueryChange={setQuery} onSearch={runSearch} />
+        {!isDocked && <MapSearchSuggestions suggestions={suggestions} onPick={runSearch} />}
         {isSearching && <MapSearchSkeleton />}
         {!isSearching && search && pin && (
           <MapSearchResults
@@ -426,49 +434,30 @@ export function IdeaGraphView({ graph, header, initialQuery }: { graph: IdeaGrap
             onClear={clearSearch}
           />
         )}
-        <ul hidden={isSearchActive || isSearching} className="-mx-4 -my-4 flex gap-2 overflow-x-auto px-4 py-4 pb-10 [scrollbar-width:none] sm:-mx-8 sm:px-8 lg:-mx-8 lg:min-h-0 lg:flex-col lg:gap-1.5 lg:overflow-x-visible lg:overflow-y-auto lg:pb-10">
-          {visibleClusters.map((cluster) => {
-            const isActive = activeClusterIndex === cluster.index;
-            const color = getClusterColor(cluster.index);
-            return (
-              <li key={cluster.index} className="pointer-events-auto shrink-0">
-                <button
-                  type="button"
-                  aria-pressed={isActive}
-                  onClick={() => selectCluster(cluster.index)}
-                  className={`flex w-full cursor-pointer items-center gap-2.5 rounded-full py-2 pr-3 pl-2.5 text-left text-sm font-semibold transition-colors hover:bg-white/80 ${GLASS}`}
-                  style={isActive ? { backgroundColor: color.fill, color: color.text } : undefined}
-                >
-                  <span className="size-2.5 shrink-0 rounded-full" style={{ backgroundColor: color.text }} />
-                  <span className="flex-1 capitalize">{cluster.label.toLowerCase()}</span>
-                  <span className="text-xs font-medium text-ink-soft">{cluster.size}</span>
-                </button>
-              </li>
-            );
-          })}
-        </ul>
       </div>
 
-      <div className="absolute right-4 bottom-4 flex flex-col gap-1.5 sm:right-8 sm:bottom-6 lg:top-6 lg:bottom-auto">
-        <button type="button" aria-label="Przybliż" onClick={() => zoomBy(1.6)} className={`size-11 cursor-pointer rounded-full text-xl font-semibold text-ink hover:bg-white/80 ${GLASS}`}>
+      <div className="absolute top-1/2 right-8 hidden -translate-y-1/2 flex-col gap-1 sm:flex">
+        <button type="button" aria-label="Przybliż" onClick={() => zoomBy(1.6)} className={`size-9 cursor-pointer rounded-full text-lg font-semibold text-ink hover:bg-white/80 ${GLASS}`}>
           +
         </button>
-        <button type="button" aria-label="Oddal" onClick={() => zoomBy(1 / 1.6)} className={`size-11 cursor-pointer rounded-full text-xl font-semibold text-ink hover:bg-white/80 ${GLASS}`}>
+        <button type="button" aria-label="Oddal" onClick={() => zoomBy(1 / 1.6)} className={`size-9 cursor-pointer rounded-full text-lg font-semibold text-ink hover:bg-white/80 ${GLASS}`}>
           −
         </button>
-        <button type="button" aria-label="Pokaż wszystko" onClick={resetView} className={`size-11 cursor-pointer rounded-full text-sm font-semibold text-ink hover:bg-white/80 ${GLASS}`}>
+        <button type="button" aria-label="Pokaż wszystko" onClick={resetView} className={`size-9 cursor-pointer rounded-full text-sm font-semibold text-ink hover:bg-white/80 ${GLASS}`}>
           ⟲
         </button>
       </div>
 
       {selectedNode && (
-        <div className={`absolute right-20 bottom-4 left-4 flex flex-col gap-2 rounded-3xl p-5 sm:left-8 sm:max-w-80 sm:bottom-6 lg:right-8 lg:left-auto ${GLASS}`}>
+        <div
+          className={`absolute inset-x-4 flex flex-col gap-1.5 rounded-2xl p-4 sm:right-8 sm:left-auto sm:w-80 bottom-4 sm:bottom-6 ${GLASS}`}
+        >
           <span className="text-xs font-semibold tracking-wide uppercase" style={{ color: getClusterColor(selectedNode.clusterIndex).text }}>
             {graph.clusters[selectedNode.clusterIndex]?.label}
           </span>
-          <b className="font-display text-lg leading-snug">{selectedNode.title}</b>
+          <b className="font-display text-base leading-snug">{selectedNode.title}</b>
           <span className="text-sm text-ink-soft">{selectedNode.neighborIds.length} podobnych</span>
-          <Link href={`/pomysl/${selectedNode.id}`} className="self-start rounded-full bg-teal px-4 py-2 text-sm font-semibold text-white no-underline hover:bg-teal-dark">
+          <Link href={`/pomysl/${selectedNode.id}`} className="self-start rounded-full bg-teal px-3.5 py-1.5 text-[13px] font-semibold text-white no-underline hover:bg-teal-dark">
             Szczegóły →
           </Link>
         </div>

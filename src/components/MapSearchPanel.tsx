@@ -1,14 +1,36 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
 import type { MapSearch } from "@/app/actions";
+import { LogoMark } from "@/components/LogoMark";
 import type { PlacedHit } from "@/lib/mapSearch";
 
 const GLASS = "glass";
 
-export function MapSearchForm({ initialQuery, isSearching, onSearch }: { initialQuery: string; isSearching: boolean; onSearch: (query: string) => void }) {
-  const [query, setQuery] = useState(initialQuery);
+type SearchFormProps = {
+  query: string;
+  isHero: boolean;
+  isSearching: boolean;
+  onQueryChange: (query: string) => void;
+  onSearch: (query: string) => void;
+};
+
+function SearchIcon({ isSearching, className }: { isSearching: boolean; className: string }) {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true" className={`${className} ${isSearching ? "animate-spin" : ""}`}>
+      {isSearching ? (
+        <path d="M12 3a9 9 0 1 0 9 9" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" />
+      ) : (
+        <>
+          <circle cx="11" cy="11" r="6.5" fill="none" stroke="currentColor" strokeWidth="2.5" />
+          <path d="M16 16l4.5 4.5" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" />
+        </>
+      )}
+    </svg>
+  );
+}
+
+export function MapSearchForm({ query, isHero, isSearching, onQueryChange, onSearch }: SearchFormProps) {
   return (
     <form
       role="search"
@@ -16,38 +38,71 @@ export function MapSearchForm({ initialQuery, isSearching, onSearch }: { initial
         event.preventDefault();
         onSearch(query.trim());
       }}
-      className="flex items-center gap-1.5 rounded-full border border-line bg-white/80 py-1 pr-1 pl-4 transition-shadow focus-within:border-teal focus-within:shadow-[0_0_0_3px_rgb(10_97_120/0.15)]"
+      className={`pointer-events-auto flex w-full items-center rounded-full bg-white transition-shadow ${
+        isHero
+          ? "gap-2 border border-teal/30 py-1 pr-1 pl-3.5 shadow-[0_0_0_5px_rgb(10_97_120/0.06),0_12px_32px_rgb(10_97_120/0.16)] focus-within:border-teal focus-within:shadow-[0_0_0_5px_rgb(10_97_120/0.12),0_12px_32px_rgb(10_97_120/0.2)]"
+          : "gap-1.5 border border-line p-0.5 pl-3.5 shadow-[0_6px_20px_rgb(27_21_48/0.1)] focus-within:border-teal focus-within:shadow-[0_0_0_3px_rgb(10_97_120/0.15),0_6px_20px_rgb(27_21_48/0.1)]"
+      }`}
     >
+      {isHero && <LogoMark className="size-5 shrink-0" />}
       <input
         type="search"
         value={query}
-        onChange={(event) => setQuery(event.target.value)}
+        onChange={(event) => onQueryChange(event.target.value)}
         required
         minLength={3}
         maxLength={300}
         autoComplete="off"
         aria-label="Opisz problem, a pokażemy, gdzie leży na mapie"
-        placeholder="Gdzie leży Twój problem?"
-        className="h-10 min-w-0 flex-1 bg-transparent text-[15px] text-ink outline-none placeholder:text-muted [&::-webkit-search-cancel-button]:hidden"
+        placeholder={isHero ? "Opisz problem, np. smog przy szkołach" : "Gdzie leży Twój problem?"}
+        className={`min-w-0 flex-1 bg-transparent text-ink outline-none placeholder:text-muted [&::-webkit-search-cancel-button]:hidden ${isHero ? "h-11 text-base" : "h-9 text-sm"}`}
       />
       <button
         type="submit"
         disabled={isSearching}
         aria-label="Szukaj na mapie"
-        className="grid size-10 shrink-0 cursor-pointer place-items-center rounded-full bg-teal text-white transition-colors hover:bg-teal-dark disabled:cursor-wait disabled:bg-ink-soft"
+        className={`flex shrink-0 cursor-pointer items-center justify-center gap-2 rounded-full bg-teal font-semibold text-white transition-colors hover:bg-teal-dark disabled:cursor-wait disabled:bg-ink-soft ${
+          isHero ? "size-10 text-sm sm:h-10 sm:w-auto sm:px-5" : "size-8"
+        }`}
       >
-        <svg viewBox="0 0 24 24" aria-hidden="true" className={`size-5 ${isSearching ? "animate-spin" : ""}`}>
-          {isSearching ? (
-            <path d="M12 3a9 9 0 1 0 9 9" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" />
-          ) : (
-            <>
-              <circle cx="11" cy="11" r="6.5" fill="none" stroke="currentColor" strokeWidth="2.5" />
-              <path d="M16 16l4.5 4.5" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" />
-            </>
-          )}
-        </svg>
+        <SearchIcon isSearching={isSearching} className={isHero ? "size-4.5" : "size-4"} />
+        {isHero && <span className="hidden sm:inline">Szukaj</span>}
       </button>
     </form>
+  );
+}
+
+export function MapSearchIntro() {
+  return (
+    <div className="flex flex-col items-center gap-3 text-center">
+      <h1 className="font-display text-[28px] leading-[1.1] font-extrabold tracking-tight text-balance sm:text-4xl">
+        Gdzie leży Twój <span className="text-teal">problem</span>?
+      </h1>
+      <p className="hidden max-w-lg text-[15px] text-balance text-ink-soft sm:block">
+        Opisz go własnymi słowami — radar wskaże podobne pomysły ze szkół, uczelni i urzędów albo pustą lukę do zagospodarowania.
+      </p>
+    </div>
+  );
+}
+
+export function MapSearchSuggestions({ suggestions, onPick }: { suggestions: string[]; onPick: (suggestion: string) => void }) {
+  if (suggestions.length === 0) {
+    return null;
+  }
+  return (
+    <ul aria-label="Przykładowe problemy" className="pointer-events-auto flex flex-wrap justify-center gap-2 max-sm:[&>li:nth-child(n+3)]:hidden">
+      {suggestions.map((suggestion) => (
+        <li key={suggestion}>
+          <button
+            type="button"
+            onClick={() => onPick(suggestion)}
+            className={`max-w-64 cursor-pointer truncate rounded-full px-3 py-1 text-[13px] font-medium text-ink transition-colors hover:bg-mint hover:text-teal-dark ${GLASS}`}
+          >
+            {suggestion}
+          </button>
+        </li>
+      ))}
+    </ul>
   );
 }
 
@@ -79,7 +134,7 @@ export function MapSearchResults({
   onClear,
 }: ResultsProps) {
   return (
-    <section aria-label="Wyniki na mapie" className={`pointer-events-auto flex min-h-0 flex-col gap-2.5 rounded-3xl p-3 sm:gap-3 sm:p-4 ${GLASS}`}>
+    <section aria-label="Wyniki na mapie" className={`pointer-events-auto flex min-h-0 flex-col gap-2.5 rounded-2xl p-3 ${GLASS}`}>
       <div className="flex items-start justify-between gap-2">
         <p className="text-xs font-semibold tracking-wider text-muted uppercase">
           {search.isAi ? "Dopasowane przez AI" : "Dopasowane po słowach"} · {visibleHits.length}
@@ -155,7 +210,7 @@ export function MapSearchResults({
 
 export function MapSearchSkeleton() {
   return (
-    <div aria-label="Radar skanuje mapę" className={`pointer-events-auto flex flex-col gap-2 rounded-3xl p-4 ${GLASS}`}>
+    <div aria-label="Radar skanuje mapę" className={`pointer-events-auto flex flex-col gap-2 rounded-2xl p-3 ${GLASS}`}>
       <p className="text-xs font-semibold tracking-wider text-muted uppercase">Radar skanuje mapę…</p>
       {[0, 1, 2].map((index) => (
         <div key={index} className="h-12 animate-pulse rounded-2xl bg-white/70" />

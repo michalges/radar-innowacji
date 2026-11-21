@@ -1,21 +1,18 @@
 import { Suspense } from "react";
 import { IdeaGraphView } from "@/components/IdeaGraphView";
 import { getIdeaGraph } from "@/lib/graph";
-import { getCards } from "@/lib/repository";
+import { getCards, getChallenges } from "@/lib/repository";
 
-const MAP_HEADER = (
-  <h1 className="font-display text-[26px] leading-none font-extrabold tracking-tight whitespace-nowrap sm:text-[32px]">
-    Mapa <span className="text-teal">pomysłów</span>
-  </h1>
-);
+const SUGGESTION_COUNT = 4;
 
 function getQuery(value: string | string[] | undefined): string {
   return (Array.isArray(value) ? value[0] : value)?.trim() ?? "";
 }
 
 async function GraphContent({ searchParams }: PageProps<"/">) {
-  const [graph, { q }] = await Promise.all([getCards().then(getIdeaGraph), searchParams]);
-  return <IdeaGraphView graph={graph} header={MAP_HEADER} initialQuery={getQuery(q)} />;
+  const [graph, challenges, { q }] = await Promise.all([getCards().then(getIdeaGraph), getChallenges(), searchParams]);
+  const suggestions = challenges.slice(0, SUGGESTION_COUNT).map((challenge) => challenge.title);
+  return <IdeaGraphView graph={graph} suggestions={suggestions} initialQuery={getQuery(q)} />;
 }
 
 export default function HomePage(props: PageProps<"/">) {
