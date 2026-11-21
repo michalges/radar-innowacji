@@ -11,6 +11,9 @@
     "db:seed": "node scripts/seed.mjs"
   },
   "dependencies": {
+    "d3-delaunay": "^6.0.6",
+    "d3-selection": "^3.0.1",
+    "d3-zoom": "^3.0.1",
     "next": "16.4.6",
     "react": "19.3.0",
     "react-dom": "19.3.0",
@@ -19,6 +22,9 @@
   },
   "devDependencies": {
     "@tailwindcss/turbopack": "4.3.3",
+    "@types/d3-delaunay": "^6.0.4",
+    "@types/d3-selection": "^3.0.12",
+    "@types/d3-zoom": "^3.0.9",
     "@types/node": "^24.19.2",
     "@types/react": "^19",
     "@types/react-dom": "^19",

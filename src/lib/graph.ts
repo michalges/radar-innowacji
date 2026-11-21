@@ -8,15 +8,23 @@ const EDGE_SIMILARITY = 0.07;
 const CLUSTER_SIMILARITY = 0.1;
 const ITERATIONS = 500;
 
-export type GraphNode = { id: string; title: string; isTech: boolean; x: number; y: number; neighborIds: string[] };
+export type GraphNode = {
+  id: string;
+  title: string;
+  isTech: boolean;
+  x: number;
+  y: number;
+  clusterIndex: number;
+  neighborIds: string[];
+};
 export type GraphEdge = { sourceId: string; targetId: string; similarity: number };
-export type GraphCluster = { label: string; x: number; y: number };
+export type GraphCluster = { index: number; label: string; size: number; x: number; y: number };
 export type IdeaGraph = { nodes: GraphNode[]; edges: GraphEdge[]; clusters: GraphCluster[] };
 
 type Point = { x: number; y: number };
 
 /** Deterministic force layout: similar ideas attract, all ideas repel, so groups emerge from text similarity. */
-function getForceLayout(matrix: number[][]): Point[] {
+function getForceLayout(matrix: number[][], clusterOf: number[]): Point[] {
   const count = matrix.length;
   const points = matrix.map((_, index) => ({
     x: Math.cos((index / count) * 2 * Math.PI) * 200,
@@ -31,9 +39,10 @@ function getForceLayout(matrix: number[][]): Point[] {
         const dy = points[j].y - points[i].y;
         const distance = Math.max(1, Math.hypot(dx, dy));
         const repulsion = 9000 / (distance * distance);
-        const similarity = matrix[i][j];
-        const attraction = similarity >= EDGE_SIMILARITY ? similarity * (distance - 40) * 0.08 : 0;
-        const force = attraction - repulsion;
+        const isSameCluster = clusterOf[i] === clusterOf[j];
+        const weight = (matrix[i][j] >= EDGE_SIMILARITY ? matrix[i][j] : 0) + (isSameCluster ? 0.35 : 0);
+        const attraction = weight * (distance - 30) * 0.08;
+        const force = attraction - repulsion * (isSameCluster ? 1 : 2.2);
         forces[i].x += (dx / distance) * force;
         forces[i].y += (dy / distance) * force;
         forces[j].x -= (dx / distance) * force;
@@ -114,7 +123,10 @@ export function getIdeaGraph(cards: Card[]): IdeaGraph {
     return { nodes: [], edges: [], clusters: [] };
   }
   const matrix = getSimilarityMatrix(cards);
-  const points = getFittedPoints(getForceLayout(matrix));
+  const groups = getClusterGroups(matrix).sort((first, second) => second.length - first.length);
+  const clusterOf = new Array<number>(cards.length).fill(0);
+  groups.forEach((group, groupIndex) => group.forEach((cardIndex) => (clusterOf[cardIndex] = groupIndex)));
+  const points = getFittedPoints(getForceLayout(matrix, clusterOf));
 
   const edges: GraphEdge[] = [];
   for (let i = 0; i < cards.length; i++) {
@@ -131,20 +143,19 @@ export function getIdeaGraph(cards: Card[]): IdeaGraph {
     isTech: card.type === "technologiczna",
     x: points[index].x,
     y: points[index].y,
+    clusterIndex: clusterOf[index],
     neighborIds: edges.flatMap((edge) =>
       edge.sourceId === card.id ? [edge.targetId] : edge.targetId === card.id ? [edge.sourceId] : [],
     ),
   }));
 
-  const clusters = getClusterGroups(matrix).flatMap((group) => {
-    const label = group.length >= 2 ? getGroupTag(group.map((index) => cards[index]), cards) : null;
-    if (!label) {
-      return [];
-    }
-    const x = group.reduce((sum, index) => sum + points[index].x, 0) / group.length;
-    const y = Math.min(...group.map((index) => points[index].y)) - 34;
-    return [{ label, x, y: Math.max(18, y) }];
-  });
+  const clusters = groups.map((group, index) => ({
+    index,
+    label: (group.length >= 2 ? getGroupTag(group.map((cardIndex) => cards[cardIndex]), cards) : null) ?? cards[group[0]].tags[0] ?? "inne",
+    size: group.length,
+    x: group.reduce((sum, cardIndex) => sum + points[cardIndex].x, 0) / group.length,
+    y: group.reduce((sum, cardIndex) => sum + points[cardIndex].y, 0) / group.length,
+  }));
 
   return { nodes, edges, clusters };
 }
