@@ -1,0 +1,99 @@
+import type { Metadata } from "next";
+import { PANEL_CLASS } from "@/components/CardDetails";
+import {
+  CRITERIA,
+  CRITERION_LABELS,
+  CRITERION_QUESTIONS,
+  PUBLISH_CONFIDENCE,
+  REPORTS_TO_UNCONFIRM,
+  UNCONFIRMED_CONFIDENCE,
+} from "@/lib/constants";
+
+export const metadata: Metadata = { title: "Jak oceniamy · Radar Innowacji" };
+
+const PIPELINE_STEPS = [
+  ["Filtr bezpieczeństwa", "Mały model odrzuca spam, treści obraźliwe i niezwiązane z innowacjami."],
+  [
+    "Czy to innowacja?",
+    `Pewność ≥ ${PUBLISH_CONFIDENCE * 100}% — publikujemy; ${UNCONFIRMED_CONFIDENCE * 100}–${PUBLISH_CONFIDENCE * 100}% — publikujemy jako „niepotwierdzone”; poniżej — odrzucamy. Przy wynikach blisko progu decyzję podejmuje większy model.`,
+  ],
+  ["Karta", "AI wypełnia stałe pola i dołącza dosłowne cytaty ze źródła. Cytaty, których nie ma w źródle, są automatycznie usuwane."],
+  ["Ocena", "8 kryteriów w skali 1–5, każde z uzasadnieniem. Wynik to średnia."],
+  ["Ścieżka i dopasowania", "Jawne reguły wybierają ścieżkę; podobieństwo tekstu łączy karty z wyzwaniami i wykrywa duplikaty."],
+  ["Kontrola społeczna", `Każdy może zgłosić błąd — po ${REPORTS_TO_UNCONFIRM} zgłoszeniach karta wraca do „niepotwierdzonych”. Twórca poprawia kartę przez link.`],
+];
+
+const PATH_RULES = [
+  ["Technologiczna + IP ≥ 4 + TRL ≥ 6", "Komercjalizacja: licencja lub spin-off"],
+  ["Technologiczna + IP ≥ 4 + TRL < 6", "Walidacja w laboratorium PCI + ochrona IP"],
+  ["Nietechnologiczna + replikowalność ≥ 4", "Transfer do podobnych instytucji"],
+  ["Twórcy 16–30 + gotowość ≤ 4", "Laboratorium PCI → akcelerator"],
+  ["Wysoki koszt (niski koszt ≤ 2)", "Finansowanie grantowe"],
+  ["Pozostałe", "Mentoring i walidacja potrzeby"],
+];
+
+export default function CriteriaPage() {
+  return (
+    <>
+      <div className="flex max-w-190 flex-col gap-3">
+        <h1 className="font-display text-[clamp(34px,4.5vw,54px)] leading-none font-extrabold tracking-tight">
+          Jak oceniamy <span className="text-teal">innowacje</span>
+        </h1>
+        <p className="text-[17px] leading-normal text-ink-soft">
+          Radar działa bez ręcznej moderacji: tanie modele AI sprawdzają i oceniają każdą kartę według tych samych, jawnych zasad. Każda decyzja jest zapisywana.
+        </p>
+      </div>
+      <div className="flex flex-wrap items-start gap-6">
+        <section className={`${PANEL_CLASS} flex-[3_1_420px]`}>
+          <h2 className="font-display text-xl font-semibold">Automatyczny proces</h2>
+          <ol className="flex flex-col gap-3">
+            {PIPELINE_STEPS.map(([title, text], index) => (
+              <li key={title} className="flex gap-3.5">
+                <span className="flex size-7 flex-none items-center justify-center rounded-full bg-mint text-sm font-bold text-teal-dark">{index + 1}</span>
+                <span className="flex flex-col gap-0.5 text-[15px] leading-normal">
+                  <b>{title}</b>
+                  <span className="text-ink-soft">{text}</span>
+                </span>
+              </li>
+            ))}
+          </ol>
+        </section>
+        <section className={`${PANEL_CLASS} flex-[2_1_340px]`}>
+          <h2 className="font-display text-xl font-semibold">8 kryteriów oceny</h2>
+          <dl className="flex flex-col gap-2.5 text-[15px]">
+            {CRITERIA.map((criterion) => (
+              <div key={criterion}>
+                <dt className="font-semibold">{CRITERION_LABELS[criterion]}</dt>
+                <dd className="text-sm text-ink-soft">{CRITERION_QUESTIONS[criterion]}</dd>
+              </div>
+            ))}
+          </dl>
+        </section>
+      </div>
+      <section className={PANEL_CLASS}>
+        <h2 className="font-display text-xl font-semibold">Reguły ścieżek (pierwsza pasująca wygrywa)</h2>
+        <div className="overflow-x-auto">
+          <table className="w-full min-w-120 text-left text-[15px]">
+            <thead className="text-xs tracking-wide text-muted uppercase">
+              <tr>
+                <th className="py-2 pr-4 font-semibold">Warunek</th>
+                <th className="py-2 font-semibold">Ścieżka</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-line-soft">
+              {PATH_RULES.map(([condition, path]) => (
+                <tr key={condition}>
+                  <td className="py-2.5 pr-4">{condition}</td>
+                  <td className="py-2.5 font-semibold">{path}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        <p className="text-sm text-ink-soft">
+          Pozycja na radarze: wycinek = sektor PCI, odległość od środka = gotowość (TRL/ORL 1–3 pomysł, 4–6 pilotaż, 7–9 gotowe).
+        </p>
+      </section>
+    </>
+  );
+}
