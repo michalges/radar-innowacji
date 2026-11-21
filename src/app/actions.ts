@@ -18,6 +18,7 @@ import {
 import { ADMIN_COOKIE, ADMIN_SESSION_SECONDS, getIsAdmin, getIsAdminToken } from "@/lib/admin";
 import { hasApiKey } from "@/lib/openrouter";
 import { runPipeline } from "@/lib/pipeline";
+import { getSearchOutcome } from "@/lib/search";
 import { getClaimVerification, type VerificationResult } from "@/lib/verification";
 import {
   addCardEvent,
@@ -25,6 +26,7 @@ import {
   deleteCard,
   getCard,
   getCardByEditToken,
+  getCards,
   getCardEditToken,
   getClaimRequest,
   hasPendingClaimRequest,
@@ -381,4 +383,23 @@ export async function deleteCardByToken(token: string) {
     deleteCard(card.id);
   }
   redirect("/");
+}
+
+export type MapSearchHit = { id: string; reason: string; relevance: number };
+export type MapSearch = { query: string; isAi: boolean; hits: MapSearchHit[] };
+
+const mapQuerySchema = z.string().trim().min(3).max(300);
+
+/** Search behind the map: returns only ids and scores, the client already has every idea's position. */
+export async function searchMap(query: string): Promise<MapSearch | null> {
+  const parsed = mapQuerySchema.safeParse(query);
+  if (!parsed.success) {
+    return null;
+  }
+  const { results, isAi } = await getSearchOutcome(parsed.data, await getCards());
+  return {
+    query: parsed.data,
+    isAi,
+    hits: results.map((result) => ({ id: result.card.id, reason: result.reason, relevance: result.relevance })),
+  };
 }

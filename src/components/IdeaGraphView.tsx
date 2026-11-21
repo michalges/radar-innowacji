@@ -4,8 +4,11 @@ import { select } from "d3-selection";
 import "d3-transition";
 import { zoom, zoomIdentity, type ZoomBehavior, type ZoomTransform } from "d3-zoom";
 import Link from "next/link";
-import { useEffect, useRef, useState, type ReactNode } from "react";
+import { useEffect, useRef, useState, useTransition, type ReactNode } from "react";
+import { searchMap, type MapSearch } from "@/app/actions";
+import { MapSearchForm, MapSearchResults, MapSearchSkeleton } from "@/components/MapSearchPanel";
 import type { GraphNode, IdeaGraph } from "@/lib/graph";
+import { DEFAULT_MIN_RELEVANCE, getMapPin, getPlacedHits, type MapPin } from "@/lib/mapSearch";
 
 const LABEL_ZOOM = 1.7;
 const GLASS = "glass";
@@ -26,7 +29,10 @@ const CLUSTER_COLORS = [
   { fill: "#E2E8F0", text: "#334155" },
 ];
 
+const PIN_PATH = "M32 54 C22 42 16 34 16 25 A16 16 0 0 1 48 25 C48 34 42 42 32 54 Z";
+
 type Size = { width: number; height: number };
+type Point = { x: number; y: number };
 type Insets = { left: number; top: number; right: number; bottom: number };
 
 function getClusterColor(index: number) {
@@ -57,7 +63,32 @@ function getClusterLabelY(nodes: GraphNode[], clusterIndex: number, fallbackY: n
   return clusterYs.length > 0 ? Math.min(...clusterYs) : fallbackY;
 }
 
-function getFitTransform(nodes: GraphNode[], size: Size, maxScale: number, panelRect: DOMRect | null): ZoomTransform {
+function getSearchUrl(query: string): string {
+  return query ? `/?q=${encodeURIComponent(query)}` : "/";
+}
+
+/** The query as a radar ping: a dropped pin with rings, drawn at screen size whatever the zoom. */
+function SearchPinMarker({ pin, scale }: { pin: MapPin; scale: number }) {
+  return (
+    <g transform={`translate(${pin.x} ${pin.y}) scale(${1 / scale})`} className="pointer-events-none">
+      {[0, 0.8, 1.6].map((delay) => (
+        <circle key={delay} r={34} fill="none" stroke="var(--color-teal)" strokeWidth={2} className="radar-ping" style={{ animationDelay: `${delay}s` }} />
+      ))}
+      <g className="pin-drop">
+        <ellipse cx={0} cy={1} rx={9} ry={2.5} fill="rgb(27 21 48 / 0.18)" />
+        <path d={PIN_PATH} transform="translate(-22.4 -37.8) scale(0.7)" fill="var(--color-teal)" stroke="#fff" strokeWidth={2.5} />
+        <circle cx={0} cy={-20.3} r={4.2} fill="#fff" />
+      </g>
+      {pin.isGap && (
+        <text y={24} textAnchor="middle" fontSize={12} fontWeight={700} fill="var(--color-warn)" paintOrder="stroke" stroke="#F7FAF9" strokeWidth={4} className="uppercase">
+          Nieodkryty obszar
+        </text>
+      )}
+    </g>
+  );
+}
+
+function getFitTransform(nodes: Point[], size: Size, maxScale: number, panelRect: DOMRect | null): ZoomTransform {
   if (nodes.length === 0 || size.width === 0) {
     return zoomIdentity;
   }
@@ -76,7 +107,7 @@ function getFitTransform(nodes: GraphNode[], size: Size, maxScale: number, panel
   return zoomIdentity.translate(centerX - scale * (minX + boundsWidth / 2), centerY - scale * (minY + boundsHeight / 2)).scale(scale);
 }
 
-export function IdeaGraphView({ graph, header }: { graph: IdeaGraph; header: ReactNode }) {
+export function IdeaGraphView({ graph, header, initialQuery }: { graph: IdeaGraph; header: ReactNode; initialQuery: string }) {
   const containerRef = useRef<HTMLDivElement>(null);
   const svgRef = useRef<SVGSVGElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
@@ -86,6 +117,10 @@ export function IdeaGraphView({ graph, header }: { graph: IdeaGraph; header: Rea
   const [hoveredId, setHoveredId] = useState<string | null>(null);
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [activeClusterIndex, setActiveClusterIndex] = useState<number | null>(null);
+  const [search, setSearch] = useState<MapSearch | null>(null);
+  const [minRelevance, setMinRelevance] = useState(DEFAULT_MIN_RELEVANCE);
+  const [isSearching, startSearch] = useTransition();
+  const hasRunInitialSearchRef = useRef(false);
 
   useEffect(() => {
     const container = containerRef.current;
@@ -118,6 +153,36 @@ export function IdeaGraphView({ graph, header }: { graph: IdeaGraph; header: Rea
     }
   }, [graph.nodes, size]);
 
+  useEffect(() => {
+    if (initialQuery && size.width > 0 && !hasRunInitialSearchRef.current) {
+      hasRunInitialSearchRef.current = true;
+      runSearch(initialQuery);
+    }
+  });
+
+  function runSearch(query: string) {
+    startSearch(async () => {
+      const result = await searchMap(query);
+      window.history.replaceState(null, "", getSearchUrl(result?.query ?? ""));
+      setSearch(result);
+      setMinRelevance(DEFAULT_MIN_RELEVANCE);
+      setSelectedId(null);
+      setActiveClusterIndex(null);
+      if (result) {
+        const resultHits = getPlacedHits(result.hits, nodesById);
+        const resultVisibleHits = resultHits.filter((hit) => hit.relevance >= DEFAULT_MIN_RELEVANCE);
+        const resultPin = getMapPin(resultHits, resultVisibleHits, graph.nodes);
+        animateTo(getFitTransform([resultPin, ...resultVisibleHits.map((hit) => hit.node)], size, 3.5, getPanelRect()));
+      }
+    });
+  }
+
+  function clearSearch() {
+    setSearch(null);
+    window.history.replaceState(null, "", getSearchUrl(""));
+    resetView();
+  }
+
   function getPanelRect(): DOMRect | null {
     const panel = panelRef.current;
     const container = containerRef.current;
@@ -141,7 +206,7 @@ export function IdeaGraphView({ graph, header }: { graph: IdeaGraph; header: Rea
     }
   }
 
-  function flyToNodes(nodes: GraphNode[]) {
+  function flyToNodes(nodes: Point[]) {
     animateTo(getFitTransform(nodes, size, 4, getPanelRect()));
   }
 
@@ -174,12 +239,28 @@ export function IdeaGraphView({ graph, header }: { graph: IdeaGraph; header: Rea
   const scale = transform.k;
   const isShowingAllLabels = scale >= LABEL_ZOOM;
   const visibleClusters = graph.clusters.filter((cluster) => cluster.size >= 2).toSorted((first, second) => second.size - first.size);
+  const placedHits = search ? getPlacedHits(search.hits, nodesById) : [];
+  const visibleHits = placedHits.filter((hit) => hit.relevance >= minRelevance);
+  const visibleHitsById = new Map(visibleHits.map((hit) => [hit.id, hit]));
+  const pin = search ? getMapPin(placedHits, visibleHits, graph.nodes) : null;
+  const isSearchActive = search !== null;
 
   function getIsHighlighted(node: GraphNode): boolean {
     if (focusNode) {
       return focusNode.id === node.id || focusNode.neighborIds.includes(node.id);
     }
+    if (isSearchActive) {
+      return visibleHitsById.has(node.id);
+    }
     return activeClusterIndex === null || node.clusterIndex === activeClusterIndex;
+  }
+
+  function getNodeOpacity(node: GraphNode, isHighlighted: boolean): number {
+    const hit = visibleHitsById.get(node.id);
+    if (isSearchActive && hit && !focusNode) {
+      return 0.45 + 0.55 * hit.relevance;
+    }
+    return isHighlighted ? 1 : isSearchActive ? 0.18 : 0.25;
   }
 
   return (
@@ -217,7 +298,7 @@ export function IdeaGraphView({ graph, header }: { graph: IdeaGraph; header: Rea
               stroke="#F7FAF9"
               strokeWidth={4 / scale}
               strokeLinejoin="round"
-              opacity={focusNode || activeClusterIndex !== null || isShowingAllLabels ? 0 : 0.9}
+              opacity={focusNode || activeClusterIndex !== null || isSearchActive || isShowingAllLabels ? 0 : 0.9}
               className="pointer-events-none font-display font-bold uppercase transition-opacity duration-300"
             >
               {cluster.label}
@@ -228,7 +309,7 @@ export function IdeaGraphView({ graph, header }: { graph: IdeaGraph; header: Rea
             const isFocusedEdge = focusNode !== undefined && (focusNode.id === source.id || focusNode.id === target.id);
             const isSameCluster = source.clusterIndex === target.clusterIndex;
             const isInActiveCluster = activeClusterIndex !== null && isSameCluster && source.clusterIndex === activeClusterIndex;
-            const isDimmed = (focusNode !== undefined && !isFocusedEdge) || (activeClusterIndex !== null && !isInActiveCluster);
+            const isDimmed = (focusNode !== undefined && !isFocusedEdge) || (activeClusterIndex !== null && !isInActiveCluster) || (isSearchActive && !isFocusedEdge);
             return (
               <line
                 key={`${source.id}-${target.id}`}
@@ -244,13 +325,42 @@ export function IdeaGraphView({ graph, header }: { graph: IdeaGraph; header: Rea
             );
           })}
 
+          {pin && (
+            <g className="pointer-events-none">
+              <circle
+                cx={pin.x}
+                cy={pin.y}
+                r={pin.radius}
+                fill={pin.isGap ? "rgb(146 64 14 / 0.05)" : "rgb(10 97 120 / 0.06)"}
+                stroke={pin.isGap ? "var(--color-warn)" : "var(--color-teal)"}
+                strokeOpacity={0.5}
+                strokeWidth={1.5 / scale}
+                strokeDasharray={`${6 / scale} ${5 / scale}`}
+                className="transition-[r] duration-300"
+              />
+              {visibleHits.map((hit) => (
+                <line
+                  key={hit.id}
+                  x1={pin.x}
+                  y1={pin.y}
+                  x2={hit.node.x}
+                  y2={hit.node.y}
+                  stroke="var(--color-teal)"
+                  strokeOpacity={0.2 + 0.5 * hit.relevance}
+                  strokeWidth={(hoveredId === hit.id ? 2.5 : 1.5) / scale}
+                />
+              ))}
+            </g>
+          )}
+
           {graph.nodes.map((node) => {
             const isFocused = focusNode?.id === node.id;
             const isHighlighted = getIsHighlighted(node);
+            const isSearchHit = visibleHitsById.has(node.id);
             return (
               <g
                 key={node.id}
-                opacity={isHighlighted ? 1 : 0.25}
+                opacity={getNodeOpacity(node, isHighlighted)}
                 className="cursor-pointer transition-opacity duration-300"
                 onMouseEnter={() => setHoveredId(node.id)}
                 onMouseLeave={() => setHoveredId(null)}
@@ -268,7 +378,7 @@ export function IdeaGraphView({ graph, header }: { graph: IdeaGraph; header: Rea
                   stroke="#fff"
                   strokeWidth={2 / scale}
                 />
-                {(isShowingAllLabels || isFocused || (activeClusterIndex !== null && isHighlighted)) && (
+                {(isFocused || isSearchHit || (!isSearchActive && (isShowingAllLabels || (activeClusterIndex !== null && isHighlighted)))) && (
                   <text
                     x={node.x}
                     y={node.y - 12 / Math.sqrt(scale)}
@@ -287,6 +397,8 @@ export function IdeaGraphView({ graph, header }: { graph: IdeaGraph; header: Rea
               </g>
             );
           })}
+
+          {pin && <SearchPinMarker key={search?.query} pin={pin} scale={scale} />}
         </g>
       </svg>
 
@@ -294,10 +406,27 @@ export function IdeaGraphView({ graph, header }: { graph: IdeaGraph; header: Rea
         ref={panelRef}
         className="pointer-events-none absolute inset-x-4 top-4 flex max-h-[calc(100%-32px)] flex-col gap-3 sm:inset-x-8 sm:top-6 lg:right-auto lg:w-80"
       >
-        <div className={`pointer-events-auto rounded-3xl px-5 py-4 sm:self-start lg:self-stretch ${GLASS}`}>
+        <div className={`pointer-events-auto flex flex-col gap-2.5 rounded-3xl px-4 py-3 sm:max-w-md sm:gap-3 sm:px-5 sm:py-4 lg:max-w-none ${GLASS}`}>
           {header}
+          <MapSearchForm initialQuery={initialQuery} isSearching={isSearching} onSearch={runSearch} />
         </div>
-        <ul className="-mx-4 -my-4 flex gap-2 overflow-x-auto px-4 py-4 pb-10 [scrollbar-width:none] sm:-mx-8 sm:px-8 lg:-mx-8 lg:min-h-0 lg:flex-col lg:gap-1.5 lg:overflow-x-visible lg:overflow-y-auto lg:pb-10">
+        {isSearching && <MapSearchSkeleton />}
+        {!isSearching && search && pin && (
+          <MapSearchResults
+            search={search}
+            visibleHits={visibleHits}
+            hiddenCount={placedHits.length - visibleHits.length}
+            minRelevance={minRelevance}
+            isGap={pin.isGap}
+            selectedId={selectedId}
+            getColor={(clusterIndex) => getClusterColor(clusterIndex).text}
+            onMinRelevanceChange={setMinRelevance}
+            onHover={setHoveredId}
+            onSelect={(hit) => selectNode(hit.node)}
+            onClear={clearSearch}
+          />
+        )}
+        <ul hidden={isSearchActive || isSearching} className="-mx-4 -my-4 flex gap-2 overflow-x-auto px-4 py-4 pb-10 [scrollbar-width:none] sm:-mx-8 sm:px-8 lg:-mx-8 lg:min-h-0 lg:flex-col lg:gap-1.5 lg:overflow-x-visible lg:overflow-y-auto lg:pb-10">
           {visibleClusters.map((cluster) => {
             const isActive = activeClusterIndex === cluster.index;
             const color = getClusterColor(cluster.index);
