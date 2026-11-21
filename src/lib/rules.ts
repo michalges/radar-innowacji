@@ -132,7 +132,7 @@ export function getRecommendedPath(card: Card): RecommendedPath {
     rule: "żadna z reguł szczegółowych nie pasuje",
     steps: [
       { title: "Rozmowy z 5 potencjalnymi użytkownikami", owner: "Twórcy" },
-      { title: "Uzupełnienie karty o wyniki", owner: "Twórcy" },
+      { title: "Dopisanie wyników do opisu", owner: "Twórcy" },
       { title: "Ponowna ocena przez Radar", owner: "Radar (automatycznie)" },
     ],
     kpi: "Potwierdzona potrzeba u co najmniej 3 użytkowników",

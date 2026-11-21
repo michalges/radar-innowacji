@@ -12,15 +12,12 @@ import {
 export const metadata: Metadata = { title: "Jak oceniamy · Radar Innowacji" };
 
 const PIPELINE_STEPS = [
-  ["Filtr bezpieczeństwa", "Mały model odrzuca spam, treści obraźliwe i niezwiązane z innowacjami."],
-  [
-    "Czy to innowacja?",
-    `Pewność ≥ ${PUBLISH_CONFIDENCE * 100}% — publikujemy; ${UNCONFIRMED_CONFIDENCE * 100}–${PUBLISH_CONFIDENCE * 100}% — publikujemy jako „niepotwierdzone”; poniżej — odrzucamy. Przy wynikach blisko progu decyzję podejmuje większy model.`,
-  ],
-  ["Karta", "AI wypełnia stałe pola i dołącza dosłowne cytaty ze źródła. Cytaty, których nie ma w źródle, są automatycznie usuwane."],
-  ["Ocena", "8 kryteriów w skali 1–5, każde z uzasadnieniem. Wynik to średnia."],
-  ["Ścieżka i dopasowania", "Jawne reguły wybierają ścieżkę; podobieństwo tekstu łączy karty z wyzwaniami i wykrywa duplikaty."],
-  ["Kontrola społeczna", `Każdy może zgłosić błąd — po ${REPORTS_TO_UNCONFIRM} zgłoszeniach karta wraca do „niepotwierdzonych”. Twórca poprawia kartę przez link.`],
+  ["Filtr", "Mały model odrzuca spam i treści nie na temat."],
+  ["Czy to innowacja?", `≥ ${PUBLISH_CONFIDENCE * 100}% pewności — publikujemy; ${UNCONFIRMED_CONFIDENCE * 100}–${PUBLISH_CONFIDENCE * 100}% — jako „niepotwierdzone”.`],
+  ["Opis", "AI wypełnia stałe pola z cytatami ze źródła."],
+  ["Ocena", "8 kryteriów, skala 1–5, z uzasadnieniem."],
+  ["Ścieżka", "Jawne reguły poniżej."],
+  ["Kontrola", `${REPORTS_TO_UNCONFIRM} zgłoszenia błędu cofają pomysł do weryfikacji.`],
 ];
 
 const PATH_RULES = [
@@ -35,17 +32,12 @@ const PATH_RULES = [
 export default function CriteriaPage() {
   return (
     <>
-      <div className="flex max-w-190 flex-col gap-3">
-        <h1 className="font-display text-[clamp(34px,4.5vw,54px)] leading-none font-extrabold tracking-tight">
-          Jak oceniamy <span className="text-teal">innowacje</span>
-        </h1>
-        <p className="text-[17px] leading-normal text-ink-soft">
-          Radar działa bez ręcznej moderacji: tanie modele AI sprawdzają i oceniają każdą kartę według tych samych, jawnych zasad. Każda decyzja jest zapisywana.
-        </p>
-      </div>
+      <h1 className="font-display text-[clamp(34px,4.5vw,54px)] leading-none font-extrabold tracking-tight">
+        Jak <span className="text-teal">oceniamy</span>
+      </h1>
       <div className="flex flex-wrap items-start gap-6">
         <section className={`${PANEL_CLASS} flex-[3_1_420px]`}>
-          <h2 className="font-display text-xl font-semibold">Automatyczny proces</h2>
+          <h2 className="font-display text-xl font-semibold">Proces</h2>
           <ol className="flex flex-col gap-3">
             {PIPELINE_STEPS.map(([title, text], index) => (
               <li key={title} className="flex gap-3.5">
@@ -59,7 +51,7 @@ export default function CriteriaPage() {
           </ol>
         </section>
         <section className={`${PANEL_CLASS} flex-[2_1_340px]`}>
-          <h2 className="font-display text-xl font-semibold">8 kryteriów oceny</h2>
+          <h2 className="font-display text-xl font-semibold">Kryteria</h2>
           <dl className="flex flex-col gap-2.5 text-[15px]">
             {CRITERIA.map((criterion) => (
               <div key={criterion}>
@@ -71,7 +63,7 @@ export default function CriteriaPage() {
         </section>
       </div>
       <section className={PANEL_CLASS}>
-        <h2 className="font-display text-xl font-semibold">Reguły ścieżek (pierwsza pasująca wygrywa)</h2>
+        <h2 className="font-display text-xl font-semibold">Ścieżki</h2>
         <div className="overflow-x-auto">
           <table className="w-full min-w-120 text-left text-[15px]">
             <thead className="text-xs tracking-wide text-muted uppercase">
@@ -90,9 +82,6 @@ export default function CriteriaPage() {
             </tbody>
           </table>
         </div>
-        <p className="text-sm text-ink-soft">
-          Pozycja na radarze: wycinek = sektor PCI, odległość od środka = gotowość (TRL/ORL 1–3 pomysł, 4–6 pilotaż, 7–9 gotowe).
-        </p>
       </section>
     </>
   );

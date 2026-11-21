@@ -20,7 +20,7 @@ function FormFeedback({ state }: { state: FormState }) {
         {state.message}{" "}
         {state.link && (
           <Link href={state.link} className="font-semibold">
-            Otwórz panel karty
+            Otwórz panel
           </Link>
         )}
       </p>
@@ -29,27 +29,22 @@ function FormFeedback({ state }: { state: FormState }) {
   return null;
 }
 
-const INPUT_CLASS = "min-h-12 rounded-xl border border-line px-4 text-base outline-none focus:border-teal";
+const INPUT_CLASS = "min-h-12 rounded-xl border border-line bg-white px-4 text-base font-normal outline-none focus:border-teal";
+const TEXTAREA_CLASS = "resize-y rounded-xl border border-line bg-white p-4 text-base font-normal outline-none focus:border-teal";
 const PRIMARY_BUTTON_CLASS =
-  "min-h-12 cursor-pointer self-start rounded-full bg-teal px-6 font-semibold text-white hover:bg-teal-dark disabled:cursor-wait disabled:opacity-70";
+  "min-h-12 cursor-pointer self-start rounded-full bg-teal px-6 font-semibold text-white hover:bg-teal-dark disabled:cursor-wait disabled:bg-ink-soft";
 const SECONDARY_BUTTON_CLASS =
-  "min-h-11 cursor-pointer self-start rounded-full border border-line bg-white px-5 text-sm font-semibold text-ink hover:bg-paper disabled:cursor-wait disabled:opacity-70";
+  "min-h-11 cursor-pointer self-start rounded-full bg-paper px-5 text-sm font-semibold text-ink hover:bg-line-soft disabled:cursor-wait";
 
 export function ContactForm({ action }: { action: BoundAction }) {
   const [state, formAction, isPending] = useActionState(action, null);
   return (
     <form action={formAction} className="flex flex-col gap-3">
-      <label className="flex flex-col gap-1.5 text-sm font-semibold">
-        Kim jesteś?
-        <input name="sender" required placeholder="np. Gmina Kolbuszowa, Jan z firmy X" className={INPUT_CLASS} />
-      </label>
-      <label className="flex flex-col gap-1.5 text-sm font-semibold">
-        Wiadomość do twórców
-        <textarea name="body" required rows={4} className="resize-y rounded-xl border border-line p-4 text-base font-normal outline-none focus:border-teal" />
-      </label>
+      <input name="sender" required aria-label="Kim jesteś" placeholder="Kim jesteś? (np. Gmina X)" className={INPUT_CLASS} />
+      <textarea name="body" required rows={3} aria-label="Wiadomość" placeholder="Wiadomość do twórców" className={TEXTAREA_CLASS} />
       <FormFeedback state={state} />
       <button type="submit" disabled={isPending} className={PRIMARY_BUTTON_CLASS}>
-        {isPending ? "Wysyłam…" : "Chcę się skontaktować"}
+        Wyślij
       </button>
     </form>
   );
@@ -59,43 +54,37 @@ export function ClaimForm({ action }: { action: BoundAction }) {
   const [state, formAction, isPending] = useActionState(action, null);
   return (
     <form action={formAction} className="flex flex-col gap-3">
-      <label className="flex flex-col gap-1.5 text-sm font-semibold">
-        E-mail z domeny Twojej szkoły, uczelni lub urzędu
-        <input name="email" type="email" required placeholder="nauczyciel@szkola.edu.pl" className={INPUT_CLASS} />
-      </label>
+      <input name="email" type="email" required aria-label="E-mail z domeny instytucji" placeholder="ty@szkola.edu.pl" className={INPUT_CLASS} />
       <FormFeedback state={state} />
       <button type="submit" disabled={isPending} className={PRIMARY_BUTTON_CLASS}>
-        To moje — przejmij kartę
+        To moje
       </button>
     </form>
   );
 }
 
 const REPORT_REASONS = [
-  { value: "bledne-dane", label: "Błędne dane na karcie" },
-  { value: "nie-innowacja", label: "To nie jest innowacja" },
-  { value: "duplikat", label: "Duplikat innej karty" },
+  { value: "bledne-dane", label: "Błędne dane" },
+  { value: "nie-innowacja", label: "To nie innowacja" },
+  { value: "duplikat", label: "Duplikat" },
   { value: "dane-osobowe", label: "Narusza prywatność" },
 ];
 
 export function ReportForm({ action }: { action: BoundAction }) {
   const [state, formAction, isPending] = useActionState(action, null);
   return (
-    <form action={formAction} className="flex flex-col gap-3">
-      <label className="flex flex-col gap-1.5 text-sm font-semibold">
-        Co jest nie tak?
-        <select name="reason" className={`${INPUT_CLASS} bg-white font-normal`}>
-          {REPORT_REASONS.map((reason) => (
-            <option key={reason.value} value={reason.value}>
-              {reason.label}
-            </option>
-          ))}
-        </select>
-      </label>
-      <FormFeedback state={state} />
+    <form action={formAction} className="flex flex-wrap items-center gap-3">
+      <select name="reason" aria-label="Powód zgłoszenia" className={INPUT_CLASS}>
+        {REPORT_REASONS.map((reason) => (
+          <option key={reason.value} value={reason.value}>
+            {reason.label}
+          </option>
+        ))}
+      </select>
       <button type="submit" disabled={isPending} className={SECONDARY_BUTTON_CLASS}>
         Zgłoś błąd
       </button>
+      <FormFeedback state={state} />
     </form>
   );
 }
@@ -104,19 +93,17 @@ export function EditForm({ action }: { action: BoundAction }) {
   const [state, formAction, isPending] = useActionState(action, null);
   return (
     <form action={formAction} className="flex flex-col gap-3">
-      <label className="flex flex-col gap-1.5 text-sm font-semibold">
-        Co poprawić lub dopisać? AI zaktualizuje kartę i oceni ją ponownie.
-        <textarea
-          name="corrections"
-          required
-          rows={5}
-          placeholder="np. Szkoła: ZS nr 2 w Mielcu. Z programu skorzystało 60 uczniów, średnia ocen wzrosła z 2,8 do 3,4."
-          className="resize-y rounded-xl border border-line p-4 text-base font-normal outline-none focus:border-teal"
-        />
-      </label>
+      <textarea
+        name="corrections"
+        required
+        rows={4}
+        aria-label="Poprawki"
+        placeholder="Co poprawić lub dopisać?"
+        className={TEXTAREA_CLASS}
+      />
       <FormFeedback state={state} />
       <button type="submit" disabled={isPending} className={PRIMARY_BUTTON_CLASS}>
-        {isPending ? "AI ocenia ponownie…" : "Zapisz i oceń ponownie"}
+        {isPending ? "AI ocenia…" : "Zapisz"}
       </button>
     </form>
   );

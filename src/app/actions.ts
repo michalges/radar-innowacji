@@ -80,7 +80,7 @@ export async function submitIdea(_state: FormState, formData: FormData): Promise
       sourceLabel: parsed.data.isNomination ? "Zgłoszenie (nominacja)" : "Zgłoszenie twórcy",
     });
     if (result.outcome === "odrzucone") {
-      return { error: `Nie opublikowaliśmy zgłoszenia: ${result.reason} Dopisz, co dokładnie zrobiliście i jaki problem to rozwiązuje.` };
+      return { error: `Nie opublikowaliśmy: ${result.reason}` };
     }
     const card = { ...result.card, isClaimed: !parsed.data.isNomination };
     editToken = insertCard(card, parsed.data.isNomination ? null : parsed.data.email);
@@ -88,7 +88,7 @@ export async function submitIdea(_state: FormState, formData: FormData): Promise
   } catch (error) {
     return { error: `AI nie odpowiedziało poprawnie (${getErrorMessage(error)}). Spróbuj ponownie.` };
   }
-  redirect(`/karta/${cardId}?edycja=${editToken}`);
+  redirect(`/pomysl/${cardId}?edycja=${editToken}`);
 }
 
 const challengeSchema = z.object({
@@ -123,12 +123,12 @@ export async function submitChallenge(_state: FormState, formData: FormData): Pr
 export async function reportCard(cardId: string, _state: FormState, formData: FormData): Promise<FormState> {
   const card = await getCard(cardId);
   if (!card) {
-    return { error: "Nie znaleziono karty." };
+    return { error: "Nie znaleziono pomysłu." };
   }
   const reason = String(formData.get("reason") ?? "inne");
   addReport(card, await getClientKey(), reason);
   refresh();
-  return { message: "Dziękujemy — zgłoszenie błędu zapisane. Po kilku zgłoszeniach karta wraca do weryfikacji." };
+  return { message: "Dzięki, zapisane." };
 }
 
 export async function claimCard(cardId: string, _state: FormState, formData: FormData): Promise<FormState> {
@@ -138,18 +138,18 @@ export async function claimCard(cardId: string, _state: FormState, formData: For
   }
   const domain = parsed.data.split("@")[1]?.toLowerCase() ?? "";
   if (FREE_EMAIL_DOMAINS.includes(domain)) {
-    return { error: "Użyj e-maila z domeny szkoły, uczelni lub urzędu — tak potwierdzamy, że karta jest Wasza." };
+    return { error: "Użyj e-maila z domeny szkoły, uczelni lub urzędu." };
   }
   const card = await getCard(cardId);
   const editToken = getCardEditToken(cardId);
   if (!card || !editToken) {
-    return { error: "Nie znaleziono karty." };
+    return { error: "Nie znaleziono pomysłu." };
   }
   setCardOwner(cardId, parsed.data);
   saveCard({ ...card, isClaimed: true });
   refresh();
   return {
-    message: "Karta jest Twoja. W produkcji ten link przyjdzie mailem:",
+    message: "Gotowe. Twój link (w produkcji przyjdzie mailem):",
     link: `/edytuj/${editToken}`,
   };
 }
@@ -166,14 +166,14 @@ export async function sendMessage(cardId: string, _state: FormState, formData: F
   }
   const card = await getCard(cardId);
   if (!card) {
-    return { error: "Nie znaleziono karty." };
+    return { error: "Nie znaleziono pomysłu." };
   }
   insertMessage({ ...parsed.data, id: crypto.randomUUID(), cardId, createdAt: new Date().toISOString() });
   if (card.status === "opublikowana" || card.status === "niepotwierdzona") {
     saveCard({ ...card, status: "w-kontakcie" });
   }
   refresh();
-  return { message: "Wiadomość przekazana twórcom. Ich adres pozostaje ukryty, odpowiedzą przez Radar." };
+  return { message: "Wysłane. Twórcy odpowiedzą przez Radar." };
 }
 
 const editSchema = z.object({
@@ -207,7 +207,7 @@ export async function updateCardByToken(token: string, _state: FormState, formDa
     return { error: `AI nie odpowiedziało poprawnie (${getErrorMessage(error)}).` };
   }
   refresh();
-  return { message: "Karta zaktualizowana i oceniona ponownie." };
+  return { message: "Zapisane i ocenione ponownie." };
 }
 
 export async function markImplemented(token: string) {

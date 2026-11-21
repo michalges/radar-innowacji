@@ -29,14 +29,14 @@ async function ChallengeContent({ params }: PageProps<"/wyzwania/[id]">) {
       </div>
       <div className="flex flex-wrap items-start gap-7">
         <section className="flex min-w-0 flex-[3_1_420px] flex-col gap-3.5">
-          <h2 className="font-display text-[22px] font-semibold">Pasujące innowacje ({matches.length})</h2>
+          <h2 className="font-display text-[22px] font-semibold">Pasujące pomysły ({matches.length})</h2>
           {matches.length === 0 && (
-            <p className="text-ink-soft">Na razie brak dopasowań. Dostaniesz e-mail, gdy na radarze pojawi się pasująca innowacja.</p>
+            <p className="text-ink-soft">Brak dopasowań.</p>
           )}
           {matches.map((match) => (
             <Link
               key={match.item.id}
-              href={`/karta/${match.item.id}`}
+              href={`/pomysl/${match.item.id}`}
               className="flex flex-col gap-1.5 rounded-2xl border border-line-soft p-4.5 text-ink no-underline hover:border-line"
             >
               <span className="flex flex-wrap items-baseline justify-between gap-2">

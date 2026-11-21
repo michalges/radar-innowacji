@@ -6,9 +6,9 @@ import type { CrawlSummary } from "@/lib/crawler";
 
 function getSummaryText(summary: CrawlSummary): string {
   if (summary.error) {
-    return `Błąd skanu: ${summary.error}`;
+    return `Błąd: ${summary.error}`;
   }
-  return `Opublikowane: ${summary.published} · niepotwierdzone: ${summary.unconfirmed} · odrzucone: ${summary.rejected} · już znane: ${summary.skipped}`;
+  return `+${summary.published + summary.unconfirmed} nowe · ${summary.rejected} odrzucone`;
 }
 
 export function CrawlButton() {
@@ -17,17 +17,17 @@ export function CrawlButton() {
 
   return (
     <div className="flex flex-wrap items-center gap-3">
+      <span role="status" className="text-sm text-ink-soft">
+        {summary && getSummaryText(summary)}
+      </span>
       <button
         type="button"
         disabled={isPending}
         onClick={() => startTransition(async () => setSummary(await runCrawl()))}
-        className="min-h-11 cursor-pointer rounded-full border border-line bg-white px-4 text-sm font-semibold text-ink hover:bg-paper disabled:cursor-wait disabled:opacity-60"
+        className="min-h-11 cursor-pointer rounded-full bg-paper px-4 text-sm font-semibold text-ink hover:bg-line-soft disabled:cursor-wait disabled:text-ink-soft"
       >
-        {isPending ? "Skanuję źródła…" : "Uruchom skan źródeł (demo)"}
+        {isPending ? "Skanuję…" : "Skanuj źródła"}
       </button>
-      <span role="status" className="text-sm text-ink-soft">
-        {summary && getSummaryText(summary)}
-      </span>
     </div>
   );
 }

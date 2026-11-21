@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 
 const NAV_LINKS = [
   { href: "/", label: "Radar" },
+  { href: "/mapa", label: "Mapa" },
   { href: "/wyzwania", label: "Wyzwania" },
   { href: "/kryteria", label: "Jak oceniamy" },
 ];
@@ -13,7 +14,7 @@ function getIsActive(pathname: string | null, href: string): boolean {
   if (!pathname) {
     return false;
   }
-  return href === "/" ? pathname === "/" || pathname.startsWith("/karta") : pathname.startsWith(href);
+  return href === "/" ? pathname === "/" || pathname.startsWith("/pomysl") : pathname.startsWith(href);
 }
 
 export function NavLinks({ pathname }: { pathname: string | null }) {
