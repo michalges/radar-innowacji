@@ -1,0 +1,1265 @@
+{
+  "ideas": [
+    {
+      "id": "uczen-uczy-ucznia",
+      "source": "zgloszenie",
+      "sourceUrl": null,
+      "sourceLabel": "Zgłoszenie nauczycielki",
+      "sourceText": "W naszej szkole starsi uczniowie uczą młodszych matematyki po lekcjach. Robimy to od roku, chodzi ok. 40 osób. Nauczycielka pilnuje grafiku w arkuszu, a za godziny są punkty z zachowania. Oceny z matmy w klasach pierwszych poszły w górę.",
+      "title": "Uczeń uczy ucznia",
+      "problem": "Zaległości z matematyki w klasach pierwszych, a płatne korepetycje są dla wielu rodzin za drogie.",
+      "solution": "Starsi uczniowie prowadzą rówieśnicze korepetycje po lekcjach; nauczycielka układa grafik, a za godziny są punkty z zachowania.",
+      "effect": "Około 40 uczestników w pierwszym roku, poprawa ocen w klasach pierwszych (do potwierdzenia).",
+      "type": "edukacyjna",
+      "readinessScale": "ORL",
+      "readiness": 6,
+      "sector": "jakosc-zycia",
+      "creators": "Nauczycielka matematyki i uczniowie klas starszych",
+      "hasMinors": true,
+      "isYoungCreator": true,
+      "institution": "Liceum Ogólnokształcące (demo)",
+      "region": "powiat rzeszowski",
+      "resources": "Sala po lekcjach, szablon grafiku",
+      "tags": [
+        "matematyka",
+        "korepetycje",
+        "wyrównywanie szans",
+        "tutoring rówieśniczy"
+      ],
+      "missing": [],
+      "quotes": {
+        "solution": "starsi uczniowie uczą młodszych matematyki po lekcjach",
+        "effect": "Oceny z matmy w klasach pierwszych poszły w górę."
+      },
+      "scores": [
+        {
+          "criterion": "nowosc",
+          "score": 3,
+          "reason": "Tutoring rówieśniczy jest znany, ale rzadko systemowo prowadzony w szkołach regionu.",
+          "evidence": ""
+        },
+        {
+          "criterion": "skala",
+          "score": 4,
+          "reason": "Zaległości z matematyki dotyczą większości szkół ponadpodstawowych.",
+          "evidence": ""
+        },
+        {
+          "criterion": "replikowalnosc",
+          "score": 5,
+          "reason": "Wymaga tylko sali i szablonu grafiku, bez kosztów licencji.",
+          "evidence": ""
+        },
+        {
+          "criterion": "gotowosc",
+          "score": 4,
+          "reason": "Działa od roku z około 40 uczestnikami (ORL 6).",
+          "evidence": ""
+        },
+        {
+          "criterion": "koszt",
+          "score": 5,
+          "reason": "Praktycznie bez kosztów poza czasem nauczyciela.",
+          "evidence": ""
+        },
+        {
+          "criterion": "zespol",
+          "score": 3,
+          "reason": "Opiera się na jednej nauczycielce, ryzyko przy jej odejściu.",
+          "evidence": ""
+        },
+        {
+          "criterion": "wplyw",
+          "score": 4,
+          "reason": "Wyrównuje szanse uczniów z rodzin bez środków na korepetycje.",
+          "evidence": ""
+        },
+        {
+          "criterion": "ip",
+          "score": 1,
+          "reason": "Model organizacyjny, brak potencjału patentowego.",
+          "evidence": ""
+        }
+      ],
+      "confidence": 0.94,
+      "status": "opublikowana",
+      "reports": 0,
+      "isClaimed": true,
+      "model": "seed"
+    },
+    {
+      "id": "czujnik-powietrza",
+      "source": "crawler",
+      "sourceUrl": "https://example.edu.pl/aktualnosci/czujnik-powietrza",
+      "sourceLabel": "Strona szkoły · aktualności",
+      "sourceText": "Nasi uczniowie skonstruowali czujnik, który mierzy pył PM2,5 przy wejściu do szkoły i wysyła dane do aplikacji. Projekt powstał na zajęciach koła fizycznego.",
+      "title": "Szkolny czujnik jakości powietrza",
+      "problem": "Rodzice i szkoła nie wiedzą, jak wysoki jest smog przy wejściu do szkoły w godzinach dowozu dzieci.",
+      "solution": "Czujnik PM2,5 zbudowany przez uczniów, wysyłający pomiary na żywo do aplikacji.",
+      "effect": "Działający prototyp przy jednej szkole.",
+      "type": "technologiczna",
+      "readinessScale": "TRL",
+      "readiness": 4,
+      "sector": "jakosc-zycia",
+      "creators": "Uczniowie 16–18 lat z koła fizycznego, opiekun: nauczyciel fizyki",
+      "hasMinors": true,
+      "isYoungCreator": true,
+      "institution": "Technikum (demo)",
+      "region": "powiat mielecki",
+      "resources": "Części elektroniczne, hosting danych, partner do certyfikacji pomiarów",
+      "tags": [
+        "smog",
+        "PM2.5",
+        "IoT",
+        "czujnik",
+        "jakość powietrza",
+        "szkoła"
+      ],
+      "missing": [
+        "kontakt do opiekuna"
+      ],
+      "quotes": {
+        "solution": "skonstruowali czujnik, który mierzy pył PM2,5 przy wejściu do szkoły i wysyła dane do aplikacji",
+        "creators": "Projekt powstał na zajęciach koła fizycznego."
+      },
+      "scores": [
+        {
+          "criterion": "nowosc",
+          "score": 3,
+          "reason": "Czujniki PM2,5 istnieją, ale lokalny pomiar przy szkole to ciekawe zastosowanie.",
+          "evidence": ""
+        },
+        {
+          "criterion": "skala",
+          "score": 4,
+          "reason": "Smog przy szkołach to częsty problem w regionie w sezonie grzewczym.",
+          "evidence": ""
+        },
+        {
+          "criterion": "replikowalnosc",
+          "score": 4,
+          "reason": "Tanie komponenty, łatwo zbudować kolejne egzemplarze.",
+          "evidence": ""
+        },
+        {
+          "criterion": "gotowosc",
+          "score": 2,
+          "reason": "Prototyp w jednej lokalizacji (TRL 4).",
+          "evidence": ""
+        },
+        {
+          "criterion": "koszt",
+          "score": 4,
+          "reason": "Niski koszt części.",
+          "evidence": ""
+        },
+        {
+          "criterion": "zespol",
+          "score": 3,
+          "reason": "Zmotywowani uczniowie, ale potrzebują opiekuna technicznego.",
+          "evidence": ""
+        },
+        {
+          "criterion": "wplyw",
+          "score": 4,
+          "reason": "Dane mogą wpłynąć na decyzje gminy o ruchu przy szkołach.",
+          "evidence": ""
+        },
+        {
+          "criterion": "ip",
+          "score": 2,
+          "reason": "Ograniczony potencjał patentowy, możliwy wzór użytkowy obudowy.",
+          "evidence": ""
+        }
+      ],
+      "confidence": 0.92,
+      "status": "opublikowana",
+      "reports": 0,
+      "isClaimed": false,
+      "model": "seed"
+    },
+    {
+      "id": "e-kolejka",
+      "source": "crawler",
+      "sourceUrl": "https://bip.example.pl/komunikat/e-kolejka",
+      "sourceLabel": "BIP · komunikat",
+      "sourceText": "Od marca mieszkańcy mogą zarezerwować wizytę w urzędzie online. Czas oczekiwania na obsługę w wydziale komunikacji skrócił się.",
+      "title": "E-kolejka w urzędzie gminy",
+      "problem": "Długie kolejki w wydziale komunikacji i brak możliwości zaplanowania wizyty.",
+      "solution": "Rezerwacja terminu wizyty online z przypomnieniem SMS.",
+      "effect": "Krótszy czas oczekiwania na obsługę (wartość do potwierdzenia).",
+      "type": "organizacyjna",
+      "readinessScale": "ORL",
+      "readiness": 7,
+      "sector": "ict",
+      "creators": "Zespół urzędu gminy",
+      "hasMinors": false,
+      "isYoungCreator": false,
+      "institution": "Urząd Gminy (demo)",
+      "region": "powiat ropczycko-sędziszowski",
+      "resources": "System rezerwacji, szkolenie pracowników",
+      "tags": [
+        "urząd",
+        "kolejka",
+        "rezerwacja online",
+        "e-usługi"
+      ],
+      "missing": [],
+      "quotes": {
+        "solution": "mieszkańcy mogą zarezerwować wizytę w urzędzie online",
+        "effect": "Czas oczekiwania na obsługę w wydziale komunikacji skrócił się."
+      },
+      "scores": [
+        {
+          "criterion": "nowosc",
+          "score": 2,
+          "reason": "Rozwiązanie znane w dużych miastach, nowe w mniejszych gminach.",
+          "evidence": ""
+        },
+        {
+          "criterion": "skala",
+          "score": 4,
+          "reason": "Kolejki dotyczą większości urzędów gmin.",
+          "evidence": ""
+        },
+        {
+          "criterion": "replikowalnosc",
+          "score": 5,
+          "reason": "Gotowe narzędzia, łatwe do przeniesienia do innych JST.",
+          "evidence": ""
+        },
+        {
+          "criterion": "gotowosc",
+          "score": 4,
+          "reason": "Wdrożone i działa od kilku miesięcy (ORL 7).",
+          "evidence": ""
+        },
+        {
+          "criterion": "koszt",
+          "score": 4,
+          "reason": "Niski koszt abonamentu systemu.",
+          "evidence": ""
+        },
+        {
+          "criterion": "zespol",
+          "score": 4,
+          "reason": "Urząd ma zespół, który przeszedł wdrożenie.",
+          "evidence": ""
+        },
+        {
+          "criterion": "wplyw",
+          "score": 3,
+          "reason": "Oszczędność czasu mieszkańców i pracowników.",
+          "evidence": ""
+        },
+        {
+          "criterion": "ip",
+          "score": 1,
+          "reason": "Brak własności intelektualnej.",
+          "evidence": ""
+        }
+      ],
+      "confidence": 0.78,
+      "status": "opublikowana",
+      "reports": 0,
+      "isClaimed": false,
+      "model": "seed"
+    },
+    {
+      "id": "dron-uprawy",
+      "source": "crawler",
+      "sourceUrl": "https://example.pl/patenty/dron-uprawy",
+      "sourceLabel": "Baza patentowa",
+      "sourceText": "Zgłoszenie patentowe: bezzałogowy statek powietrzny z czujnikiem multispektralnym do oceny stanu upraw. Zgłaszający: zespół studencki uczelni technicznej.",
+      "title": "Dron do monitoringu upraw",
+      "problem": "Rolnicy za późno wykrywają choroby i niedobory w uprawach na dużych polach.",
+      "solution": "Dron z czujnikiem multispektralnym tworzący mapę stanu upraw.",
+      "effect": "Złożone zgłoszenie patentowe, testy polowe.",
+      "type": "technologiczna",
+      "readinessScale": "TRL",
+      "readiness": 5,
+      "sector": "lotnictwo",
+      "creators": "Zespół studencki uczelni technicznej",
+      "hasMinors": false,
+      "isYoungCreator": true,
+      "institution": "Uczelnia techniczna (demo)",
+      "region": "Rzeszów",
+      "resources": "Testy w środowisku rzeczywistym, partner rolniczy",
+      "tags": [
+        "dron",
+        "rolnictwo precyzyjne",
+        "multispektralny",
+        "patent"
+      ],
+      "missing": [
+        "kontakt do zespołu"
+      ],
+      "quotes": {
+        "solution": "bezzałogowy statek powietrzny z czujnikiem multispektralnym do oceny stanu upraw"
+      },
+      "scores": [
+        {
+          "criterion": "nowosc",
+          "score": 4,
+          "reason": "Konkretne rozwiązanie objęte zgłoszeniem patentowym.",
+          "evidence": ""
+        },
+        {
+          "criterion": "skala",
+          "score": 4,
+          "reason": "Duży rynek rolniczy w regionie.",
+          "evidence": ""
+        },
+        {
+          "criterion": "replikowalnosc",
+          "score": 3,
+          "reason": "Wymaga sprzętu i kompetencji.",
+          "evidence": ""
+        },
+        {
+          "criterion": "gotowosc",
+          "score": 3,
+          "reason": "Testy polowe (TRL 5).",
+          "evidence": ""
+        },
+        {
+          "criterion": "koszt",
+          "score": 2,
+          "reason": "Sprzęt i czujniki są kosztowne.",
+          "evidence": ""
+        },
+        {
+          "criterion": "zespol",
+          "score": 4,
+          "reason": "Zespół techniczny z uczelni.",
+          "evidence": ""
+        },
+        {
+          "criterion": "wplyw",
+          "score": 4,
+          "reason": "Mniej oprysków i strat w uprawach.",
+          "evidence": ""
+        },
+        {
+          "criterion": "ip",
+          "score": 5,
+          "reason": "Złożone zgłoszenie patentowe.",
+          "evidence": ""
+        }
+      ],
+      "confidence": 0.71,
+      "status": "opublikowana",
+      "reports": 0,
+      "isClaimed": false,
+      "model": "seed"
+    },
+    {
+      "id": "mikrosatelita",
+      "source": "crawler",
+      "sourceUrl": "https://example.edu.pl/kolo-naukowe/cubesat",
+      "sourceLabel": "Strona uczelni",
+      "sourceText": "Koło naukowe rozpoczęło budowę satelity w standardzie CubeSat do obserwacji pokrywy śnieżnej.",
+      "title": "Studencki mikrosatelita CubeSat",
+      "problem": "Brak tanich danych o pokrywie śnieżnej dla regionalnych służb.",
+      "solution": "Satelita CubeSat budowany przez koło naukowe, z kamerą do obserwacji pokrywy śnieżnej.",
+      "effect": "Projekt w fazie budowy.",
+      "type": "edukacyjna",
+      "readinessScale": "TRL",
+      "readiness": 3,
+      "sector": "kosmos",
+      "creators": "Studenci 19–24 lata",
+      "hasMinors": false,
+      "isYoungCreator": true,
+      "institution": "Koło naukowe uczelni (demo)",
+      "region": "Rzeszów",
+      "resources": "Finansowanie startu, laboratorium testów",
+      "tags": [
+        "satelita",
+        "CubeSat",
+        "obserwacja Ziemi",
+        "koło naukowe"
+      ],
+      "missing": [
+        "harmonogram",
+        "kontakt"
+      ],
+      "quotes": {
+        "solution": "rozpoczęło budowę satelity w standardzie CubeSat"
+      },
+      "scores": [
+        {
+          "criterion": "nowosc",
+          "score": 4,
+          "reason": "Rzadkie w regionie.",
+          "evidence": ""
+        },
+        {
+          "criterion": "skala",
+          "score": 2,
+          "reason": "Wąska grupa odbiorców danych.",
+          "evidence": ""
+        },
+        {
+          "criterion": "replikowalnosc",
+          "score": 2,
+          "reason": "Wymaga specjalistycznej wiedzy.",
+          "evidence": ""
+        },
+        {
+          "criterion": "gotowosc",
+          "score": 1,
+          "reason": "Wczesna faza budowy (TRL 3).",
+          "evidence": ""
+        },
+        {
+          "criterion": "koszt",
+          "score": 1,
+          "reason": "Wysoki koszt wyniesienia na orbitę.",
+          "evidence": ""
+        },
+        {
+          "criterion": "zespol",
+          "score": 3,
+          "reason": "Aktywne koło naukowe.",
+          "evidence": ""
+        },
+        {
+          "criterion": "wplyw",
+          "score": 3,
+          "reason": "Duża wartość edukacyjna.",
+          "evidence": ""
+        },
+        {
+          "criterion": "ip",
+          "score": 3,
+          "reason": "Możliwe know-how w budowie podsystemów.",
+          "evidence": ""
+        }
+      ],
+      "confidence": 0.66,
+      "status": "niepotwierdzona",
+      "reports": 0,
+      "isClaimed": false,
+      "model": "seed"
+    },
+    {
+      "id": "wspolne-dojazdy",
+      "source": "crawler",
+      "sourceUrl": "https://example.pl/hackathon/wyniki",
+      "sourceLabel": "Wyniki hackathonu",
+      "sourceText": "W finale znalazła się aplikacja licealistów, która łączy uczniów dojeżdżających z tej samej miejscowości w grupy wspólnych dojazdów.",
+      "title": "Aplikacja do wspólnych dojazdów uczniów",
+      "problem": "Słaba komunikacja publiczna między małymi miejscowościami a szkołami.",
+      "solution": "Aplikacja łącząca uczniów i rodziców z tej samej miejscowości w grupy wspólnych dojazdów.",
+      "effect": "Finał hackathonu, działający prototyp.",
+      "type": "technologiczna",
+      "readinessScale": "TRL",
+      "readiness": 3,
+      "sector": "motoryzacja",
+      "creators": "Zespół licealistów 17–18 lat",
+      "hasMinors": true,
+      "isYoungCreator": true,
+      "institution": "Liceum (demo)",
+      "region": "powiat kolbuszowski",
+      "resources": "Mentor produktowy, testy z rodzicami",
+      "tags": [
+        "mobilność",
+        "carpooling",
+        "dojazdy",
+        "aplikacja"
+      ],
+      "missing": [
+        "kontakt do zespołu"
+      ],
+      "quotes": {
+        "solution": "łączy uczniów dojeżdżających z tej samej miejscowości w grupy wspólnych dojazdów"
+      },
+      "scores": [
+        {
+          "criterion": "nowosc",
+          "score": 3,
+          "reason": "Carpooling znany, ale nie dla dojazdów szkolnych na wsi.",
+          "evidence": ""
+        },
+        {
+          "criterion": "skala",
+          "score": 4,
+          "reason": "Wykluczenie komunikacyjne dotyczy wielu gmin.",
+          "evidence": ""
+        },
+        {
+          "criterion": "replikowalnosc",
+          "score": 4,
+          "reason": "Aplikacja może działać w każdej gminie.",
+          "evidence": ""
+        },
+        {
+          "criterion": "gotowosc",
+          "score": 1,
+          "reason": "Prototyp z hackathonu (TRL 3).",
+          "evidence": ""
+        },
+        {
+          "criterion": "koszt",
+          "score": 4,
+          "reason": "Niski koszt utrzymania.",
+          "evidence": ""
+        },
+        {
+          "criterion": "zespol",
+          "score": 2,
+          "reason": "Młody zespół bez doświadczenia biznesowego.",
+          "evidence": ""
+        },
+        {
+          "criterion": "wplyw",
+          "score": 4,
+          "reason": "Lepszy dostęp do edukacji.",
+          "evidence": ""
+        },
+        {
+          "criterion": "ip",
+          "score": 2,
+          "reason": "Niski potencjał patentowy.",
+          "evidence": ""
+        }
+      ],
+      "confidence": 0.54,
+      "status": "niepotwierdzona",
+      "reports": 0,
+      "isClaimed": false,
+      "model": "seed"
+    },
+    {
+      "id": "mapa-smogu-przystanki",
+      "source": "crawler",
+      "sourceUrl": "https://bip.example.pl/komunikat/mapa-smogu",
+      "sourceLabel": "BIP · komunikat",
+      "sourceText": "Na 12 przystankach zamontowaliśmy czujniki PM2,5, a mieszkańcy widzą mapę smogu na stronie gminy.",
+      "title": "Mapa smogu z czujników na przystankach",
+      "problem": "Mieszkańcy nie wiedzą, gdzie i kiedy smog jest najgorszy.",
+      "solution": "Czujniki PM2,5 na przystankach i publiczna mapa smogu na stronie gminy.",
+      "effect": "12 punktów pomiarowych.",
+      "type": "technologiczna",
+      "readinessScale": "TRL",
+      "readiness": 6,
+      "sector": "jakosc-zycia",
+      "creators": "Dział IT urzędu gminy",
+      "hasMinors": false,
+      "isYoungCreator": false,
+      "institution": "Urząd Gminy (demo)",
+      "region": "powiat dębicki",
+      "resources": "Serwis czujników",
+      "tags": [
+        "smog",
+        "PM2.5",
+        "czujnik",
+        "mapa",
+        "jakość powietrza"
+      ],
+      "missing": [],
+      "quotes": {
+        "solution": "Na 12 przystankach zamontowaliśmy czujniki PM2,5"
+      },
+      "scores": [
+        {
+          "criterion": "nowosc",
+          "score": 3,
+          "reason": "Znane rozwiązanie, nowe lokalnie.",
+          "evidence": ""
+        },
+        {
+          "criterion": "skala",
+          "score": 4,
+          "reason": "Smog dotyczy wielu gmin.",
+          "evidence": ""
+        },
+        {
+          "criterion": "replikowalnosc",
+          "score": 4,
+          "reason": "Tanie czujniki.",
+          "evidence": ""
+        },
+        {
+          "criterion": "gotowosc",
+          "score": 4,
+          "reason": "Działa w terenie.",
+          "evidence": ""
+        },
+        {
+          "criterion": "koszt",
+          "score": 4,
+          "reason": "Niski koszt.",
+          "evidence": ""
+        },
+        {
+          "criterion": "zespol",
+          "score": 3,
+          "reason": "Mały zespół IT.",
+          "evidence": ""
+        },
+        {
+          "criterion": "wplyw",
+          "score": 4,
+          "reason": "Lepsze decyzje mieszkańców.",
+          "evidence": ""
+        },
+        {
+          "criterion": "ip",
+          "score": 2,
+          "reason": "Brak IP.",
+          "evidence": ""
+        }
+      ],
+      "confidence": 0.83,
+      "status": "opublikowana",
+      "reports": 0,
+      "isClaimed": false,
+      "model": "seed"
+    },
+    {
+      "id": "korepetycje-online",
+      "source": "zgloszenie",
+      "sourceUrl": null,
+      "sourceLabel": "Zgłoszenie twórcy",
+      "sourceText": "Uczniowie technikum informatycznego zrobili platformę, na której starsi uczniowie umawiają korepetycje z matematyki z młodszymi.",
+      "title": "Szkolna platforma korepetycji rówieśniczych",
+      "problem": "Trudno zorganizować korepetycje między uczniami różnych klas.",
+      "solution": "Platforma do umawiania korepetycji rówieśniczych z matematyki.",
+      "effect": "Pilotaż w jednej szkole.",
+      "type": "edukacyjna",
+      "readinessScale": "ORL",
+      "readiness": 5,
+      "sector": "ict",
+      "creators": "Uczniowie technikum 17–19 lat",
+      "hasMinors": true,
+      "isYoungCreator": true,
+      "institution": "Technikum (demo)",
+      "region": "Rzeszów",
+      "resources": "Hosting, opiekun",
+      "tags": [
+        "korepetycje",
+        "matematyka",
+        "tutoring rówieśniczy",
+        "platforma"
+      ],
+      "missing": [],
+      "quotes": {
+        "solution": "platformę, na której starsi uczniowie umawiają korepetycje z matematyki z młodszymi"
+      },
+      "scores": [
+        {
+          "criterion": "nowosc",
+          "score": 3,
+          "reason": "Podobne modele istnieją.",
+          "evidence": ""
+        },
+        {
+          "criterion": "skala",
+          "score": 4,
+          "reason": "Zaległości są powszechne.",
+          "evidence": ""
+        },
+        {
+          "criterion": "replikowalnosc",
+          "score": 5,
+          "reason": "Łatwo uruchomić w innej szkole.",
+          "evidence": ""
+        },
+        {
+          "criterion": "gotowosc",
+          "score": 3,
+          "reason": "Pilotaż.",
+          "evidence": ""
+        },
+        {
+          "criterion": "koszt",
+          "score": 5,
+          "reason": "Bardzo tanie.",
+          "evidence": ""
+        },
+        {
+          "criterion": "zespol",
+          "score": 3,
+          "reason": "Uczniowie, rotacja.",
+          "evidence": ""
+        },
+        {
+          "criterion": "wplyw",
+          "score": 4,
+          "reason": "Wyrównuje szanse.",
+          "evidence": ""
+        },
+        {
+          "criterion": "ip",
+          "score": 1,
+          "reason": "Brak IP.",
+          "evidence": ""
+        }
+      ],
+      "confidence": 0.88,
+      "status": "opublikowana",
+      "reports": 0,
+      "isClaimed": true,
+      "model": "seed"
+    },
+    {
+      "id": "seniorzy-cyfrowo",
+      "source": "crawler",
+      "sourceUrl": "https://example.edu.pl/aktualnosci/seniorzy",
+      "sourceLabel": "Strona liceum · aktualności",
+      "sourceText": "Licealiści co tydzień uczą seniorów z naszej gminy obsługi smartfonów i bankowości internetowej.",
+      "title": "Licealiści uczą seniorów cyfrowych umiejętności",
+      "problem": "Seniorzy są wykluczeni cyfrowo.",
+      "solution": "Cotygodniowe zajęcia, na których licealiści uczą seniorów obsługi smartfonów.",
+      "effect": "Regularne zajęcia w gminie.",
+      "type": "spoleczna",
+      "readinessScale": "ORL",
+      "readiness": 6,
+      "sector": "jakosc-zycia",
+      "creators": "Licealiści 16–18 lat",
+      "hasMinors": true,
+      "isYoungCreator": true,
+      "institution": "Liceum (demo)",
+      "region": "powiat jasielski",
+      "resources": "Sala, sprzęt",
+      "tags": [
+        "seniorzy",
+        "wolontariat",
+        "cyfryzacja",
+        "licealiści"
+      ],
+      "missing": [],
+      "quotes": {
+        "solution": "Licealiści co tydzień uczą seniorów z naszej gminy obsługi smartfonów"
+      },
+      "scores": [
+        {
+          "criterion": "nowosc",
+          "score": 2,
+          "reason": "Model znany.",
+          "evidence": ""
+        },
+        {
+          "criterion": "skala",
+          "score": 4,
+          "reason": "Wielu seniorów.",
+          "evidence": ""
+        },
+        {
+          "criterion": "replikowalnosc",
+          "score": 5,
+          "reason": "Łatwy do powtórzenia.",
+          "evidence": ""
+        },
+        {
+          "criterion": "gotowosc",
+          "score": 4,
+          "reason": "Działa regularnie.",
+          "evidence": ""
+        },
+        {
+          "criterion": "koszt",
+          "score": 5,
+          "reason": "Bez kosztów.",
+          "evidence": ""
+        },
+        {
+          "criterion": "zespol",
+          "score": 3,
+          "reason": "Wolontariusze.",
+          "evidence": ""
+        },
+        {
+          "criterion": "wplyw",
+          "score": 4,
+          "reason": "Mniejsze wykluczenie.",
+          "evidence": ""
+        },
+        {
+          "criterion": "ip",
+          "score": 1,
+          "reason": "Brak IP.",
+          "evidence": ""
+        }
+      ],
+      "confidence": 0.81,
+      "status": "opublikowana",
+      "reports": 0,
+      "isClaimed": false,
+      "model": "seed"
+    },
+    {
+      "id": "e-obieg-dokumentow",
+      "source": "crawler",
+      "sourceUrl": "https://bip.example.pl/komunikat/e-obieg",
+      "sourceLabel": "BIP · komunikat",
+      "sourceText": "Starostwo przeszło na elektroniczny obieg dokumentów, co skróciło czas rozpatrywania wniosków.",
+      "title": "Elektroniczny obieg dokumentów w starostwie",
+      "problem": "Papierowy obieg spowalnia sprawy mieszkańców.",
+      "solution": "Elektroniczny obieg dokumentów w całym starostwie.",
+      "effect": "Krótszy czas rozpatrywania wniosków.",
+      "type": "procesowa",
+      "readinessScale": "ORL",
+      "readiness": 8,
+      "sector": "ict",
+      "creators": "Zespół starostwa",
+      "hasMinors": false,
+      "isYoungCreator": false,
+      "institution": "Starostwo Powiatowe (demo)",
+      "region": "powiat przemyski",
+      "resources": "Licencja systemu, szkolenia",
+      "tags": [
+        "urząd",
+        "e-usługi",
+        "cyfryzacja",
+        "dokumenty"
+      ],
+      "missing": [],
+      "quotes": {
+        "solution": "Starostwo przeszło na elektroniczny obieg dokumentów"
+      },
+      "scores": [
+        {
+          "criterion": "nowosc",
+          "score": 2,
+          "reason": "Standard w dużych JST.",
+          "evidence": ""
+        },
+        {
+          "criterion": "skala",
+          "score": 4,
+          "reason": "Dotyczy każdego urzędu.",
+          "evidence": ""
+        },
+        {
+          "criterion": "replikowalnosc",
+          "score": 4,
+          "reason": "Gotowe systemy.",
+          "evidence": ""
+        },
+        {
+          "criterion": "gotowosc",
+          "score": 5,
+          "reason": "Wdrożone.",
+          "evidence": ""
+        },
+        {
+          "criterion": "koszt",
+          "score": 3,
+          "reason": "Koszt licencji.",
+          "evidence": ""
+        },
+        {
+          "criterion": "zespol",
+          "score": 4,
+          "reason": "Doświadczony zespół.",
+          "evidence": ""
+        },
+        {
+          "criterion": "wplyw",
+          "score": 3,
+          "reason": "Oszczędność czasu.",
+          "evidence": ""
+        },
+        {
+          "criterion": "ip",
+          "score": 1,
+          "reason": "Brak IP.",
+          "evidence": ""
+        }
+      ],
+      "confidence": 0.76,
+      "status": "opublikowana",
+      "reports": 0,
+      "isClaimed": false,
+      "model": "seed"
+    },
+    {
+      "id": "bus-na-zadanie",
+      "source": "crawler",
+      "sourceUrl": "https://example.pl/gmina/bus-na-zadanie",
+      "sourceLabel": "Strona gminy · aktualności",
+      "sourceText": "Gmina uruchomiła bus na żądanie: mieszkańcy zamawiają kurs telefonicznie lub w aplikacji dzień wcześniej.",
+      "title": "Bus na żądanie w gminie wiejskiej",
+      "problem": "Brak regularnych połączeń między wsiami a miastem.",
+      "solution": "Bus zamawiany telefonicznie lub w aplikacji dzień wcześniej.",
+      "effect": "Kursy realizowane od kilku miesięcy.",
+      "type": "organizacyjna",
+      "readinessScale": "ORL",
+      "readiness": 6,
+      "sector": "motoryzacja",
+      "creators": "Urząd gminy",
+      "hasMinors": false,
+      "isYoungCreator": false,
+      "institution": "Urząd Gminy (demo)",
+      "region": "powiat strzyżowski",
+      "resources": "Bus, kierowca, aplikacja",
+      "tags": [
+        "mobilność",
+        "dojazdy",
+        "transport",
+        "aplikacja",
+        "wykluczenie komunikacyjne"
+      ],
+      "missing": [],
+      "quotes": {
+        "solution": "mieszkańcy zamawiają kurs telefonicznie lub w aplikacji dzień wcześniej"
+      },
+      "scores": [
+        {
+          "criterion": "nowosc",
+          "score": 3,
+          "reason": "Rzadkie na wsiach.",
+          "evidence": ""
+        },
+        {
+          "criterion": "skala",
+          "score": 5,
+          "reason": "Wykluczenie komunikacyjne jest powszechne.",
+          "evidence": ""
+        },
+        {
+          "criterion": "replikowalnosc",
+          "score": 4,
+          "reason": "Do powtórzenia w gminach.",
+          "evidence": ""
+        },
+        {
+          "criterion": "gotowosc",
+          "score": 4,
+          "reason": "Działa.",
+          "evidence": ""
+        },
+        {
+          "criterion": "koszt",
+          "score": 2,
+          "reason": "Koszt busa i kierowcy.",
+          "evidence": ""
+        },
+        {
+          "criterion": "zespol",
+          "score": 3,
+          "reason": "Gmina.",
+          "evidence": ""
+        },
+        {
+          "criterion": "wplyw",
+          "score": 5,
+          "reason": "Dostęp do usług.",
+          "evidence": ""
+        },
+        {
+          "criterion": "ip",
+          "score": 1,
+          "reason": "Brak IP.",
+          "evidence": ""
+        }
+      ],
+      "confidence": 0.86,
+      "status": "opublikowana",
+      "reports": 0,
+      "isClaimed": false,
+      "model": "seed"
+    },
+    {
+      "id": "czujnik-zmeczenia-kierowcy",
+      "source": "crawler",
+      "sourceUrl": "https://example.edu.pl/news/zmeczenie-kierowcy",
+      "sourceLabel": "Strona uczelni",
+      "sourceText": "Studenci opracowali kamerę z algorytmem AI, która wykrywa oznaki zmęczenia kierowcy i ostrzega go dźwiękiem.",
+      "title": "Wykrywanie zmęczenia kierowcy kamerą AI",
+      "problem": "Zmęczenie kierowców powoduje wypadki.",
+      "solution": "Kamera z algorytmem AI wykrywająca oznaki zmęczenia i ostrzegająca dźwiękiem.",
+      "effect": "Prototyp w laboratorium.",
+      "type": "technologiczna",
+      "readinessScale": "TRL",
+      "readiness": 4,
+      "sector": "motoryzacja",
+      "creators": "Studenci 21–24 lata",
+      "hasMinors": false,
+      "isYoungCreator": true,
+      "institution": "Uczelnia techniczna (demo)",
+      "region": "Rzeszów",
+      "resources": "Testy w pojazdach, partner z branży",
+      "tags": [
+        "kierowca",
+        "bezpieczeństwo",
+        "AI",
+        "kamera",
+        "czujnik"
+      ],
+      "missing": [],
+      "quotes": {
+        "solution": "kamerę z algorytmem AI, która wykrywa oznaki zmęczenia kierowcy"
+      },
+      "scores": [
+        {
+          "criterion": "nowosc",
+          "score": 3,
+          "reason": "Istnieją podobne systemy.",
+          "evidence": ""
+        },
+        {
+          "criterion": "skala",
+          "score": 4,
+          "reason": "Duży rynek.",
+          "evidence": ""
+        },
+        {
+          "criterion": "replikowalnosc",
+          "score": 3,
+          "reason": "Wymaga integracji.",
+          "evidence": ""
+        },
+        {
+          "criterion": "gotowosc",
+          "score": 2,
+          "reason": "Prototyp.",
+          "evidence": ""
+        },
+        {
+          "criterion": "koszt",
+          "score": 3,
+          "reason": "Średni koszt.",
+          "evidence": ""
+        },
+        {
+          "criterion": "zespol",
+          "score": 4,
+          "reason": "Zespół techniczny.",
+          "evidence": ""
+        },
+        {
+          "criterion": "wplyw",
+          "score": 4,
+          "reason": "Mniej wypadków.",
+          "evidence": ""
+        },
+        {
+          "criterion": "ip",
+          "score": 4,
+          "reason": "Możliwy patent algorytmu.",
+          "evidence": ""
+        }
+      ],
+      "confidence": 0.79,
+      "status": "opublikowana",
+      "reports": 0,
+      "isClaimed": false,
+      "model": "seed"
+    },
+    {
+      "id": "dron-zapylanie",
+      "source": "zgloszenie",
+      "sourceUrl": null,
+      "sourceLabel": "Zgłoszenie twórcy",
+      "sourceText": "Budujemy małego drona, który zapyla rośliny w szklarniach, gdy brakuje trzmieli. Mamy pierwszy prototyp.",
+      "title": "Dron zapylający rośliny w szklarniach",
+      "problem": "W szklarniach brakuje naturalnych zapylaczy.",
+      "solution": "Mały dron zapylający rośliny w szklarniach.",
+      "effect": "Pierwszy prototyp.",
+      "type": "technologiczna",
+      "readinessScale": "TRL",
+      "readiness": 3,
+      "sector": "lotnictwo",
+      "creators": "Zespół studentów 20–23 lata",
+      "hasMinors": false,
+      "isYoungCreator": true,
+      "institution": "Koło naukowe (demo)",
+      "region": "Rzeszów",
+      "resources": "Laboratorium, szklarnia testowa",
+      "tags": [
+        "dron",
+        "rolnictwo",
+        "szklarnie",
+        "zapylanie"
+      ],
+      "missing": [],
+      "quotes": {
+        "solution": "Budujemy małego drona, który zapyla rośliny w szklarniach"
+      },
+      "scores": [
+        {
+          "criterion": "nowosc",
+          "score": 5,
+          "reason": "Bardzo nowe.",
+          "evidence": ""
+        },
+        {
+          "criterion": "skala",
+          "score": 3,
+          "reason": "Niszowy rynek.",
+          "evidence": ""
+        },
+        {
+          "criterion": "replikowalnosc",
+          "score": 2,
+          "reason": "Wymaga sprzętu.",
+          "evidence": ""
+        },
+        {
+          "criterion": "gotowosc",
+          "score": 1,
+          "reason": "Wczesny prototyp.",
+          "evidence": ""
+        },
+        {
+          "criterion": "koszt",
+          "score": 2,
+          "reason": "Drogi sprzęt.",
+          "evidence": ""
+        },
+        {
+          "criterion": "zespol",
+          "score": 3,
+          "reason": "Młody zespół.",
+          "evidence": ""
+        },
+        {
+          "criterion": "wplyw",
+          "score": 3,
+          "reason": "Wyższe plony.",
+          "evidence": ""
+        },
+        {
+          "criterion": "ip",
+          "score": 4,
+          "reason": "Potencjał patentowy.",
+          "evidence": ""
+        }
+      ],
+      "confidence": 0.74,
+      "status": "opublikowana",
+      "reports": 0,
+      "isClaimed": true,
+      "model": "seed"
+    },
+    {
+      "id": "szkolna-stacja-satelitarna",
+      "source": "crawler",
+      "sourceUrl": "https://example.edu.pl/aktualnosci/stacja",
+      "sourceLabel": "Strona szkoły · aktualności",
+      "sourceText": "W naszym liceum działa stacja odbierająca zdjęcia z satelitów pogodowych; uczniowie analizują je na lekcjach geografii.",
+      "title": "Szkolna stacja odbioru danych satelitarnych",
+      "problem": "Brak praktycznych zajęć z obserwacji Ziemi.",
+      "solution": "Stacja odbierająca zdjęcia z satelitów pogodowych, używana na lekcjach.",
+      "effect": "Działa w jednym liceum.",
+      "type": "edukacyjna",
+      "readinessScale": "TRL",
+      "readiness": 6,
+      "sector": "kosmos",
+      "creators": "Uczniowie i nauczyciel geografii",
+      "hasMinors": true,
+      "isYoungCreator": true,
+      "institution": "Liceum (demo)",
+      "region": "powiat sanocki",
+      "resources": "Antena, odbiornik",
+      "tags": [
+        "satelita",
+        "obserwacja Ziemi",
+        "szkoła",
+        "dane"
+      ],
+      "missing": [],
+      "quotes": {
+        "solution": "działa stacja odbierająca zdjęcia z satelitów pogodowych"
+      },
+      "scores": [
+        {
+          "criterion": "nowosc",
+          "score": 4,
+          "reason": "Rzadkie w szkołach.",
+          "evidence": ""
+        },
+        {
+          "criterion": "skala",
+          "score": 2,
+          "reason": "Wąska grupa.",
+          "evidence": ""
+        },
+        {
+          "criterion": "replikowalnosc",
+          "score": 4,
+          "reason": "Tanie komponenty.",
+          "evidence": ""
+        },
+        {
+          "criterion": "gotowosc",
+          "score": 4,
+          "reason": "Działa.",
+          "evidence": ""
+        },
+        {
+          "criterion": "koszt",
+          "score": 4,
+          "reason": "Niski koszt.",
+          "evidence": ""
+        },
+        {
+          "criterion": "zespol",
+          "score": 3,
+          "reason": "Jeden nauczyciel.",
+          "evidence": ""
+        },
+        {
+          "criterion": "wplyw",
+          "score": 3,
+          "reason": "Wartość edukacyjna.",
+          "evidence": ""
+        },
+        {
+          "criterion": "ip",
+          "score": 1,
+          "reason": "Brak IP.",
+          "evidence": ""
+        }
+      ],
+      "confidence": 0.84,
+      "status": "opublikowana",
+      "reports": 0,
+      "isClaimed": false,
+      "model": "seed"
+    }
+  ],
+  "challenges": [
+    {
+      "id": "smog-przy-szkolach",
+      "title": "Smog przy szkołach",
+      "description": "Gmina szuka sposobu na pomiar i ograniczenie smogu przy szkołach w godzinach porannych dowozów dzieci.",
+      "organization": "Gmina (demo)",
+      "sector": "jakosc-zycia"
+    },
+    {
+      "id": "wyrownywanie-szans-matematyka",
+      "title": "Wyrównywanie szans z matematyki",
+      "description": "Szukamy taniego sposobu na pomoc uczniom z zaległościami z matematyki, bez płatnych korepetycji.",
+      "organization": "Starostwo powiatowe (demo)",
+      "sector": "jakosc-zycia"
+    },
+    {
+      "id": "rolnictwo-precyzyjne",
+      "title": "Monitoring upraw dla grupy producenckiej",
+      "description": "Grupa producencka szuka technologii do wczesnego wykrywania chorób w uprawach.",
+      "organization": "Grupa producencka (demo)",
+      "sector": "lotnictwo"
+    }
+  ],
+  "crawlSources": [
+    {
+      "url": "https://example.edu.pl/aktualnosci/dzien-otwarty",
+      "label": "Strona szkoły · aktualności",
+      "text": "Zapraszamy na dzień otwarty naszego liceum w sobotę o 10:00. Będzie można zwiedzić pracownie i porozmawiać z nauczycielami."
+    },
+    {
+      "url": "https://example.edu.pl/aktualnosci/inteligentny-ogrod",
+      "label": "Strona technikum · aktualności",
+      "text": "Uczniowie klasy mechatronicznej zbudowali system automatycznego podlewania szkolnego ogrodu. Czujniki wilgotności gleby sterują zaworami, a uczniowie śledzą dane w aplikacji. System działa od wiosny i zmniejszył zużycie wody."
+    },
+    {
+      "url": "https://bip.example.pl/komunikat/wypozyczalnia-seniorzy",
+      "label": "BIP · komunikat",
+      "text": "Gminna biblioteka uruchomiła wypożyczalnię sprzętu rehabilitacyjnego dla seniorów. Wolontariusze z miejscowego liceum dowożą sprzęt do domów. Z usługi skorzystało już kilkadziesiąt osób."
+    }
+  ]
+}

@@ -11,28 +11,10 @@ import {
 } from "@/lib/constants";
 import { getChatCompletion, getJsonFromText, getModels } from "@/lib/openrouter";
 import { logAiCall } from "@/lib/repository";
+import { cardContentSchema, criterionScoreSchema } from "@/lib/schemas";
 import type { Card, CardContent } from "@/lib/types";
 
 const PROMPT_VERSION = "2026-11-21.1";
-
-const cardContentSchema = z.object({
-  title: z.string().min(1).max(120),
-  problem: z.string(),
-  solution: z.string(),
-  effect: z.string(),
-  type: z.enum(INNOVATION_TYPES),
-  readinessScale: z.enum(["TRL", "ORL"]),
-  readiness: z.number().int().min(1).max(9),
-  sector: z.enum(SECTORS),
-  creators: z.string(),
-  hasMinors: z.boolean(),
-  isYoungCreator: z.boolean(),
-  institution: z.string(),
-  region: z.string(),
-  resources: z.string(),
-  tags: z.array(z.string()).max(8),
-  missing: z.array(z.string()).max(6),
-});
 
 const analysisSchema = z.object({
   safe: z.boolean(),
@@ -41,16 +23,7 @@ const analysisSchema = z.object({
   confidence: z.number().min(0).max(1),
   card: cardContentSchema.nullable(),
   quotes: z.record(z.string(), z.string()).default({}),
-  scores: z
-    .array(
-      z.object({
-        criterion: z.enum(CRITERIA),
-        score: z.number().int().min(1).max(5),
-        reason: z.string(),
-        evidence: z.string(),
-      }),
-    )
-    .default([]),
+  scores: z.array(criterionScoreSchema).default([]),
 });
 
 type Analysis = z.infer<typeof analysisSchema>;

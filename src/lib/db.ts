@@ -1,55 +1,13 @@
 import "server-only";
-import { mkdirSync } from "node:fs";
+import { mkdirSync, readFileSync } from "node:fs";
 import path from "node:path";
 import { DatabaseSync } from "node:sqlite";
 import { getSeedCards, getSeedChallenges } from "@/lib/seed";
 
-const DATA_DIR = path.join(process.cwd(), "data");
+const DATA_DIR = process.env.DATA_DIR ?? path.join(process.cwd(), "data");
 const DB_PATH = path.join(DATA_DIR, "radar.db");
 
-const SCHEMA = `
-  CREATE TABLE IF NOT EXISTS cards (
-    id TEXT PRIMARY KEY,
-    edit_token TEXT NOT NULL UNIQUE,
-    owner_email TEXT,
-    data TEXT NOT NULL,
-    created_at TEXT NOT NULL
-  );
-  CREATE TABLE IF NOT EXISTS challenges (
-    id TEXT PRIMARY KEY,
-    edit_token TEXT NOT NULL UNIQUE,
-    email TEXT,
-    data TEXT NOT NULL,
-    created_at TEXT NOT NULL
-  );
-  CREATE TABLE IF NOT EXISTS messages (
-    id TEXT PRIMARY KEY,
-    card_id TEXT NOT NULL,
-    sender TEXT NOT NULL,
-    body TEXT NOT NULL,
-    created_at TEXT NOT NULL
-  );
-  CREATE TABLE IF NOT EXISTS reports (
-    card_id TEXT NOT NULL,
-    reporter TEXT NOT NULL,
-    reason TEXT NOT NULL,
-    created_at TEXT NOT NULL,
-    PRIMARY KEY (card_id, reporter)
-  );
-  CREATE TABLE IF NOT EXISTS crawled_sources (
-    url TEXT PRIMARY KEY,
-    outcome TEXT NOT NULL,
-    created_at TEXT NOT NULL
-  );
-  CREATE TABLE IF NOT EXISTS ai_log (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    model TEXT NOT NULL,
-    prompt_version TEXT NOT NULL,
-    input TEXT NOT NULL,
-    output TEXT NOT NULL,
-    created_at TEXT NOT NULL
-  );
-`;
+const SCHEMA = readFileSync(path.join(process.cwd(), "seed", "schema.sql"), "utf8");
 
 function seedDatabase(db: DatabaseSync) {
   const insertCard = db.prepare("INSERT INTO cards (id, edit_token, data, created_at) VALUES (?, ?, ?, ?)");
