@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useActionState } from "react";
 import type { FormState } from "@/app/actions";
+import { CARD_STATUSES, CARD_STATUS_LABELS, type CardStatus } from "@/lib/constants";
 
 type BoundAction = (state: FormState, formData: FormData) => Promise<FormState>;
 
@@ -104,6 +105,26 @@ export function EditForm({ action }: { action: BoundAction }) {
       <FormFeedback state={state} />
       <button type="submit" disabled={isPending} className={PRIMARY_BUTTON_CLASS}>
         {isPending ? "AI ocenia…" : "Zapisz"}
+      </button>
+    </form>
+  );
+}
+
+export function FollowUpForm({ action, status }: { action: BoundAction; status: CardStatus }) {
+  const [state, formAction, isPending] = useActionState(action, null);
+  return (
+    <form action={formAction} className="flex flex-col gap-3">
+      <select name="status" defaultValue={status} aria-label="Status" className={INPUT_CLASS}>
+        {CARD_STATUSES.map((cardStatus) => (
+          <option key={cardStatus} value={cardStatus}>
+            {CARD_STATUS_LABELS[cardStatus]}
+          </option>
+        ))}
+      </select>
+      <input name="note" maxLength={300} aria-label="Notatka" placeholder="Krótka notatka (opcjonalnie)" className={INPUT_CLASS} />
+      <FormFeedback state={state} />
+      <button type="submit" disabled={isPending} className={PRIMARY_BUTTON_CLASS}>
+        Zapisz status
       </button>
     </form>
   );

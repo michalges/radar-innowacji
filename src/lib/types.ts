@@ -1,4 +1,4 @@
-import type { CardStatus, Criterion, InnovationType, Sector } from "@/lib/constants";
+import type { CardEventKind, CardStatus, Criterion, InnovationType, Sector } from "@/lib/constants";
 
 export type CriterionScore = {
   criterion: Criterion;
@@ -56,6 +56,14 @@ export type Message = {
   cardId: string;
   sender: string;
   body: string;
+  createdAt: string;
+};
+
+export type CardEvent = {
+  id: number;
+  cardId: string;
+  kind: CardEventKind;
+  note: string | null;
   createdAt: string;
 };
 

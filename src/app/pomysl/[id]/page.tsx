@@ -2,10 +2,10 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
 import { claimCard, reportCard, sendMessage } from "@/app/actions";
-import { CardHeader, CardPath, CardProfile, CardScore, PANEL_CLASS } from "@/components/CardDetails";
+import { CardHeader, CardPath, CardProfile, CardScore, CardTimeline, PANEL_CLASS } from "@/components/CardDetails";
 import { ClaimForm, ContactForm, ReportForm } from "@/components/CardForms";
 import { DUPLICATE_SIMILARITY } from "@/lib/constants";
-import { getCard, getCardEditToken, getCards, getChallenges } from "@/lib/repository";
+import { getCard, getCardEditToken, getCardEvents, getCards, getChallenges } from "@/lib/repository";
 import { getChallengesForCard, getSimilarCards } from "@/lib/similarity";
 
 const LINK_ROW_CLASS = "flex flex-col gap-0.5 rounded-xl p-3 text-ink no-underline";
@@ -17,7 +17,7 @@ async function IdeaPageContent({ params, searchParams }: PageProps<"/pomysl/[id]
   if (!card) {
     notFound();
   }
-  const [cards, challenges] = await Promise.all([getCards(), getChallenges()]);
+  const [cards, challenges, events] = await Promise.all([getCards(), getChallenges(), getCardEvents(card.id)]);
   const similarCards = getSimilarCards(card, cards);
   const matchingChallenges = getChallengesForCard(card, challenges);
   const isOwnerView = typeof edycja === "string" && edycja === getCardEditToken(card.id);
@@ -75,6 +75,7 @@ async function IdeaPageContent({ params, searchParams }: PageProps<"/pomysl/[id]
               <ClaimForm action={claimCard.bind(null, card.id)} />
             </section>
           )}
+          <CardTimeline card={card} events={events} />
           <ReportForm action={reportCard.bind(null, card.id)} />
         </div>
       </div>

@@ -72,3 +72,17 @@ export const DUPLICATE_SIMILARITY = 0.55;
 export const MATCH_SIMILARITY = 0.12;
 
 export const FREE_EMAIL_DOMAINS = ["gmail.com", "wp.pl", "o2.pl", "onet.pl", "interia.pl", "outlook.com", "yahoo.com", "icloud.com"];
+
+export const CARD_EVENT_KINDS = ["ocenione", "niepotwierdzone", "potwierdzone", "w-kontakcie", "wdrozone", "poprawione", "zgloszenie-bledu", "notatka"] as const;
+export type CardEventKind = (typeof CARD_EVENT_KINDS)[number];
+
+export const CARD_EVENT_LABELS: Record<CardEventKind, string> = {
+  ocenione: "Ocenione",
+  niepotwierdzone: "Do weryfikacji",
+  potwierdzone: "Właściciel potwierdził",
+  "w-kontakcie": "W kontakcie",
+  wdrozone: "Wdrożone",
+  poprawione: "Opis poprawiony",
+  "zgloszenie-bledu": "Zgłoszono błąd",
+  notatka: "Notatka",
+};

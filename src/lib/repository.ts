@@ -1,8 +1,8 @@
 import "server-only";
 import { connection } from "next/server";
-import { REPORTS_TO_UNCONFIRM } from "@/lib/constants";
+import { CARD_EVENT_KINDS, REPORTS_TO_UNCONFIRM, type CardEventKind } from "@/lib/constants";
 import { getDb } from "@/lib/db";
-import type { Card, Challenge, Message } from "@/lib/types";
+import type { Card, CardEvent, Challenge, Message } from "@/lib/types";
 
 type DataRow = { data: string };
 
@@ -51,6 +51,7 @@ export function setCardOwner(id: string, email: string) {
 export function deleteCard(id: string) {
   getDb().prepare("DELETE FROM cards WHERE id = ?").run(id);
   getDb().prepare("DELETE FROM messages WHERE card_id = ?").run(id);
+  getDb().prepare("DELETE FROM card_events WHERE card_id = ?").run(id);
 }
 
 export function addReport(card: Card, reporter: string, reason: string): Card {
@@ -68,6 +69,7 @@ export function addReport(card: Card, reporter: string, reason: string): Card {
     status: count >= REPORTS_TO_UNCONFIRM ? "niepotwierdzona" : card.status,
   };
   saveCard(updated);
+  addCardEvent(card.id, "zgloszenie-bledu", reason);
   return updated;
 }
 
@@ -116,4 +118,24 @@ export function logAiCall(model: string, promptVersion: string, input: string, o
   getDb()
     .prepare("INSERT INTO ai_log (model, prompt_version, input, output, created_at) VALUES (?, ?, ?, ?, ?)")
     .run(model, promptVersion, input, output, new Date().toISOString());
+}
+
+export function addCardEvent(cardId: string, kind: CardEventKind, note: string | null = null) {
+  getDb()
+    .prepare("INSERT INTO card_events (card_id, kind, note, created_at) VALUES (?, ?, ?, ?)")
+    .run(cardId, kind, note, new Date().toISOString());
+}
+
+function isCardEventKind(kind: string): kind is CardEventKind {
+  return CARD_EVENT_KINDS.some((eventKind) => eventKind === kind);
+}
+
+export async function getCardEvents(cardId: string): Promise<CardEvent[]> {
+  await connection();
+  const rows = getDb()
+    .prepare("SELECT id, card_id, kind, note, created_at FROM card_events WHERE card_id = ? ORDER BY id")
+    .all(cardId) as { id: number; card_id: string; kind: string; note: string | null; created_at: string }[];
+  return rows.flatMap((row) =>
+    isCardEventKind(row.kind) ? [{ id: row.id, cardId: row.card_id, kind: row.kind, note: row.note, createdAt: row.created_at }] : [],
+  );
 }

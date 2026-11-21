@@ -1,7 +1,7 @@
 import "server-only";
 import { hasApiKey } from "@/lib/openrouter";
 import { runPipeline } from "@/lib/pipeline";
-import { hasCrawledSource, insertCard, markCrawledSource } from "@/lib/repository";
+import { addCardEvent, hasCrawledSource, insertCard, markCrawledSource } from "@/lib/repository";
 import { CRAWL_FIXTURES } from "@/lib/seed";
 
 export type CrawlSummary = { published: number; unconfirmed: number; rejected: number; skipped: number; failed: number; source: string; titles: string[]; error?: string };
@@ -82,6 +82,7 @@ export async function runCrawler(): Promise<CrawlSummary> {
         summary.rejected++;
       } else {
         insertCard({ ...result.card, isClaimed: false }, null);
+        addCardEvent(result.card.id, result.outcome === "opublikowana" ? "ocenione" : "niepotwierdzone");
         summary[result.outcome === "opublikowana" ? "published" : "unconfirmed"]++;
         summary.titles.push(result.card.title);
       }

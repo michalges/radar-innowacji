@@ -1,7 +1,7 @@
 import { ScoreRadar } from "@/components/ScoreRadar";
-import { CARD_STATUS_LABELS, CRITERION_LABELS, INNOVATION_TYPE_LABELS, SECTOR_LABELS } from "@/lib/constants";
+import { CARD_EVENT_LABELS, CARD_STATUS_LABELS, CRITERION_LABELS, INNOVATION_TYPE_LABELS, SECTOR_LABELS } from "@/lib/constants";
 import { getRecommendedPath, getTotalScore, READINESS_RING_LABELS, getReadinessRing } from "@/lib/rules";
-import type { Card, CardContent } from "@/lib/types";
+import type { Card, CardContent, CardEvent } from "@/lib/types";
 
 const PROFILE_FIELDS: { key: keyof CardContent; label: string }[] = [
   { key: "problem", label: "Problem" },
@@ -113,6 +113,27 @@ export function CardPath({ card }: { card: Card }) {
         ))}
       </ol>
       <p className="text-sm text-ink-soft">Cel: {path.kpi}</p>
+    </section>
+  );
+}
+
+export function CardTimeline({ card, events }: { card: Card; events: CardEvent[] }) {
+  const steps = [
+    { key: "origin", label: card.source === "crawler" ? "Wykryte" : "Zgłoszone", note: null, createdAt: card.createdAt },
+    ...events.map((event) => ({ key: String(event.id), label: CARD_EVENT_LABELS[event.kind], note: event.note, createdAt: event.createdAt })),
+  ];
+  return (
+    <section className={PANEL_CLASS}>
+      <h2 className="font-display text-xl font-semibold">Historia</h2>
+      <ol className="flex flex-col gap-2 border-l-2 border-line pl-4 text-sm">
+        {steps.map((step) => (
+          <li key={step.key} className="relative">
+            <span className="absolute top-1.5 -left-[21px] size-2 rounded-full bg-teal" />
+            <b>{step.label}</b> <span className="text-ink-soft">· {new Date(step.createdAt).toLocaleDateString("pl-PL")}</span>
+            {step.note && <p className="text-ink-soft">{step.note}</p>}
+          </li>
+        ))}
+      </ol>
     </section>
   );
 }

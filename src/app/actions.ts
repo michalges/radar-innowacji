@@ -5,11 +5,12 @@ import { refresh } from "next/cache";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { z } from "zod";
-import { FREE_EMAIL_DOMAINS, SECTORS } from "@/lib/constants";
+import { CARD_STATUSES, FREE_EMAIL_DOMAINS, SECTORS, type CardStatus, type CardEventKind } from "@/lib/constants";
 import { runCrawler, type CrawlSummary } from "@/lib/crawler";
 import { hasApiKey } from "@/lib/openrouter";
 import { runPipeline } from "@/lib/pipeline";
 import {
+  addCardEvent,
   addReport,
   deleteCard,
   getCard,
@@ -84,6 +85,7 @@ export async function submitIdea(_state: FormState, formData: FormData): Promise
     }
     const card = { ...result.card, isClaimed: !parsed.data.isNomination };
     editToken = insertCard(card, parsed.data.isNomination ? null : parsed.data.email);
+    addCardEvent(card.id, result.outcome === "opublikowana" ? "ocenione" : "niepotwierdzone");
     cardId = card.id;
   } catch (error) {
     return { error: `AI nie odpowiedziało poprawnie (${getErrorMessage(error)}). Spróbuj ponownie.` };
@@ -147,6 +149,7 @@ export async function claimCard(cardId: string, _state: FormState, formData: For
   }
   setCardOwner(cardId, parsed.data);
   saveCard({ ...card, isClaimed: true });
+  addCardEvent(cardId, "potwierdzone");
   refresh();
   return {
     message: "Gotowe. Twój link (w produkcji przyjdzie mailem):",
@@ -171,6 +174,7 @@ export async function sendMessage(cardId: string, _state: FormState, formData: F
   insertMessage({ ...parsed.data, id: crypto.randomUUID(), cardId, createdAt: new Date().toISOString() });
   if (card.status === "opublikowana" || card.status === "niepotwierdzona") {
     saveCard({ ...card, status: "w-kontakcie" });
+    addCardEvent(cardId, "w-kontakcie");
   }
   refresh();
   return { message: "Wysłane. Twórcy odpowiedzą przez Radar." };
@@ -203,6 +207,7 @@ export async function updateCardByToken(token: string, _state: FormState, formDa
       reports: 0,
       status: card.status === "w-kontakcie" || card.status === "wdrozona" ? card.status : result.card.status,
     });
+    addCardEvent(card.id, "poprawione");
   } catch (error) {
     return { error: `AI nie odpowiedziało poprawnie (${getErrorMessage(error)}).` };
   }
@@ -210,12 +215,36 @@ export async function updateCardByToken(token: string, _state: FormState, formDa
   return { message: "Zapisane i ocenione ponownie." };
 }
 
-export async function markImplemented(token: string) {
-  const card = await getCardByEditToken(token);
-  if (card) {
-    saveCard({ ...card, status: "wdrozona" });
-    refresh();
+const STATUS_EVENT_KINDS: Record<CardStatus, CardEventKind> = {
+  opublikowana: "ocenione",
+  niepotwierdzona: "niepotwierdzone",
+  "w-kontakcie": "w-kontakcie",
+  wdrozona: "wdrozone",
+};
+
+const followUpSchema = z.object({
+  status: z.enum(CARD_STATUSES),
+  note: z.string().trim().max(300, "Notatka: max. 300 znaków"),
+});
+
+export async function setCardFollowUpByToken(token: string, _state: FormState, formData: FormData): Promise<FormState> {
+  const parsed = followUpSchema.safeParse({ status: formData.get("status"), note: formData.get("note") ?? "" });
+  if (!parsed.success) {
+    return { error: parsed.error.issues[0]?.message };
   }
+  const card = await getCardByEditToken(token);
+  if (!card) {
+    return { error: "Link do edycji jest nieprawidłowy." };
+  }
+  const note = parsed.data.note || null;
+  if (parsed.data.status !== card.status) {
+    saveCard({ ...card, status: parsed.data.status });
+    addCardEvent(card.id, STATUS_EVENT_KINDS[parsed.data.status], note);
+  } else if (note) {
+    addCardEvent(card.id, "notatka", note);
+  }
+  refresh();
+  return { message: "Zapisane." };
 }
 
 export async function deleteCardByToken(token: string) {

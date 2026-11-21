@@ -1,6 +1,7 @@
 import { Suspense } from "react";
 import { CrawlButton } from "@/components/CrawlButton";
 import { RadarExplorer, type ExplorerCard } from "@/components/RadarExplorer";
+import { CARD_STATUSES, CARD_STATUS_LABELS } from "@/lib/constants";
 import { getCards } from "@/lib/repository";
 import { getRecommendedPath, getTotalScore } from "@/lib/rules";
 import type { Card } from "@/lib/types";
@@ -25,7 +26,19 @@ function getExplorerCard(card: Card): ExplorerCard {
 
 async function RadarContent() {
   const cards = await getCards();
-  return <RadarExplorer cards={cards.map(getExplorerCard)} />;
+  const statusCounts = CARD_STATUSES.map((status) => ({ status, count: cards.filter((card) => card.status === status).length }));
+  return (
+    <>
+      <p className="flex flex-wrap gap-x-4 text-sm text-ink-soft">
+        {statusCounts.map(({ status, count }) => (
+          <span key={status}>
+            {CARD_STATUS_LABELS[status]}: <b className="text-ink">{count}</b>
+          </span>
+        ))}
+      </p>
+      <RadarExplorer cards={cards.map(getExplorerCard)} />
+    </>
+  );
 }
 
 export default function HomePage() {

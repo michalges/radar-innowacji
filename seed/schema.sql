@@ -39,3 +39,10 @@ CREATE TABLE IF NOT EXISTS cards (
     output TEXT NOT NULL,
     created_at TEXT NOT NULL
   );
+  CREATE TABLE IF NOT EXISTS card_events (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    card_id TEXT NOT NULL,
+    kind TEXT NOT NULL,
+    note TEXT,
+    created_at TEXT NOT NULL
+  );

@@ -19,7 +19,7 @@ db.exec("PRAGMA journal_mode = WAL;");
 db.exec(readFileSync(path.join(rootDir, "seed", "schema.sql"), "utf8"));
 
 db.exec("BEGIN");
-for (const table of ["cards", "challenges", "messages", "reports", "crawled_sources"]) {
+for (const table of ["cards", "challenges", "messages", "reports", "crawled_sources", "card_events"]) {
   db.exec(`DELETE FROM ${table}`);
 }
 const now = Date.now();
