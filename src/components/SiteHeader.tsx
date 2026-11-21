@@ -14,7 +14,7 @@ export function SiteHeader() {
       </Link>
       <Link
         href="/zglos"
-        className="flex h-10 items-center rounded-full bg-teal px-3.5 text-sm font-semibold text-white no-underline shadow-[0_6px_18px_rgba(14,116,124,0.3)] hover:bg-teal-dark md:order-1 md:ml-1 md:h-11 md:px-5 md:text-[15px]"
+        className="flex h-10 items-center rounded-full bg-teal px-3.5 text-sm font-semibold text-white no-underline shadow-[0_6px_18px_rgba(10,97,120,0.3)] hover:bg-teal-dark md:order-1 md:ml-1 md:h-11 md:px-5 md:text-[15px]"
       >
         Zgłoś pomysł
       </Link>

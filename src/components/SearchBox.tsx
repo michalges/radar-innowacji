@@ -3,7 +3,7 @@ import Form from "next/form";
 export function SearchBox({ query }: { query: string }) {
   return (
     <Form action="/wyzwania" role="search" className="w-full">
-      <div className="glass flex items-center gap-2 rounded-full py-2 pr-2 pl-5 sm:pl-6 transition-shadow focus-within:shadow-[0_0_0_3px_rgb(14_116_124/0.2),0_8px_32px_rgb(27_21_48/0.1)]">
+      <div className="glass flex items-center gap-2 rounded-full py-2 pr-2 pl-5 sm:pl-6 transition-shadow focus-within:shadow-[0_0_0_3px_rgb(10_97_120/0.2),0_8px_32px_rgb(27_21_48/0.1)]">
         <span aria-hidden="true" className="text-lg text-teal">
           ✦
         </span>

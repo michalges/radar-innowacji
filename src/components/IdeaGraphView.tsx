@@ -14,7 +14,7 @@ const MIN_SCALE = 0.3;
 const MAX_SCALE = 8;
 
 const CLUSTER_COLORS = [
-  { fill: "#CDEEEE", text: "#0A5A61" },
+  { fill: "#CDE6EE", text: "#074A5C" },
   { fill: "#E4F5C4", text: "#3F6212" },
   { fill: "#FCE7B2", text: "#7A4A00" },
   { fill: "#D6E6FB", text: "#1D4F91" },
