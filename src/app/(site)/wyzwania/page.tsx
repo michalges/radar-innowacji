@@ -23,7 +23,7 @@ async function Suggestions() {
         <li key={challenge.id}>
           <Link
             href={`/wyzwania?q=${encodeURIComponent(challenge.title)}`}
-            className="block max-w-72 truncate rounded-full border border-line bg-white/60 px-4 py-2 text-sm font-medium text-ink no-underline transition-colors hover:border-teal hover:bg-mint"
+            className="block max-w-72 truncate rounded-full border border-line bg-white/60 px-4 py-2 text-sm font-medium text-ink no-underline transition-colors hover:border-primary hover:bg-primary-soft"
           >
             {challenge.title}
           </Link>
@@ -48,15 +48,15 @@ async function Results({ query }: { query: string }) {
           <li key={card.id}>
             <Link
               href={`/pomysl/${card.id}`}
-              className="flex flex-col gap-2 rounded-3xl border border-line-soft bg-white p-5 text-ink no-underline transition-colors hover:border-teal"
+              className="flex flex-col gap-2 rounded-3xl border border-line-soft p-5 text-ink no-underline transition-colors hover:border-primary frosted"
             >
               <span className="flex flex-wrap items-baseline justify-between gap-2">
                 <span className="font-display text-lg font-semibold">{card.title}</span>
-                <span className="text-sm font-semibold text-teal">{getTotalScore(card.scores).toFixed(1)}/5</span>
+                <span className="text-sm font-semibold text-primary">{getTotalScore(card.scores).toFixed(1)}/5</span>
               </span>
               <span className="text-[15px] text-ink-soft">{reason}</span>
               <span className="flex flex-wrap gap-1.5 text-xs font-semibold">
-                <span className="rounded-full bg-mint px-2.5 py-1 text-teal-dark">{INNOVATION_TYPE_LABELS[card.type]}</span>
+                <span className="rounded-full bg-primary-soft px-2.5 py-1 text-primary-dark">{INNOVATION_TYPE_LABELS[card.type]}</span>
                 {card.institution && <span className="rounded-full bg-paper px-2.5 py-1">{card.institution}</span>}
               </span>
             </Link>
@@ -85,7 +85,7 @@ async function SearchView({ searchParams }: PageProps<"/wyzwania">) {
     <div className={`mx-auto flex w-full max-w-3xl flex-1 flex-col gap-8 ${hasQuery ? "pt-4" : "justify-center pb-[12vh]"}`}>
       {!hasQuery && (
         <h1 className="text-center font-display text-[clamp(32px,5vw,52px)] leading-[1.05] font-extrabold tracking-tight text-balance">
-          Jaki problem <span className="text-teal">chcesz rozwiązać?</span>
+          Jaki problem <span className="text-primary">chcesz rozwiązać?</span>
         </h1>
       )}
       <SearchBox query={query} />

@@ -12,7 +12,7 @@ const PROFILE_FIELDS: { key: keyof CardContent; label: string }[] = [
   { key: "resources", label: "Potrzeby" },
 ];
 
-export const PANEL_CLASS = "flex min-w-0 flex-col gap-4 rounded-3xl border border-line p-6";
+export const PANEL_CLASS = "flex min-w-0 flex-col gap-4 rounded-3xl border border-line p-6 frosted";
 
 export function CardHeader({ card }: { card: Card }) {
   return (
@@ -31,7 +31,7 @@ export function CardHeader({ card }: { card: Card }) {
       <h1 className="font-display text-[clamp(30px,4vw,46px)] leading-tight font-extrabold tracking-tight">{card.title}</h1>
       <div className="flex flex-wrap gap-1.5 text-[13px] font-semibold">
         <span className="rounded-full bg-lime-soft px-3 py-1 text-olive">{INNOVATION_TYPE_LABELS[card.type]}</span>
-        <span className="rounded-full bg-mint px-3 py-1 text-teal-dark">
+        <span className="rounded-full bg-primary-soft px-3 py-1 text-primary-dark">
           {card.readinessScale} {card.readiness} · {READINESS_RING_LABELS[getReadinessRing(card.readiness)]}
         </span>
         <span className="rounded-full bg-green-soft px-3 py-1 text-green">{SECTOR_LABELS[card.sector]}</span>
@@ -71,7 +71,7 @@ export function CardProfile({ card }: { card: Card }) {
 export function CardScore({ card }: { card: Card }) {
   return (
     <section className={`${PANEL_CLASS} flex-[2_1_320px]`}>
-      <p className="font-display text-3xl font-extrabold text-teal">
+      <p className="font-display text-3xl font-extrabold text-primary">
         {getTotalScore(card.scores).toFixed(1)}
         <span className="text-sm font-medium text-ink-soft"> / 5</span>
       </p>
@@ -84,7 +84,7 @@ export function CardScore({ card }: { card: Card }) {
                 <span>{CRITERION_LABELS[score.criterion]}</span>
                 <span className="flex gap-0.5" aria-label={`${score.score} z 5`}>
                   {[1, 2, 3, 4, 5].map((dot) => (
-                    <span key={dot} className={`size-2 rounded-full ${dot <= score.score ? "bg-teal" : "bg-line"}`} />
+                    <span key={dot} className={`size-2 rounded-full ${dot <= score.score ? "bg-primary" : "bg-line"}`} />
                   ))}
                 </span>
               </summary>
@@ -105,7 +105,7 @@ export function CardPath({ card }: { card: Card }) {
       <ol className="flex flex-col gap-3 text-[15px]">
         {path.steps.map((step, index) => (
           <li key={step.title} className="flex items-start gap-3.5">
-            <span className="flex size-7 flex-none items-center justify-center rounded-full bg-mint text-sm font-bold text-teal-dark">{index + 1}</span>
+            <span className="flex size-7 flex-none items-center justify-center rounded-full bg-primary-soft text-sm font-bold text-primary-dark">{index + 1}</span>
             <span className="leading-normal">
               {step.title} <span className="text-ink-soft">· {step.owner}</span>
             </span>
@@ -125,10 +125,10 @@ export function CardTimeline({ card, events }: { card: Card; events: CardEvent[]
   return (
     <section className={PANEL_CLASS}>
       <h2 className="font-display text-xl font-semibold">Historia</h2>
-      <ol className="flex flex-col gap-2 border-l-2 border-line pl-4 text-sm">
+      <ol className="flex flex-col gap-2 border-l border-line pl-4 text-sm">
         {steps.map((step) => (
           <li key={step.key} className="relative">
-            <span className="absolute top-1.5 -left-[21px] size-2 rounded-full bg-teal" />
+            <span className="absolute top-1.5 -left-[21px] size-2 rounded-full bg-primary" />
             <b>{step.label}</b> <span className="text-ink-soft">· {new Date(step.createdAt).toLocaleDateString("pl-PL")}</span>
             {step.note && <p className="text-ink-soft">{step.note}</p>}
           </li>

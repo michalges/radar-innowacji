@@ -23,7 +23,7 @@ export function NavLinks({ pathname }: { pathname: string | null }) {
         key={link.href}
         href={link.href}
         aria-current={isActive ? "page" : undefined}
-        className={`${link.className} flex h-9 shrink-0 items-center rounded-full px-3 no-underline ${isActive ? "bg-mint text-teal-dark" : "text-ink hover:bg-paper"}`}
+        className={`${link.className} flex h-9 shrink-0 items-center rounded-full px-3 no-underline ${isActive ? "bg-primary-soft text-primary-dark" : "text-ink hover:bg-paper"}`}
       >
         {link.label}
       </Link>

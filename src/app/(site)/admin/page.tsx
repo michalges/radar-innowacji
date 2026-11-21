@@ -26,7 +26,7 @@ function ClaimRequestItem({ request, cardTitle }: { request: ClaimRequest; cardT
   const status = STATUS_STYLES[request.status];
   const editToken = request.status === "zatwierdzone" ? getCardEditToken(request.cardId) : null;
   return (
-    <li className="flex flex-col gap-3 rounded-3xl border border-line p-5">
+    <li className="flex flex-col gap-3 rounded-3xl border border-line p-5 frosted">
       <div className="flex flex-wrap items-baseline justify-between gap-2">
         <Link href={`/pomysl/${request.cardId}`} className="font-display text-lg font-semibold">
           {cardTitle}
@@ -48,7 +48,7 @@ function ClaimRequestItem({ request, cardTitle }: { request: ClaimRequest; cardT
             type="submit"
             name="decision"
             value="zatwierdz"
-            className="min-h-11 cursor-pointer rounded-full bg-teal px-5 text-sm font-semibold text-white hover:bg-teal-dark"
+            className="min-h-11 cursor-pointer rounded-full bg-primary px-5 text-sm font-semibold text-white hover:bg-primary-dark"
           >
             Zatwierdź autorstwo
           </button>
@@ -110,7 +110,7 @@ export default function AdminPage() {
   return (
     <div className="mx-auto flex w-full max-w-3xl flex-col gap-6">
       <h1 className="font-display text-[clamp(28px,4vw,40px)] leading-tight font-extrabold tracking-tight">
-        Weryfikacja <span className="text-teal">autorstwa</span>
+        Weryfikacja <span className="text-primary">autorstwa</span>
       </h1>
       <Suspense fallback={<p className="text-ink-soft">Ładuję…</p>}>
         <AdminContent />

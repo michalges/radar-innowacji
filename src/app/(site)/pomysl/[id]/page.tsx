@@ -40,7 +40,7 @@ async function IdeaPageContent({ params, searchParams }: PageProps<"/pomysl/[id]
         <section className={`${PANEL_CLASS} flex-[2_1_320px]`}>
           <h2 className="font-display text-xl font-semibold">Pasuje do</h2>
           {matchingChallenges.map((match) => (
-            <Link key={match.item.id} href={`/wyzwania/${match.item.id}`} className={`${LINK_ROW_CLASS} bg-mint hover:bg-green-soft`}>
+            <Link key={match.item.id} href={`/wyzwania/${match.item.id}`} className={`${LINK_ROW_CLASS} bg-primary-soft hover:bg-green-soft`}>
               <span className="text-sm font-semibold">{match.item.title}</span>
               <span className="text-xs text-ink-soft">{match.item.organization}</span>
             </Link>
@@ -72,7 +72,7 @@ async function IdeaPageContent({ params, searchParams }: PageProps<"/pomysl/[id]
         <div className="flex min-w-0 flex-[2_1_320px] flex-col gap-6">
           <FundingPanel card={card} />
           {!card.isClaimed && (
-            <section id="przejmij" className={`${PANEL_CLASS} bg-mint`}>
+            <section id="przejmij" className={`${PANEL_CLASS} bg-primary-soft`}>
               <h2 className="font-display text-xl font-semibold">To Twój pomysł?</h2>
               <ClaimForm action={claimCard.bind(null, card.id)} reviewAction={requestClaimReview.bind(null, card.id)} />
             </section>

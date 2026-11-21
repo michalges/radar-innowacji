@@ -14,14 +14,14 @@ async function FundingList({ card }: { card: Card }) {
       href={call.url}
       target="_blank"
       rel="noreferrer"
-      className="flex flex-col gap-0.5 rounded-xl border border-line p-3 text-ink no-underline hover:bg-paper"
+      className="flex flex-col gap-0.5 rounded-xl border border-line p-3 text-ink no-underline hover:border-primary frosted"
     >
       <span className="line-clamp-2 text-sm font-semibold">{call.title} ↗</span>
       <span className="text-xs text-ink-soft">
         {call.source}
         {call.deadline && ` · do ${call.deadline}`}
       </span>
-      <span className="text-xs text-teal">{reason}</span>
+      <span className="text-xs text-primary">{reason}</span>
     </a>
   ));
 }

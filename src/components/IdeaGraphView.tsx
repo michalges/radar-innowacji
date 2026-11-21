@@ -73,11 +73,11 @@ function SearchPinMarker({ pin, scale }: { pin: MapPin; scale: number }) {
   return (
     <g transform={`translate(${pin.x} ${pin.y}) scale(${1 / scale})`} className="pointer-events-none">
       {[0, 0.8, 1.6].map((delay) => (
-        <circle key={delay} r={34} fill="none" stroke="var(--color-teal)" strokeWidth={2} className="radar-ping" style={{ animationDelay: `${delay}s` }} />
+        <circle key={delay} r={34} fill="none" stroke="var(--color-primary)" strokeWidth={2} className="radar-ping" style={{ animationDelay: `${delay}s` }} />
       ))}
       <g className="pin-drop">
         <ellipse cx={0} cy={1} rx={9} ry={2.5} fill="rgb(27 21 48 / 0.18)" />
-        <path d={PIN_PATH} transform="translate(-22.4 -37.8) scale(0.7)" fill="var(--color-teal)" stroke="#fff" strokeWidth={2.5} />
+        <path d={PIN_PATH} transform="translate(-22.4 -37.8) scale(0.7)" fill="var(--color-primary)" stroke="#fff" strokeWidth={2.5} />
         <circle cx={0} cy={-20.3} r={4.2} fill="#fff" />
       </g>
       {pin.isGap && (
@@ -329,8 +329,8 @@ export function IdeaGraphView({ graph, suggestions, initialQuery }: { graph: Ide
                 cx={pin.x}
                 cy={pin.y}
                 r={pin.radius}
-                fill={pin.isGap ? "rgb(146 64 14 / 0.05)" : "rgb(10 97 120 / 0.06)"}
-                stroke={pin.isGap ? "var(--color-warn)" : "var(--color-teal)"}
+                fill={pin.isGap ? "rgb(146 64 14 / 0.05)" : "rgb(30 64 175 / 0.06)"}
+                stroke={pin.isGap ? "var(--color-warn)" : "var(--color-primary)"}
                 strokeOpacity={0.5}
                 strokeWidth={1.5 / scale}
                 strokeDasharray={`${6 / scale} ${5 / scale}`}
@@ -343,7 +343,7 @@ export function IdeaGraphView({ graph, suggestions, initialQuery }: { graph: Ide
                   y1={pin.y}
                   x2={hit.node.x}
                   y2={hit.node.y}
-                  stroke="var(--color-teal)"
+                  stroke="var(--color-primary)"
                   strokeOpacity={0.2 + 0.5 * hit.relevance}
                   strokeWidth={(hoveredId === hit.id ? 2.5 : 1.5) / scale}
                 />
@@ -457,7 +457,7 @@ export function IdeaGraphView({ graph, suggestions, initialQuery }: { graph: Ide
           </span>
           <b className="font-display text-base leading-snug">{selectedNode.title}</b>
           <span className="text-sm text-ink-soft">{selectedNode.neighborIds.length} podobnych</span>
-          <Link href={`/pomysl/${selectedNode.id}`} className="self-start rounded-full bg-teal px-3.5 py-1.5 text-[13px] font-semibold text-white no-underline hover:bg-teal-dark">
+          <Link href={`/pomysl/${selectedNode.id}`} className="self-start rounded-full bg-primary px-3.5 py-1.5 text-[13px] font-semibold text-white no-underline hover:bg-primary-dark">
             Szczegóły →
           </Link>
         </div>

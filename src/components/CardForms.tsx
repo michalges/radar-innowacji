@@ -31,10 +31,10 @@ function FormFeedback({ state }: { state: FormState }) {
   return null;
 }
 
-const INPUT_CLASS = "min-h-12 rounded-xl border border-line bg-white px-4 text-base font-normal outline-none focus:border-teal";
-const TEXTAREA_CLASS = "resize-y rounded-xl border border-line bg-white p-4 text-base font-normal outline-none focus:border-teal";
+const INPUT_CLASS = "min-h-12 rounded-xl border border-line bg-white px-4 text-base font-normal outline-none focus:border-primary";
+const TEXTAREA_CLASS = "resize-y rounded-xl border border-line bg-white p-4 text-base font-normal outline-none focus:border-primary";
 const PRIMARY_BUTTON_CLASS =
-  "min-h-12 cursor-pointer self-start rounded-full bg-teal px-6 font-semibold text-white hover:bg-teal-dark disabled:cursor-wait disabled:bg-ink-soft";
+  "min-h-12 cursor-pointer self-start rounded-full bg-primary px-6 font-semibold text-white hover:bg-primary-dark disabled:cursor-wait disabled:bg-ink-soft";
 const SECONDARY_BUTTON_CLASS =
   "min-h-11 cursor-pointer self-start rounded-full bg-paper px-5 text-sm font-semibold text-ink hover:bg-line-soft disabled:cursor-wait";
 
@@ -62,7 +62,7 @@ function ClaimReviewForm({ action, email, reason }: { action: BoundAction; email
     return <FormFeedback state={state} />;
   }
   return (
-    <form action={formAction} className="flex flex-col gap-3 rounded-2xl border border-line bg-white p-4">
+    <form action={formAction} className="flex flex-col gap-3 rounded-2xl border border-line p-4 frosted">
       <h3 className="font-semibold">Poproś o weryfikację przez administratora</h3>
       <p className="text-sm text-ink-soft">Administrator skontaktuje się z Tobą na {email || "podany e-mail"}. Przesłanych plików nie przekazujemy dalej.</p>
       <input type="hidden" name="email" value={email} />
@@ -110,8 +110,8 @@ export function ClaimForm({ action, reviewAction }: { action: BoundAction; revie
           placeholder="ty@szkola.edu.pl"
           className={INPUT_CLASS}
         />
-        <label className="flex cursor-pointer flex-col items-center gap-1 rounded-2xl border-2 border-dashed border-teal/40 bg-white/70 px-4 py-5 text-center transition-colors hover:border-teal focus-within:border-teal">
-          <span className="font-semibold text-teal-dark">Dodaj dowód autorstwa</span>
+        <label className="flex cursor-pointer flex-col items-center gap-1 rounded-2xl border border-dashed border-primary/40 bg-white/70 px-4 py-5 text-center transition-colors hover:border-primary focus-within:border-primary">
+          <span className="font-semibold text-primary-dark">Dodaj dowód autorstwa</span>
           <span className="text-sm text-ink-soft">Zdjęcie lub PDF: prezentacja, dokumentacja, dyplom, artykuł. Do {MAX_EVIDENCE_FILES} plików, razem 8 MB.</span>
           <input
             name="evidence"

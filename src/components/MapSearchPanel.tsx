@@ -40,8 +40,8 @@ export function MapSearchForm({ query, isHero, isSearching, onQueryChange, onSea
       }}
       className={`pointer-events-auto flex w-full items-center rounded-full bg-white transition-shadow ${
         isHero
-          ? "gap-2 border border-teal/30 py-1 pr-1 pl-3.5 shadow-[0_0_0_5px_rgb(10_97_120/0.06),0_12px_32px_rgb(10_97_120/0.16)] focus-within:border-teal focus-within:shadow-[0_0_0_5px_rgb(10_97_120/0.12),0_12px_32px_rgb(10_97_120/0.2)]"
-          : "gap-1.5 border border-line p-0.5 pl-3.5 shadow-[0_6px_20px_rgb(27_21_48/0.1)] focus-within:border-teal focus-within:shadow-[0_0_0_3px_rgb(10_97_120/0.15),0_6px_20px_rgb(27_21_48/0.1)]"
+          ? "gap-2 border border-primary/30 py-1 pr-1 pl-3.5 shadow-[0_0_0_5px_rgb(30_64_175/0.06),0_12px_32px_rgb(30_64_175/0.16)] focus-within:border-primary focus-within:shadow-[0_0_0_5px_rgb(30_64_175/0.12),0_12px_32px_rgb(30_64_175/0.2)]"
+          : "gap-1.5 border border-line p-0.5 pl-3.5 shadow-[0_6px_20px_rgb(27_21_48/0.1)] focus-within:border-primary focus-within:shadow-[0_0_0_3px_rgb(30_64_175/0.15),0_6px_20px_rgb(27_21_48/0.1)]"
       }`}
     >
       {isHero && <LogoMark className="size-5 shrink-0" />}
@@ -61,7 +61,7 @@ export function MapSearchForm({ query, isHero, isSearching, onQueryChange, onSea
         type="submit"
         disabled={isSearching}
         aria-label="Szukaj na mapie"
-        className={`flex shrink-0 cursor-pointer items-center justify-center gap-2 rounded-full bg-teal font-semibold text-white transition-colors hover:bg-teal-dark disabled:cursor-wait disabled:bg-ink-soft ${
+        className={`flex shrink-0 cursor-pointer items-center justify-center gap-2 rounded-full bg-primary font-semibold text-white transition-colors hover:bg-primary-dark disabled:cursor-wait disabled:bg-ink-soft ${
           isHero ? "size-10 text-sm sm:h-10 sm:w-auto sm:px-5" : "size-8"
         }`}
       >
@@ -76,7 +76,7 @@ export function MapSearchIntro() {
   return (
     <div className="flex flex-col items-center gap-3 text-center">
       <h1 className="font-display text-[28px] leading-[1.1] font-extrabold tracking-tight text-balance sm:text-4xl">
-        Gdzie leży Twój <span className="text-teal">problem</span>?
+        Gdzie leży Twój <span className="text-primary">problem</span>?
       </h1>
       <p className="hidden max-w-lg text-[15px] text-balance text-ink-soft sm:block">
         Opisz go własnymi słowami — radar wskaże podobne pomysły ze szkół, uczelni i urzędów albo pustą lukę do zagospodarowania.
@@ -96,7 +96,7 @@ export function MapSearchSuggestions({ suggestions, onPick }: { suggestions: str
           <button
             type="button"
             onClick={() => onPick(suggestion)}
-            className={`max-w-64 cursor-pointer truncate rounded-full px-3 py-1 text-[13px] font-medium text-ink transition-colors hover:bg-mint hover:text-teal-dark ${GLASS}`}
+            className={`max-w-64 cursor-pointer truncate rounded-full px-3 py-1 text-[13px] font-medium text-ink transition-colors hover:bg-primary-soft hover:text-primary-dark ${GLASS}`}
           >
             {suggestion}
           </button>
@@ -157,7 +157,7 @@ export function MapSearchResults({
           step={0.05}
           value={0.9 - minRelevance}
           onChange={(event) => onMinRelevanceChange(0.9 - Number(event.target.value))}
-          className="w-full cursor-pointer accent-teal"
+          className="w-full cursor-pointer accent-primary"
         />
       </label>
 
@@ -165,7 +165,7 @@ export function MapSearchResults({
         <div className="flex flex-col gap-2 rounded-2xl bg-warn-soft p-3.5 text-sm text-warn">
           <b className="font-display text-base">Nikt jeszcze tego nie rozwiązał</b>
           <span>Twój problem leży w pustym obszarze mapy. To szansa na nową innowację.</span>
-          <Link href="/zglos" className="self-start rounded-full bg-teal px-3.5 py-1.5 text-xs font-semibold text-white no-underline hover:bg-teal-dark">
+          <Link href="/zglos" className="self-start rounded-full bg-primary px-3.5 py-1.5 text-xs font-semibold text-white no-underline hover:bg-primary-dark">
             Zgłoś pomysł →
           </Link>
         </div>
@@ -189,7 +189,7 @@ export function MapSearchResults({
                 <span className="flex min-w-0 flex-1 flex-col gap-0.5">
                   <span className="flex items-baseline justify-between gap-2">
                     <span className="text-sm font-semibold text-ink">{hit.node.title}</span>
-                    <span className="shrink-0 text-xs font-semibold text-teal tabular-nums">{Math.round(hit.relevance * 100)}%</span>
+                    <span className="shrink-0 text-xs font-semibold text-primary tabular-nums">{Math.round(hit.relevance * 100)}%</span>
                   </span>
                   <span className="hidden text-xs text-ink-soft sm:line-clamp-2">{hit.reason}</span>
                 </span>
@@ -200,7 +200,7 @@ export function MapSearchResults({
       )}
 
       {hiddenCount > 0 && (
-        <button type="button" onClick={() => onMinRelevanceChange(0)} className="cursor-pointer self-start text-xs font-semibold text-teal-dark hover:underline">
+        <button type="button" onClick={() => onMinRelevanceChange(0)} className="cursor-pointer self-start text-xs font-semibold text-primary-dark hover:underline">
           + {hiddenCount} luźniej powiązanych (poszerz zasięg)
         </button>
       )}

@@ -14,7 +14,7 @@ export function AdminLoginForm() {
         autoComplete="current-password"
         aria-label="Token administratora"
         placeholder="Token administratora"
-        className="min-h-12 rounded-xl border border-line bg-white px-4 text-base outline-none focus:border-teal"
+        className="min-h-12 rounded-xl border border-line bg-white px-4 text-base outline-none focus:border-primary"
       />
       {state?.error && (
         <p role="alert" className="rounded-xl bg-warn-soft px-4 py-3 text-sm text-warn">
@@ -24,7 +24,7 @@ export function AdminLoginForm() {
       <button
         type="submit"
         disabled={isPending}
-        className="min-h-12 cursor-pointer self-start rounded-full bg-teal px-6 font-semibold text-white hover:bg-teal-dark disabled:cursor-wait disabled:bg-ink-soft"
+        className="min-h-12 cursor-pointer self-start rounded-full bg-primary px-6 font-semibold text-white hover:bg-primary-dark disabled:cursor-wait disabled:bg-ink-soft"
       >
         Zaloguj
       </button>
