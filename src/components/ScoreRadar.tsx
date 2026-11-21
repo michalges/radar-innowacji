@@ -28,7 +28,7 @@ export function ScoreRadar({ scores }: { scores: CriterionScore[] }) {
         const edge = getPoint(index, RADIUS);
         return <line key={criterion} x1={CENTER} y1={CENTER} x2={edge.x} y2={edge.y} stroke="#ECEEF1" />;
       })}
-      <polygon points={scorePolygon} fill="#0F766E" fillOpacity={0.16} stroke="#0F766E" strokeWidth={2} strokeLinejoin="round" />
+      <polygon points={scorePolygon} fill="#0E747C" fillOpacity={0.16} stroke="#0E747C" strokeWidth={2} strokeLinejoin="round" />
       <g fontSize={10} fill="#4B4560" textAnchor="middle" aria-hidden="true">
         {CRITERIA.map((criterion, index) => {
           const label = getPoint(index, RADIUS + 16);

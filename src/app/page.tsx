@@ -1,61 +1,25 @@
 import { Suspense } from "react";
-import { CrawlButton } from "@/components/CrawlButton";
-import { RadarExplorer, type ExplorerCard } from "@/components/RadarExplorer";
-import { CARD_STATUSES, CARD_STATUS_LABELS } from "@/lib/constants";
+import { IdeaGraphView } from "@/components/IdeaGraphView";
+import { getIdeaGraph } from "@/lib/graph";
 import { getCards } from "@/lib/repository";
-import { getRecommendedPath, getTotalScore } from "@/lib/rules";
-import type { Card } from "@/lib/types";
 
-function getExplorerCard(card: Card): ExplorerCard {
-  return {
-    id: card.id,
-    title: card.title,
-    sector: card.sector,
-    readiness: card.readiness,
-    readinessScale: card.readinessScale,
-    type: card.type,
-    status: card.status,
-    sourceLabel: card.sourceLabel,
-    confidence: card.confidence,
-    isClaimed: card.isClaimed,
-    quote: card.quotes.solution ?? card.quotes.problem ?? "",
-    path: getRecommendedPath(card).name,
-    totalScore: getTotalScore(card.scores),
-  };
-}
+const MAP_HEADER = (
+  <h1 className="font-display text-[32px] leading-none whitespace-nowrap font-extrabold tracking-tight">
+    Mapa <span className="text-teal">pomysłów</span>
+  </h1>
+);
 
-async function RadarContent() {
-  const cards = await getCards();
-  const statusCounts = CARD_STATUSES.map((status) => ({ status, count: cards.filter((card) => card.status === status).length }));
-  return (
-    <>
-      <p className="flex flex-wrap gap-x-4 text-sm text-ink-soft">
-        {statusCounts.map(({ status, count }) => (
-          <span key={status}>
-            {CARD_STATUS_LABELS[status]}: <b className="text-ink">{count}</b>
-          </span>
-        ))}
-      </p>
-      <RadarExplorer cards={cards.map(getExplorerCard)} />
-    </>
-  );
+async function GraphContent() {
+  const graph = getIdeaGraph(await getCards());
+  return <IdeaGraphView graph={graph} header={MAP_HEADER} />;
 }
 
 export default function HomePage() {
   return (
-    <>
-      <div className="flex flex-wrap items-end justify-between gap-5">
-        <div className="flex flex-col gap-2">
-          <h1 className="font-display text-[clamp(34px,4.5vw,54px)] leading-none font-extrabold tracking-tight">
-            Co nowego <span className="text-teal">na radarze?</span>
-          </h1>
-          <p className="text-[17px] text-ink-soft">Pomysły ze szkół, uczelni i urzędów regionu.</p>
-        </div>
-        <CrawlButton />
-      </div>
-      <Suspense fallback={<p className="text-ink-soft">Ładuję…</p>}>
-        <RadarContent />
+    <main className="relative flex-1 bg-[#F4F8F6] bg-[radial-gradient(40rem_30rem_at_8%_20%,rgb(14_116_124/0.16),transparent),radial-gradient(36rem_28rem_at_95%_90%,rgb(101_163_13/0.16),transparent),radial-gradient(30rem_24rem_at_60%_0%,rgb(76_47_168/0.08),transparent)]">
+      <Suspense fallback={<p className="p-6 text-ink-soft">Ładuję…</p>}>
+        <GraphContent />
       </Suspense>
-    </>
+    </main>
   );
 }

@@ -9,7 +9,7 @@ import {
   UNCONFIRMED_CONFIDENCE,
 } from "@/lib/constants";
 
-export const metadata: Metadata = { title: "Jak oceniamy · Radar Innowacji" };
+export const metadata: Metadata = { title: "O nas · Radar Innowacji" };
 
 const PIPELINE_STEPS = [
   ["Filtr", "Mały model odrzuca spam i treści nie na temat."],
@@ -39,12 +39,36 @@ const LIMITATIONS = [
   ["Dane", "Część pomysłów to dane demonstracyjne."],
 ];
 
-export default function CriteriaPage() {
+const AUDIENCES = [
+  ["Twórcy", "Uczniowie, nauczyciele, naukowcy i urzędnicy. Zgłaszają pomysł w 2 minuty, bez logowania, i dostają ocenę, ścieżkę rozwoju oraz kontakty."],
+  ["Instytucje i firmy", "Gminy, szkoły i przedsiębiorstwa opisują problem i od razu widzą pasujące, sprawdzone rozwiązania z regionu."],
+  ["PCI i inkubatory", "Widzą cały region na jednej mapie: gdzie powstają pomysły, które są gotowe do wdrożenia i komu pomóc najpierw."],
+];
+
+export default function AboutPage() {
   return (
     <>
-      <h1 className="font-display text-[clamp(34px,4.5vw,54px)] leading-none font-extrabold tracking-tight">
+      <div className="flex max-w-3xl flex-col gap-4">
+        <h1 className="font-display text-[clamp(34px,4.5vw,54px)] leading-none font-extrabold tracking-tight">
+          O <span className="text-teal">Radarze Innowacji</span>
+        </h1>
+        <p className="text-[17px] leading-relaxed text-ink-soft">
+          Dobre pomysły powstają w szkołach, uczelniach i urzędach, ale zostają w murach jednej instytucji. Radar sam je wyłapuje ze stron i
+          zgłoszeń, ocenia według jawnych kryteriów, układa na mapie podobieństw i łączy z tymi, którzy mogą je wdrożyć lub sfinansować —
+          zanim ktoś inny zacznie wymyślać to samo od zera.
+        </p>
+      </div>
+      <section className="grid gap-4 sm:grid-cols-3">
+        {AUDIENCES.map(([title, text]) => (
+          <div key={title} className={PANEL_CLASS}>
+            <h2 className="font-display text-xl font-semibold">{title}</h2>
+            <p className="text-[15px] leading-normal text-ink-soft">{text}</p>
+          </div>
+        ))}
+      </section>
+      <h2 className="font-display text-3xl font-extrabold tracking-tight">
         Jak <span className="text-teal">oceniamy</span>
-      </h1>
+      </h2>
       <div className="flex flex-wrap items-start gap-6">
         <section className={`${PANEL_CLASS} flex-[3_1_420px]`}>
           <h2 className="font-display text-xl font-semibold">Proces</h2>

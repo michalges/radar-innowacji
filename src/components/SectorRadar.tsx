@@ -5,7 +5,7 @@ import type { Card } from "@/lib/types";
 const SECTOR_STYLES: Record<Sector, { fill: string; label: string }> = {
   motoryzacja: { fill: "#ECFDF5", label: "#3F6212" },
   "jakosc-zycia": { fill: "#F7FEE7", label: "#135C38" },
-  ict: { fill: "#E0F2F1", label: "#0B5D57" },
+  ict: { fill: "#E0F2F1", label: "#0A5A61" },
   lotnictwo: { fill: "#F0FDFA", label: "#155E75" },
   kosmos: { fill: "#FEFCE8", label: "#713F12" },
 };
@@ -55,7 +55,7 @@ export function SectorRadar({
         <text x={185} y={99}>PILOTAŻ</text>
         <text x={185} y={45}>POMYSŁ</text>
       </g>
-      {selectedPoint && <circle cx={selectedPoint.x} cy={selectedPoint.y} r={22} fill="#0F766E" fillOpacity={0.18} />}
+      {selectedPoint && <circle cx={selectedPoint.x} cy={selectedPoint.y} r={22} fill="#0E747C" fillOpacity={0.18} />}
       {cards.map((card) => {
         const point = getRadarPosition(card);
         return (
@@ -64,7 +64,7 @@ export function SectorRadar({
             cx={point.x}
             cy={point.y}
             r={8}
-            fill={isTechnological(card) ? "#0F766E" : "#A3E635"}
+            fill={isTechnological(card) ? "#0E747C" : "#A3E635"}
             fillOpacity={card.status === "niepotwierdzona" ? 0.45 : 1}
             stroke="#1B1530"
             strokeOpacity={0.3}

@@ -1,17 +1,20 @@
 "use client";
 
-import { Delaunay } from "d3-delaunay";
 import { select } from "d3-selection";
+import "d3-transition";
 import { zoom, zoomIdentity, type ZoomBehavior, type ZoomTransform } from "d3-zoom";
 import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
-import { GRAPH_HEIGHT, GRAPH_WIDTH, type GraphNode, type IdeaGraph } from "@/lib/graph";
+import { useEffect, useRef, useState, type ReactNode } from "react";
+import type { GraphNode, IdeaGraph } from "@/lib/graph";
 
-const TERRITORY_RADIUS = 46;
 const LABEL_ZOOM = 1.7;
+const GLASS = "glass";
+const FLY_DURATION = 650;
+const MIN_SCALE = 0.3;
+const MAX_SCALE = 8;
 
 const CLUSTER_COLORS = [
-  { fill: "#CCEFE4", text: "#0B5D57" },
+  { fill: "#CDEEEE", text: "#0A5A61" },
   { fill: "#E4F5C4", text: "#3F6212" },
   { fill: "#FCE7B2", text: "#7A4A00" },
   { fill: "#D6E6FB", text: "#1D4F91" },
@@ -23,24 +26,76 @@ const CLUSTER_COLORS = [
   { fill: "#E2E8F0", text: "#334155" },
 ];
 
+type Size = { width: number; height: number };
+type Insets = { left: number; top: number; right: number; bottom: number };
+
 function getClusterColor(index: number) {
   return CLUSTER_COLORS[index % CLUSTER_COLORS.length];
 }
 
-function getCellPaths(nodes: GraphNode[]): string[] {
-  if (nodes.length < 2) {
-    return nodes.map(() => "");
-  }
-  const voronoi = Delaunay.from(nodes, (node) => node.x, (node) => node.y).voronoi([-200, -200, GRAPH_WIDTH + 200, GRAPH_HEIGHT + 200]);
-  return nodes.map((_, index) => voronoi.renderCell(index));
+function getEdges(nodes: GraphNode[], nodesById: Map<string, GraphNode>) {
+  return nodes.flatMap((node) =>
+    node.neighborIds.flatMap((neighborId) => {
+      const neighbor = nodesById.get(neighborId);
+      return neighbor && node.id < neighbor.id ? [{ source: node, target: neighbor }] : [];
+    }),
+  );
 }
 
-export function IdeaGraphView({ graph }: { graph: IdeaGraph }) {
+/** The side panel covers part of the canvas, so the graph is fitted into the area beside or below it. */
+function getInsets(size: Size, panelRect: DOMRect | null): Insets {
+  const isSidePanel = panelRect !== null && panelRect.right < size.width * 0.5;
+  if (isSidePanel) {
+    return { left: panelRect.right + 48, top: 72, right: 96, bottom: 96 };
+  }
+  return { left: 24, top: (panelRect?.bottom ?? 0) + 24, right: 72, bottom: 72 };
+}
+
+/** Cluster names sit above their dots so they never cover them. */
+function getClusterLabelY(nodes: GraphNode[], clusterIndex: number, fallbackY: number): number {
+  const clusterYs = nodes.filter((node) => node.clusterIndex === clusterIndex).map((node) => node.y);
+  return clusterYs.length > 0 ? Math.min(...clusterYs) : fallbackY;
+}
+
+function getFitTransform(nodes: GraphNode[], size: Size, maxScale: number, panelRect: DOMRect | null): ZoomTransform {
+  if (nodes.length === 0 || size.width === 0) {
+    return zoomIdentity;
+  }
+  const xs = nodes.map((node) => node.x);
+  const ys = nodes.map((node) => node.y);
+  const minX = Math.min(...xs);
+  const minY = Math.min(...ys);
+  const boundsWidth = Math.max(60, Math.max(...xs) - minX);
+  const boundsHeight = Math.max(60, Math.max(...ys) - minY);
+  const insets = getInsets(size, panelRect);
+  const freeWidth = Math.max(100, size.width - insets.left - insets.right);
+  const freeHeight = Math.max(100, size.height - insets.top - insets.bottom);
+  const scale = Math.min(maxScale, freeWidth / boundsWidth, freeHeight / boundsHeight);
+  const centerX = insets.left + freeWidth / 2;
+  const centerY = insets.top + freeHeight / 2;
+  return zoomIdentity.translate(centerX - scale * (minX + boundsWidth / 2), centerY - scale * (minY + boundsHeight / 2)).scale(scale);
+}
+
+export function IdeaGraphView({ graph, header }: { graph: IdeaGraph; header: ReactNode }) {
+  const containerRef = useRef<HTMLDivElement>(null);
   const svgRef = useRef<SVGSVGElement>(null);
+  const panelRef = useRef<HTMLDivElement>(null);
   const zoomRef = useRef<ZoomBehavior<SVGSVGElement, unknown>>(null);
+  const [size, setSize] = useState<Size>({ width: 0, height: 0 });
   const [transform, setTransform] = useState<ZoomTransform>(zoomIdentity);
   const [hoveredId, setHoveredId] = useState<string | null>(null);
   const [selectedId, setSelectedId] = useState<string | null>(null);
+  const [activeClusterIndex, setActiveClusterIndex] = useState<number | null>(null);
+
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container) {
+      return;
+    }
+    const observer = new ResizeObserver(([entry]) => setSize({ width: entry.contentRect.width, height: entry.contentRect.height }));
+    observer.observe(container);
+    return () => observer.disconnect();
+  }, []);
 
   useEffect(() => {
     const svg = svgRef.current;
@@ -48,124 +103,181 @@ export function IdeaGraphView({ graph }: { graph: IdeaGraph }) {
       return;
     }
     const behavior = zoom<SVGSVGElement, unknown>()
-      .scaleExtent([0.8, 6])
-      .translateExtent([
-        [-200, -200],
-        [GRAPH_WIDTH + 200, GRAPH_HEIGHT + 200],
-      ])
+      .scaleExtent([MIN_SCALE, MAX_SCALE])
       .on("zoom", (event: { transform: ZoomTransform }) => setTransform(event.transform));
     zoomRef.current = behavior;
-    select(svg).call(behavior);
+    select(svg).call(behavior).on("dblclick.zoom", null);
     return () => {
       select(svg).on(".zoom", null);
     };
   }, []);
 
-  function zoomBy(factor: number) {
+  useEffect(() => {
+    if (svgRef.current && zoomRef.current && size.width > 0) {
+      select(svgRef.current).call(zoomRef.current.transform, getFitTransform(graph.nodes, size, 3, getPanelRect()));
+    }
+  }, [graph.nodes, size]);
+
+  function getPanelRect(): DOMRect | null {
+    const panel = panelRef.current;
+    const container = containerRef.current;
+    if (!panel || !container) {
+      return null;
+    }
+    const panelBox = panel.getBoundingClientRect();
+    const containerBox = container.getBoundingClientRect();
+    return new DOMRect(panelBox.x - containerBox.x, panelBox.y - containerBox.y, panelBox.width, panelBox.height);
+  }
+
+  function animateTo(target: ZoomTransform) {
     if (svgRef.current && zoomRef.current) {
-      select(svgRef.current).call(zoomRef.current.scaleBy, factor);
+      select(svgRef.current).transition().duration(FLY_DURATION).call(zoomRef.current.transform, target);
     }
   }
 
-  function resetZoom() {
+  function zoomBy(factor: number) {
     if (svgRef.current && zoomRef.current) {
-      select(svgRef.current).call(zoomRef.current.transform, zoomIdentity);
+      select(svgRef.current).transition().duration(300).call(zoomRef.current.scaleBy, factor);
     }
+  }
+
+  function flyToNodes(nodes: GraphNode[]) {
+    animateTo(getFitTransform(nodes, size, 4, getPanelRect()));
+  }
+
+  function resetView() {
+    setSelectedId(null);
+    setActiveClusterIndex(null);
+    animateTo(getFitTransform(graph.nodes, size, 3, getPanelRect()));
+  }
+
+  function selectNode(node: GraphNode) {
+    setSelectedId(node.id);
+    setActiveClusterIndex(null);
+    flyToNodes([node, ...node.neighborIds.flatMap((id) => nodesById.get(id) ?? [])]);
+  }
+
+  function selectCluster(clusterIndex: number) {
+    if (activeClusterIndex === clusterIndex) {
+      resetView();
+      return;
+    }
+    setSelectedId(null);
+    setActiveClusterIndex(clusterIndex);
+    flyToNodes(graph.nodes.filter((node) => node.clusterIndex === clusterIndex));
   }
 
   const nodesById = new Map(graph.nodes.map((node) => [node.id, node]));
-  const cellPaths = getCellPaths(graph.nodes);
+  const edges = getEdges(graph.nodes, nodesById);
   const focusNode = nodesById.get(hoveredId ?? selectedId ?? "");
   const selectedNode = nodesById.get(selectedId ?? "");
   const scale = transform.k;
   const isShowingAllLabels = scale >= LABEL_ZOOM;
+  const visibleClusters = graph.clusters.filter((cluster) => cluster.size >= 2).toSorted((first, second) => second.size - first.size);
 
   function getIsHighlighted(node: GraphNode): boolean {
-    return !focusNode || focusNode.id === node.id || focusNode.neighborIds.includes(node.id);
+    if (focusNode) {
+      return focusNode.id === node.id || focusNode.neighborIds.includes(node.id);
+    }
+    return activeClusterIndex === null || node.clusterIndex === activeClusterIndex;
   }
 
   return (
-    <div className="relative w-full overflow-hidden rounded-[28px] bg-[#F7FAF9]">
+    <div ref={containerRef} className="absolute inset-0 overflow-hidden">
       <svg
         ref={svgRef}
-        viewBox={`0 0 ${GRAPH_WIDTH} ${GRAPH_HEIGHT}`}
+        width={size.width}
+        height={size.height}
         role="img"
-        aria-label="Mapa pomysłów — podobne pomysły tworzą wspólne obszary"
-        className="block h-[min(72vh,720px)] w-full cursor-grab touch-none active:cursor-grabbing"
-        onClick={() => setSelectedId(null)}
+        aria-label="Mapa pomysłów — podobne pomysły leżą blisko siebie"
+        className="block size-full cursor-grab touch-none active:cursor-grabbing"
+        onClick={() => {
+          setSelectedId(null);
+          setActiveClusterIndex(null);
+        }}
       >
         <defs>
-          <clipPath id="territories">
-            {graph.nodes.map((node) => (
-              <circle key={node.id} cx={node.x} cy={node.y} r={TERRITORY_RADIUS} />
-            ))}
-          </clipPath>
+          <pattern id="map-grid" width={28} height={28} patternUnits="userSpaceOnUse" patternTransform={`translate(${transform.x} ${transform.y})`}>
+            <circle cx={1} cy={1} r={1} fill="#D5DEDB" />
+          </pattern>
         </defs>
-        <g transform={transform.toString()}>
-          <g clipPath="url(#territories)">
-            {graph.nodes.map((node, index) => (
-              <path
-                key={node.id}
-                d={cellPaths[index]}
-                fill={getClusterColor(node.clusterIndex).fill}
-                stroke={getClusterColor(node.clusterIndex).fill}
-                strokeWidth={1}
-              />
-            ))}
-          </g>
+        <rect width="100%" height="100%" fill="url(#map-grid)" />
 
-          {focusNode &&
-            focusNode.neighborIds.map((neighborId) => {
-              const neighbor = nodesById.get(neighborId);
-              return (
-                neighbor && (
-                  <line
-                    key={neighborId}
-                    x1={focusNode.x}
-                    y1={focusNode.y}
-                    x2={neighbor.x}
-                    y2={neighbor.y}
-                    stroke="#1B1530"
-                    strokeOpacity={0.35}
-                    strokeWidth={1.5 / scale}
-                  />
-                )
-              );
-            })}
+        <g transform={transform.toString()}>
+          {visibleClusters.map((cluster) => (
+            <text
+              key={cluster.index}
+              x={cluster.x}
+              y={getClusterLabelY(graph.nodes, cluster.index, cluster.y) - 16 / scale}
+              textAnchor="middle"
+              fontSize={14 / scale}
+              letterSpacing={0.08 * (14 / scale)}
+              fill={getClusterColor(cluster.index).text}
+              paintOrder="stroke"
+              stroke="#F7FAF9"
+              strokeWidth={4 / scale}
+              strokeLinejoin="round"
+              opacity={focusNode || activeClusterIndex !== null || isShowingAllLabels ? 0 : 0.9}
+              className="pointer-events-none font-display font-bold uppercase transition-opacity duration-300"
+            >
+              {cluster.label}
+            </text>
+          ))}
+
+          {edges.map(({ source, target }) => {
+            const isFocusedEdge = focusNode !== undefined && (focusNode.id === source.id || focusNode.id === target.id);
+            const isSameCluster = source.clusterIndex === target.clusterIndex;
+            const isInActiveCluster = activeClusterIndex !== null && isSameCluster && source.clusterIndex === activeClusterIndex;
+            const isDimmed = (focusNode !== undefined && !isFocusedEdge) || (activeClusterIndex !== null && !isInActiveCluster);
+            return (
+              <line
+                key={`${source.id}-${target.id}`}
+                x1={source.x}
+                y1={source.y}
+                x2={target.x}
+                y2={target.y}
+                stroke={isFocusedEdge ? "#1B1530" : isSameCluster ? getClusterColor(source.clusterIndex).text : "#94A3B8"}
+                strokeOpacity={isFocusedEdge ? 0.6 : isDimmed ? 0.07 : 0.24}
+                strokeWidth={(isFocusedEdge ? 2 : 1) / scale}
+                className="transition-[stroke-opacity] duration-300"
+              />
+            );
+          })}
 
           {graph.nodes.map((node) => {
             const isFocused = focusNode?.id === node.id;
+            const isHighlighted = getIsHighlighted(node);
             return (
               <g
                 key={node.id}
-                opacity={getIsHighlighted(node) ? 1 : 0.3}
-                className="cursor-pointer"
+                opacity={isHighlighted ? 1 : 0.25}
+                className="cursor-pointer transition-opacity duration-300"
                 onMouseEnter={() => setHoveredId(node.id)}
                 onMouseLeave={() => setHoveredId(null)}
                 onClick={(event) => {
                   event.stopPropagation();
-                  setSelectedId(node.id);
+                  selectNode(node);
                 }}
               >
-                <circle cx={node.x} cy={node.y} r={14 / Math.sqrt(scale)} fill="transparent" />
+                <circle cx={node.x} cy={node.y} r={14 / scale} fill="transparent" />
                 <circle
                   cx={node.x}
                   cy={node.y}
-                  r={(isFocused ? 7 : 4.5) / Math.sqrt(scale)}
-                  fill={node.isTech ? "#0F766E" : "#65A30D"}
+                  r={(isFocused ? 8 : 5.5) / Math.sqrt(scale)}
+                  fill={getClusterColor(node.clusterIndex).text}
                   stroke="#fff"
-                  strokeWidth={1.5 / scale}
+                  strokeWidth={2 / scale}
                 />
-                {(isShowingAllLabels || isFocused) && (
+                {(isShowingAllLabels || isFocused || (activeClusterIndex !== null && isHighlighted)) && (
                   <text
                     x={node.x}
-                    y={node.y - 10 / scale}
+                    y={node.y - 12 / Math.sqrt(scale)}
                     textAnchor="middle"
                     fontSize={12 / scale}
                     fontWeight={isFocused ? 700 : 500}
                     fill="#1B1530"
                     paintOrder="stroke"
-                    stroke="#fff"
+                    stroke="#F7FAF9"
                     strokeWidth={3 / scale}
                     className="pointer-events-none"
                   >
@@ -175,44 +287,53 @@ export function IdeaGraphView({ graph }: { graph: IdeaGraph }) {
               </g>
             );
           })}
-
-          {graph.clusters
-            .filter((cluster) => cluster.size >= 2)
-            .map((cluster) => (
-              <text
-                key={cluster.index}
-                x={cluster.x}
-                y={cluster.y}
-                textAnchor="middle"
-                dominantBaseline="middle"
-                fontSize={Math.min(30, 14 + cluster.size * 1.6) / Math.sqrt(scale)}
-                fill={getClusterColor(cluster.index).text}
-                opacity={isShowingAllLabels ? 0.35 : 0.95}
-                paintOrder="stroke"
-                stroke={getClusterColor(cluster.index).fill}
-                strokeWidth={5 / scale}
-                className="pointer-events-none font-display font-extrabold tracking-tight uppercase"
-              >
-                {cluster.label}
-              </text>
-            ))}
         </g>
       </svg>
 
-      <div className="absolute top-3 right-3 flex flex-col gap-1.5">
-        <button type="button" aria-label="Przybliż" onClick={() => zoomBy(1.5)} className="size-11 cursor-pointer rounded-full bg-white text-xl font-semibold text-ink shadow-sm hover:bg-paper">
+      <div
+        ref={panelRef}
+        className="pointer-events-none absolute inset-x-4 top-4 flex max-h-[calc(100%-32px)] flex-col gap-3 sm:inset-x-8 sm:top-6 lg:right-auto lg:w-80"
+      >
+        <div className={`pointer-events-auto rounded-3xl px-5 py-4 sm:self-start lg:self-stretch ${GLASS}`}>
+          {header}
+        </div>
+        <ul className="-mx-4 -my-4 flex gap-2 overflow-x-auto px-4 py-4 pb-10 [scrollbar-width:none] sm:-mx-8 sm:px-8 lg:-mx-8 lg:min-h-0 lg:flex-col lg:gap-1.5 lg:overflow-x-visible lg:overflow-y-auto lg:pb-10">
+          {visibleClusters.map((cluster) => {
+            const isActive = activeClusterIndex === cluster.index;
+            const color = getClusterColor(cluster.index);
+            return (
+              <li key={cluster.index} className="pointer-events-auto shrink-0">
+                <button
+                  type="button"
+                  aria-pressed={isActive}
+                  onClick={() => selectCluster(cluster.index)}
+                  className={`flex w-full cursor-pointer items-center gap-2.5 rounded-full py-2 pr-3 pl-2.5 text-left text-sm font-semibold transition-colors hover:bg-white/80 ${GLASS}`}
+                  style={isActive ? { backgroundColor: color.fill, color: color.text } : undefined}
+                >
+                  <span className="size-2.5 shrink-0 rounded-full" style={{ backgroundColor: color.text }} />
+                  <span className="flex-1 capitalize">{cluster.label.toLowerCase()}</span>
+                  <span className="text-xs font-medium text-ink-soft">{cluster.size}</span>
+                </button>
+              </li>
+            );
+          })}
+        </ul>
+      </div>
+
+      <div className="absolute right-4 bottom-4 flex flex-col gap-1.5 sm:right-8 sm:bottom-6 lg:top-6 lg:bottom-auto">
+        <button type="button" aria-label="Przybliż" onClick={() => zoomBy(1.6)} className={`size-11 cursor-pointer rounded-full text-xl font-semibold text-ink hover:bg-white/80 ${GLASS}`}>
           +
         </button>
-        <button type="button" aria-label="Oddal" onClick={() => zoomBy(1 / 1.5)} className="size-11 cursor-pointer rounded-full bg-white text-xl font-semibold text-ink shadow-sm hover:bg-paper">
+        <button type="button" aria-label="Oddal" onClick={() => zoomBy(1 / 1.6)} className={`size-11 cursor-pointer rounded-full text-xl font-semibold text-ink hover:bg-white/80 ${GLASS}`}>
           −
         </button>
-        <button type="button" aria-label="Resetuj widok" onClick={resetZoom} className="size-11 cursor-pointer rounded-full bg-white text-sm font-semibold text-ink shadow-sm hover:bg-paper">
+        <button type="button" aria-label="Pokaż wszystko" onClick={resetView} className={`size-11 cursor-pointer rounded-full text-sm font-semibold text-ink hover:bg-white/80 ${GLASS}`}>
           ⟲
         </button>
       </div>
 
       {selectedNode && (
-        <div className="absolute bottom-3 left-3 flex max-w-[calc(100%-24px)] flex-col gap-2 rounded-2xl bg-white p-4 shadow-md sm:max-w-80">
+        <div className={`absolute right-20 bottom-4 left-4 flex flex-col gap-2 rounded-3xl p-5 sm:left-8 sm:max-w-80 sm:bottom-6 lg:right-8 lg:left-auto ${GLASS}`}>
           <span className="text-xs font-semibold tracking-wide uppercase" style={{ color: getClusterColor(selectedNode.clusterIndex).text }}>
             {graph.clusters[selectedNode.clusterIndex]?.label}
           </span>

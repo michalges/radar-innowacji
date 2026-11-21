@@ -4,10 +4,8 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 const NAV_LINKS = [
-  { href: "/", label: "Radar" },
-  { href: "/mapa", label: "Mapa" },
-  { href: "/wyzwania", label: "Wyzwania" },
-  { href: "/kryteria", label: "Jak oceniamy" },
+  { href: "/", label: "Mapa", className: "" },
+  { href: "/o-nas", label: "O nas", className: "order-last md:order-2" },
 ];
 
 function getIsActive(pathname: string | null, href: string): boolean {
@@ -25,7 +23,7 @@ export function NavLinks({ pathname }: { pathname: string | null }) {
         key={link.href}
         href={link.href}
         aria-current={isActive ? "page" : undefined}
-        className={`rounded-full px-3.5 py-3 no-underline ${isActive ? "bg-mint text-teal-dark" : "text-ink hover:bg-paper"}`}
+        className={`${link.className} flex h-10 shrink-0 items-center rounded-full px-3.5 no-underline md:h-11 ${isActive ? "bg-mint text-teal-dark" : "text-ink hover:bg-paper"}`}
       >
         {link.label}
       </Link>

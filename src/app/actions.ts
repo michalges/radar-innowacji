@@ -6,7 +6,6 @@ import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { z } from "zod";
 import { CARD_STATUSES, FREE_EMAIL_DOMAINS, SECTORS, type CardStatus, type CardEventKind } from "@/lib/constants";
-import { runCrawler, type CrawlSummary } from "@/lib/crawler";
 import { hasApiKey } from "@/lib/openrouter";
 import { runPipeline } from "@/lib/pipeline";
 import {
@@ -253,10 +252,4 @@ export async function deleteCardByToken(token: string) {
     deleteCard(card.id);
   }
   redirect("/");
-}
-
-export async function runCrawl(): Promise<CrawlSummary> {
-  const summary = await runCrawler();
-  refresh();
-  return summary;
 }
