@@ -86,3 +86,7 @@ export const CARD_EVENT_LABELS: Record<CardEventKind, string> = {
   "zgloszenie-bledu": "Zgłoszono błąd",
   notatka: "Notatka",
 };
+
+export const MAX_EVIDENCE_FILES = 3;
+export const MAX_EVIDENCE_TOTAL_BYTES = 8 * 1024 * 1024;
+export const EVIDENCE_MIME_TYPES = ["image/png", "image/jpeg", "image/webp", "application/pdf"];

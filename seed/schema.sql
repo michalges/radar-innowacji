@@ -46,3 +46,13 @@ CREATE TABLE IF NOT EXISTS cards (
     note TEXT,
     created_at TEXT NOT NULL
   );
+  CREATE TABLE IF NOT EXISTS claim_requests (
+    id TEXT PRIMARY KEY,
+    card_id TEXT NOT NULL,
+    email TEXT NOT NULL,
+    note TEXT NOT NULL,
+    reason TEXT NOT NULL,
+    status TEXT NOT NULL,
+    created_at TEXT NOT NULL,
+    decided_at TEXT
+  );

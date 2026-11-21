@@ -7,12 +7,13 @@ services:
       - OPENROUTER_MODEL=${OPENROUTER_MODEL:-anthropic/claude-haiku-5.5}
       - OPENROUTER_ESCALATION_MODEL=${OPENROUTER_ESCALATION_MODEL:-anthropic/claude-sonnet-5.5}
       - CRON_SECRET=${CRON_SECRET:-}
+      - ADMIN_TOKEN=${ADMIN_TOKEN:-}
     ports:
       - "3000"
     volumes:
       - radar-data:/app/data
     healthcheck:
-      test: ["CMD", "node", "-e", "fetch('http://localhost:3000/kryteria').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"]
+      test: ["CMD", "node", "-e", "fetch('http://localhost:3000/o-nas').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"]
       interval: 30s
       timeout: 5s
       retries: 3

@@ -75,3 +75,19 @@ export type RecommendedPath = {
 };
 
 export type Match<T> = { item: T; similarity: number; reasons: string[] };
+
+export type ClaimRequestStatus = "oczekuje" | "zatwierdzone" | "odrzucone";
+
+/** Why the claim needs a human: the AI did not confirm the materials, or AI verification was unavailable. */
+export type ClaimRequestReason = "ai-nie-potwierdzilo" | "ai-niedostepne";
+
+export type ClaimRequest = {
+  id: string;
+  cardId: string;
+  email: string;
+  note: string;
+  reason: ClaimRequestReason;
+  status: ClaimRequestStatus;
+  createdAt: string;
+  decidedAt: string | null;
+};

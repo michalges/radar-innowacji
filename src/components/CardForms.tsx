@@ -1,9 +1,10 @@
 "use client";
 
 import Link from "next/link";
-import { useActionState } from "react";
+import { useActionState, useState } from "react";
 import type { FormState } from "@/app/actions";
-import { CARD_STATUSES, CARD_STATUS_LABELS, type CardStatus } from "@/lib/constants";
+import type { ClaimRequestReason } from "@/lib/types";
+import { CARD_STATUSES, CARD_STATUS_LABELS, EVIDENCE_MIME_TYPES, MAX_EVIDENCE_FILES, MAX_EVIDENCE_TOTAL_BYTES, type CardStatus } from "@/lib/constants";
 
 type BoundAction = (state: FormState, formData: FormData) => Promise<FormState>;
 
@@ -51,16 +52,100 @@ export function ContactForm({ action }: { action: BoundAction }) {
   );
 }
 
-export function ClaimForm({ action }: { action: BoundAction }) {
+function getFileSizeLabel(bytes: number): string {
+  return bytes < 1024 * 1024 ? `${Math.max(1, Math.round(bytes / 1024))} KB` : `${(bytes / 1024 / 1024).toFixed(1)} MB`;
+}
+
+function ClaimReviewForm({ action, email, reason }: { action: BoundAction; email: string; reason: ClaimRequestReason }) {
   const [state, formAction, isPending] = useActionState(action, null);
+  if (state?.message) {
+    return <FormFeedback state={state} />;
+  }
   return (
-    <form action={formAction} className="flex flex-col gap-3">
-      <input name="email" type="email" required aria-label="E-mail z domeny instytucji" placeholder="ty@szkola.edu.pl" className={INPUT_CLASS} />
+    <form action={formAction} className="flex flex-col gap-3 rounded-2xl border border-line bg-white p-4">
+      <h3 className="font-semibold">Poproś o weryfikację przez administratora</h3>
+      <p className="text-sm text-ink-soft">Administrator skontaktuje się z Tobą na {email || "podany e-mail"}. Przesłanych plików nie przekazujemy dalej.</p>
+      <input type="hidden" name="email" value={email} />
+      <input type="hidden" name="reason" value={reason} />
+      <textarea
+        name="note"
+        required
+        minLength={20}
+        maxLength={1000}
+        rows={3}
+        aria-label="Twoja rola w projekcie"
+        placeholder="Jaka jest Twoja rola w projekcie i jak możemy to potwierdzić? (np. telefon do sekretariatu, link do strony szkoły)"
+        className={TEXTAREA_CLASS}
+      />
       <FormFeedback state={state} />
-      <button type="submit" disabled={isPending} className={PRIMARY_BUTTON_CLASS}>
-        To moje
+      <button type="submit" disabled={isPending} className={SECONDARY_BUTTON_CLASS}>
+        {isPending ? "Wysyłam…" : "Wyślij do administratora"}
       </button>
     </form>
+  );
+}
+
+export function ClaimForm({ action, reviewAction }: { action: BoundAction; reviewAction: BoundAction }) {
+  const [state, formAction, isPending] = useActionState(action, null);
+  const [email, setEmail] = useState("");
+  const [files, setFiles] = useState<File[]>([]);
+  const totalBytes = files.reduce((total, file) => total + file.size, 0);
+  const fileError =
+    files.length > MAX_EVIDENCE_FILES
+      ? `Maksymalnie ${MAX_EVIDENCE_FILES} pliki.`
+      : totalBytes > MAX_EVIDENCE_TOTAL_BYTES
+        ? "Pliki razem przekraczają 8 MB."
+        : null;
+
+  return (
+    <div className="flex flex-col gap-4">
+      <form action={formAction} className="flex flex-col gap-3">
+        <input
+          name="email"
+          type="email"
+          required
+          value={email}
+          onChange={(event) => setEmail(event.target.value)}
+          aria-label="E-mail z domeny instytucji"
+          placeholder="ty@szkola.edu.pl"
+          className={INPUT_CLASS}
+        />
+        <label className="flex cursor-pointer flex-col items-center gap-1 rounded-2xl border-2 border-dashed border-teal/40 bg-white/70 px-4 py-5 text-center transition-colors hover:border-teal focus-within:border-teal">
+          <span className="font-semibold text-teal-dark">Dodaj dowód autorstwa</span>
+          <span className="text-sm text-ink-soft">Zdjęcie lub PDF: prezentacja, dokumentacja, dyplom, artykuł. Do {MAX_EVIDENCE_FILES} plików, razem 8 MB.</span>
+          <input
+            name="evidence"
+            type="file"
+            required
+            multiple
+            accept={EVIDENCE_MIME_TYPES.join(",")}
+            onChange={(event) => setFiles(Array.from(event.target.files ?? []))}
+            className="sr-only"
+          />
+        </label>
+        {files.length > 0 && (
+          <ul className="flex flex-col gap-1.5 text-sm">
+            {files.map((file) => (
+              <li key={`${file.name}-${file.size}`} className="flex items-center justify-between gap-3 rounded-xl bg-white px-3 py-2">
+                <span className="truncate">{file.name}</span>
+                <span className="shrink-0 text-muted">{getFileSizeLabel(file.size)}</span>
+              </li>
+            ))}
+          </ul>
+        )}
+        {fileError && (
+          <p role="alert" className="rounded-xl bg-warn-soft px-4 py-3 text-sm text-warn">
+            {fileError}
+          </p>
+        )}
+        <p className="text-xs text-ink-soft">AI porówna materiały z opisem pomysłu. Pliki nie są nigdzie zapisywane: służą tylko do tej jednej weryfikacji.</p>
+        <FormFeedback state={state} />
+        <button type="submit" disabled={isPending || fileError !== null} className={PRIMARY_BUTTON_CLASS}>
+          {isPending ? "AI sprawdza materiały…" : "Zweryfikuj i przejmij"}
+        </button>
+      </form>
+      {state?.reviewReason && <ClaimReviewForm action={reviewAction} email={email} reason={state.reviewReason} />}
+    </div>
   );
 }
 

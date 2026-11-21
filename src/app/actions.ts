@@ -2,12 +2,23 @@
 
 import { createHash } from "node:crypto";
 import { refresh } from "next/cache";
-import { headers } from "next/headers";
+import { cookies, headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { z } from "zod";
-import { CARD_STATUSES, FREE_EMAIL_DOMAINS, SECTORS, type CardStatus, type CardEventKind } from "@/lib/constants";
+import {
+  CARD_STATUSES,
+  EVIDENCE_MIME_TYPES,
+  FREE_EMAIL_DOMAINS,
+  MAX_EVIDENCE_FILES,
+  MAX_EVIDENCE_TOTAL_BYTES,
+  SECTORS,
+  type CardStatus,
+  type CardEventKind,
+} from "@/lib/constants";
+import { ADMIN_COOKIE, ADMIN_SESSION_SECONDS, getIsAdmin, getIsAdminToken } from "@/lib/admin";
 import { hasApiKey } from "@/lib/openrouter";
 import { runPipeline } from "@/lib/pipeline";
+import { getClaimVerification, type VerificationResult } from "@/lib/verification";
 import {
   addCardEvent,
   addReport,
@@ -15,14 +26,19 @@ import {
   getCard,
   getCardByEditToken,
   getCardEditToken,
+  getClaimRequest,
+  hasPendingClaimRequest,
   insertCard,
   insertChallenge,
+  insertClaimRequest,
   insertMessage,
   saveCard,
   setCardOwner,
+  setClaimRequestStatus,
 } from "@/lib/repository";
+import type { ClaimRequestReason } from "@/lib/types";
 
-export type FormState = { error?: string; message?: string; link?: string } | null;
+export type FormState = { error?: string; message?: string; link?: string; reviewReason?: ClaimRequestReason } | null;
 
 const RATE_LIMIT_WINDOW_MS = 60 * 60 * 1000;
 const RATE_LIMIT_MAX = 10;
@@ -132,28 +148,141 @@ export async function reportCard(cardId: string, _state: FormState, formData: Fo
   return { message: "Dzięki, zapisane." };
 }
 
-export async function claimCard(cardId: string, _state: FormState, formData: FormData): Promise<FormState> {
-  const parsed = emailSchema.safeParse(formData.get("email"));
+function getEvidenceError(files: File[]): string | null {
+  if (files.length === 0) {
+    return "Dodaj co najmniej jeden plik (zdjęcie lub PDF), który potwierdza, że to Twój pomysł.";
+  }
+  if (files.length > MAX_EVIDENCE_FILES) {
+    return `Możesz dodać maksymalnie ${MAX_EVIDENCE_FILES} pliki.`;
+  }
+  if (files.some((file) => !EVIDENCE_MIME_TYPES.includes(file.type))) {
+    return "Obsługujemy tylko zdjęcia (PNG, JPG, WebP) i PDF.";
+  }
+  if (files.reduce((total, file) => total + file.size, 0) > MAX_EVIDENCE_TOTAL_BYTES) {
+    return "Pliki są za duże: razem maksymalnie 8 MB.";
+  }
+  return null;
+}
+
+type InstitutionEmail = { email: string; domain: string } | { error: string };
+
+function getInstitutionEmail(value: FormDataEntryValue | null): InstitutionEmail {
+  const parsed = emailSchema.safeParse(value);
   if (!parsed.success) {
-    return { error: parsed.error.issues[0]?.message };
+    return { error: parsed.error.issues[0]?.message ?? "Podaj poprawny e-mail" };
   }
   const domain = parsed.data.split("@")[1]?.toLowerCase() ?? "";
   if (FREE_EMAIL_DOMAINS.includes(domain)) {
     return { error: "Użyj e-maila z domeny szkoły, uczelni lub urzędu." };
   }
+  return { email: parsed.data, domain };
+}
+
+export async function claimCard(cardId: string, _state: FormState, formData: FormData): Promise<FormState> {
+  const institutionEmail = getInstitutionEmail(formData.get("email"));
+  if ("error" in institutionEmail) {
+    return { error: institutionEmail.error };
+  }
+  const files = formData.getAll("evidence").filter((entry): entry is File => entry instanceof File && entry.size > 0);
+  const evidenceError = getEvidenceError(files);
+  if (evidenceError) {
+    return { error: evidenceError };
+  }
+  if (await getIsRateLimited()) {
+    return { error: "Za dużo prób z tego adresu. Spróbuj za godzinę." };
+  }
   const card = await getCard(cardId);
   const editToken = getCardEditToken(cardId);
-  if (!card || !editToken) {
-    return { error: "Nie znaleziono pomysłu." };
+  if (!card || !editToken || card.isClaimed) {
+    return { error: "Nie znaleziono pomysłu albo ma już właściciela." };
   }
-  setCardOwner(cardId, parsed.data);
+  if (!hasApiKey()) {
+    return { error: "Weryfikacja AI jest chwilowo niedostępna.", reviewReason: "ai-niedostepne" };
+  }
+  let verification: VerificationResult;
+  try {
+    verification = await getClaimVerification(card, institutionEmail.domain, files);
+  } catch (error) {
+    return { error: `Nie udało się zweryfikować materiałów (${getErrorMessage(error)}).`, reviewReason: "ai-niedostepne" };
+  }
+  if (!verification.isVerified) {
+    return { error: `AI nie potwierdziło autorstwa: ${verification.reason}`, reviewReason: "ai-nie-potwierdzilo" };
+  }
+  setCardOwner(cardId, institutionEmail.email);
   saveCard({ ...card, isClaimed: true });
-  addCardEvent(cardId, "potwierdzone");
+  addCardEvent(cardId, "potwierdzone", "Autorstwo zweryfikowane przez AI na podstawie przesłanych materiałów");
+  redirect(`/edytuj/${editToken}`);
+}
+
+const claimReviewSchema = z.object({
+  note: z.string().trim().min(20, "Opisz swoją rolę w co najmniej 20 znakach").max(1000, "Maksymalnie 1000 znaków"),
+  reason: z.enum(["ai-nie-potwierdzilo", "ai-niedostepne"]),
+});
+
+/** Fallback when AI cannot confirm authorship: queues the claim for a person. Uploaded files are not part of it. */
+export async function requestClaimReview(cardId: string, _state: FormState, formData: FormData): Promise<FormState> {
+  const institutionEmail = getInstitutionEmail(formData.get("email"));
+  if ("error" in institutionEmail) {
+    return { error: institutionEmail.error };
+  }
+  const parsed = claimReviewSchema.safeParse({ note: formData.get("note"), reason: formData.get("reason") });
+  if (!parsed.success) {
+    return { error: parsed.error.issues[0]?.message };
+  }
+  const card = await getCard(cardId);
+  if (!card || card.isClaimed) {
+    return { error: "Nie znaleziono pomysłu albo ma już właściciela." };
+  }
+  if (!hasPendingClaimRequest(cardId, institutionEmail.email)) {
+    if (await getIsRateLimited()) {
+      return { error: "Za dużo prób z tego adresu. Spróbuj za godzinę." };
+    }
+    insertClaimRequest(cardId, institutionEmail.email, parsed.data.note, parsed.data.reason);
+  }
+  return { message: `Przekazane do administratora. Odezwiemy się na ${institutionEmail.email}, zwykle w ciągu 2 dni roboczych.` };
+}
+
+export async function loginAdmin(_state: FormState, formData: FormData): Promise<FormState> {
+  const token = String(formData.get("token") ?? "");
+  if (await getIsRateLimited()) {
+    return { error: "Za dużo prób. Spróbuj za godzinę." };
+  }
+  if (!getIsAdminToken(token)) {
+    return { error: "Nieprawidłowy token." };
+  }
+  (await cookies()).set(ADMIN_COOKIE, token, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "strict",
+    maxAge: ADMIN_SESSION_SECONDS,
+    path: "/",
+  });
   refresh();
-  return {
-    message: "Gotowe. Twój link (w produkcji przyjdzie mailem):",
-    link: `/edytuj/${editToken}`,
-  };
+  return null;
+}
+
+export async function logoutAdmin() {
+  (await cookies()).delete(ADMIN_COOKIE);
+  refresh();
+}
+
+export async function decideClaimRequest(requestId: string, formData: FormData) {
+  if (!(await getIsAdmin())) {
+    return;
+  }
+  const request = getClaimRequest(requestId);
+  if (!request || request.status !== "oczekuje") {
+    return;
+  }
+  const isApproved = formData.get("decision") === "zatwierdz";
+  const card = await getCard(request.cardId);
+  if (isApproved && card && !card.isClaimed) {
+    setCardOwner(card.id, request.email);
+    saveCard({ ...card, isClaimed: true });
+    addCardEvent(card.id, "potwierdzone", "Autorstwo potwierdzone przez administratora");
+  }
+  setClaimRequestStatus(requestId, isApproved && card ? "zatwierdzone" : "odrzucone");
+  refresh();
 }
 
 const messageSchema = z.object({

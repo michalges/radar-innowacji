@@ -2,7 +2,7 @@ import "server-only";
 import { connection } from "next/server";
 import { CARD_EVENT_KINDS, REPORTS_TO_UNCONFIRM, type CardEventKind } from "@/lib/constants";
 import { getDb } from "@/lib/db";
-import type { Card, CardEvent, Challenge, Message } from "@/lib/types";
+import type { Card, CardEvent, Challenge, ClaimRequest, ClaimRequestReason, ClaimRequestStatus, Message } from "@/lib/types";
 
 type DataRow = { data: string };
 
@@ -138,4 +138,53 @@ export async function getCardEvents(cardId: string): Promise<CardEvent[]> {
   return rows.flatMap((row) =>
     isCardEventKind(row.kind) ? [{ id: row.id, cardId: row.card_id, kind: row.kind, note: row.note, createdAt: row.created_at }] : [],
   );
+}
+
+type ClaimRequestRow = {
+  id: string;
+  card_id: string;
+  email: string;
+  note: string;
+  reason: ClaimRequestReason;
+  status: ClaimRequestStatus;
+  created_at: string;
+  decided_at: string | null;
+};
+
+function getClaimRequestFromRow(row: ClaimRequestRow): ClaimRequest {
+  return {
+    id: row.id,
+    cardId: row.card_id,
+    email: row.email,
+    note: row.note,
+    reason: row.reason,
+    status: row.status,
+    createdAt: row.created_at,
+    decidedAt: row.decided_at,
+  };
+}
+
+export function hasPendingClaimRequest(cardId: string, email: string): boolean {
+  return Boolean(getDb().prepare("SELECT 1 FROM claim_requests WHERE card_id = ? AND email = ? AND status = 'oczekuje'").get(cardId, email));
+}
+
+export function insertClaimRequest(cardId: string, email: string, note: string, reason: ClaimRequestReason) {
+  getDb()
+    .prepare("INSERT INTO claim_requests (id, card_id, email, note, reason, status, created_at) VALUES (?, ?, ?, ?, ?, 'oczekuje', ?)")
+    .run(crypto.randomUUID(), cardId, email, note, reason, new Date().toISOString());
+}
+
+export async function getClaimRequests(): Promise<ClaimRequest[]> {
+  await connection();
+  const rows = getDb().prepare("SELECT * FROM claim_requests ORDER BY status = 'oczekuje' DESC, created_at DESC LIMIT 100").all() as ClaimRequestRow[];
+  return rows.map(getClaimRequestFromRow);
+}
+
+export function getClaimRequest(id: string): ClaimRequest | null {
+  const row = getDb().prepare("SELECT * FROM claim_requests WHERE id = ?").get(id) as ClaimRequestRow | undefined;
+  return row ? getClaimRequestFromRow(row) : null;
+}
+
+export function setClaimRequestStatus(id: string, status: ClaimRequestStatus) {
+  getDb().prepare("UPDATE claim_requests SET status = ?, decided_at = ? WHERE id = ?").run(status, new Date().toISOString(), id);
 }

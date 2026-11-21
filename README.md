@@ -24,12 +24,12 @@ Wymaga Node.js 24 (wbudowany `node:sqlite`). Baza tworzy się sama w `data/radar
 - `src/lib/rules.ts` — pozycja na radarze, ścieżki, wynik
 - `src/lib/similarity.ts` — duplikaty i dopasowania (TF-IDF)
 - `src/lib/repository.ts`, `src/lib/db.ts`, `src/lib/seed.ts` — dane
-- `src/app` — strony: radar, mapa, zgłoś, pomysł, edycja (link), wyzwania, kryteria
+- `src/app` — strony: mapa (start), zgłoś, pomysł, edycja (link), znajdź rozwiązanie (wyszukiwarka AI), o nas, admin (weryfikacja autorstwa)
 
 ## Deploy (Coolify)
 
 1. New resource → Docker Compose → this repo (`docker-compose.yml`).
-2. Set env: `OPENROUTER_API_KEY` (optionally `OPENROUTER_MODEL`, `CRON_SECRET`).
+2. Set env: `OPENROUTER_API_KEY` (optionally `OPENROUTER_MODEL`, `CRON_SECRET`, `ADMIN_TOKEN` for the /admin claim review panel).
 3. Assign a domain to service `app`, port 3000.
 
 Each container start resets the database to `seed/seed.json` (demo mode). Remove `node scripts/seed.mjs &&` from the Dockerfile `CMD` to keep data between deploys.

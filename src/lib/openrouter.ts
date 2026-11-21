@@ -14,7 +14,12 @@ export function hasApiKey(): boolean {
   return Boolean(process.env.OPENROUTER_API_KEY);
 }
 
-type ChatMessage = { role: "system" | "user"; content: string };
+export type ContentPart =
+  | { type: "text"; text: string }
+  | { type: "image_url"; image_url: { url: string } }
+  | { type: "file"; file: { filename: string; file_data: string } };
+
+type ChatMessage = { role: "system" | "user"; content: string | ContentPart[] };
 
 type ChatResponse = {
   choices?: { message?: { content?: string } }[];

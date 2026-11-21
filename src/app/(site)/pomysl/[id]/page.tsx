@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
-import { claimCard, reportCard, sendMessage } from "@/app/actions";
+import { claimCard, reportCard, requestClaimReview, sendMessage } from "@/app/actions";
 import { CardHeader, CardPath, CardProfile, CardScore, CardTimeline, PANEL_CLASS } from "@/components/CardDetails";
 import { ClaimForm, ContactForm, ReportForm } from "@/components/CardForms";
 import { FundingPanel } from "@/components/FundingPanel";
@@ -74,7 +74,7 @@ async function IdeaPageContent({ params, searchParams }: PageProps<"/pomysl/[id]
           {!card.isClaimed && (
             <section id="przejmij" className={`${PANEL_CLASS} bg-mint`}>
               <h2 className="font-display text-xl font-semibold">To Twój pomysł?</h2>
-              <ClaimForm action={claimCard.bind(null, card.id)} />
+              <ClaimForm action={claimCard.bind(null, card.id)} reviewAction={requestClaimReview.bind(null, card.id)} />
             </section>
           )}
           <CardTimeline card={card} events={events} />
