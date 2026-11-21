@@ -29,6 +29,16 @@ const PATH_RULES = [
   ["Pozostałe", "Mentoring i walidacja potrzeby"],
 ];
 
+const LIMITATIONS = [
+  ["Źródła", "RSS Politechniki Łódzkiej (na żywo) i zgłoszenia twórców."],
+  ["Założenie", "Opis źródła jest prawdziwy; twórca może go poprawić."],
+  ["Halucynacje", "Każdy cytat AI jest sprawdzany w tekście źródła."],
+  ["Podobieństwo", "Liczone tylko z tekstu, bez obrazów i danych zewnętrznych."],
+  ["Model", "Mały model — oceny są wstępne, nie ekspertyzą."],
+  ["Język", "Działa tylko po polsku."],
+  ["Dane", "Część pomysłów to dane demonstracyjne."],
+];
+
 export default function CriteriaPage() {
   return (
     <>
@@ -82,6 +92,16 @@ export default function CriteriaPage() {
             </tbody>
           </table>
         </div>
+      </section>
+      <section className={PANEL_CLASS}>
+        <h2 className="font-display text-xl font-semibold">Jak to działa / ograniczenia</h2>
+        <ul className="flex flex-col gap-1.5 text-[15px]">
+          {LIMITATIONS.map(([title, text]) => (
+            <li key={title}>
+              <b>{title}:</b> <span className="text-ink-soft">{text}</span>
+            </li>
+          ))}
+        </ul>
       </section>
     </>
   );
