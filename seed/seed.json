@@ -1220,6 +1220,2416 @@
       "reports": 0,
       "isClaimed": false,
       "model": "seed"
+    },
+    {
+      "id": "czujniki-co2-klasy",
+      "source": "crawler",
+      "sourceUrl": "https://example.pl/czujniki-co2-klasy",
+      "sourceLabel": "Strona instytucji · aktualności",
+      "sourceText": "Czujniki CO2 w salach zapalają lampkę, gdy trzeba przewietrzyć klasę.",
+      "title": "Czujniki CO2 w klasach",
+      "problem": "",
+      "solution": "Czujniki CO2 w salach zapalają lampkę, gdy trzeba przewietrzyć klasę.",
+      "effect": "",
+      "type": "technologiczna",
+      "readinessScale": "TRL",
+      "readiness": 6,
+      "sector": "jakosc-zycia",
+      "creators": "Nauczyciel fizyki i uczniowie",
+      "hasMinors": true,
+      "isYoungCreator": true,
+      "institution": "Szkoła Podstawowa (demo)",
+      "region": "powiat łańcucki",
+      "resources": "",
+      "tags": [
+        "jakość powietrza",
+        "czujnik",
+        "szkoła",
+        "CO2"
+      ],
+      "missing": [],
+      "quotes": {
+        "solution": "Czujniki CO2 w salach zapalają lampkę, gdy trzeba przewietrzyć klasę."
+      },
+      "scores": [
+        {
+          "criterion": "nowosc",
+          "score": 3,
+          "reason": "Średnio.",
+          "evidence": ""
+        },
+        {
+          "criterion": "skala",
+          "score": 4,
+          "reason": "Dobrze.",
+          "evidence": ""
+        },
+        {
+          "criterion": "replikowalnosc",
+          "score": 4,
+          "reason": "Dobrze.",
+          "evidence": ""
+        },
+        {
+          "criterion": "gotowosc",
+          "score": 4,
+          "reason": "Dobrze.",
+          "evidence": ""
+        },
+        {
+          "criterion": "koszt",
+          "score": 5,
+          "reason": "Bardzo dobrze.",
+          "evidence": ""
+        },
+        {
+          "criterion": "zespol",
+          "score": 3,
+          "reason": "Średnio.",
+          "evidence": ""
+        },
+        {
+          "criterion": "wplyw",
+          "score": 3,
+          "reason": "Średnio.",
+          "evidence": ""
+        },
+        {
+          "criterion": "ip",
+          "score": 2,
+          "reason": "Poniżej średniej.",
+          "evidence": ""
+        }
+      ],
+      "confidence": 0.85,
+      "status": "opublikowana",
+      "reports": 0,
+      "isClaimed": false,
+      "model": "seed"
+    },
+    {
+      "id": "antysmogowa-aplikacja",
+      "source": "zgloszenie",
+      "sourceUrl": null,
+      "sourceLabel": "Zgłoszenie twórcy",
+      "sourceText": "Aplikacja wysyła rodzicom powiadomienie, gdy smog przy szkole przekracza normę.",
+      "title": "Aplikacja ostrzegająca przed smogiem",
+      "problem": "",
+      "solution": "Aplikacja wysyła rodzicom powiadomienie, gdy smog przy szkole przekracza normę.",
+      "effect": "",
+      "type": "technologiczna",
+      "readinessScale": "TRL",
+      "readiness": 4,
+      "sector": "ict",
+      "creators": "Uczniowie technikum 17–18 lat",
+      "hasMinors": true,
+      "isYoungCreator": true,
+      "institution": "Technikum (demo)",
+      "region": "Krosno",
+      "resources": "",
+      "tags": [
+        "smog",
+        "aplikacja",
+        "powiadomienia",
+        "jakość powietrza"
+      ],
+      "missing": [],
+      "quotes": {
+        "solution": "Aplikacja wysyła rodzicom powiadomienie, gdy smog przy szkole przekracza normę."
+      },
+      "scores": [
+        {
+          "criterion": "nowosc",
+          "score": 3,
+          "reason": "Średnio.",
+          "evidence": ""
+        },
+        {
+          "criterion": "skala",
+          "score": 4,
+          "reason": "Dobrze.",
+          "evidence": ""
+        },
+        {
+          "criterion": "replikowalnosc",
+          "score": 4,
+          "reason": "Dobrze.",
+          "evidence": ""
+        },
+        {
+          "criterion": "gotowosc",
+          "score": 3,
+          "reason": "Średnio.",
+          "evidence": ""
+        },
+        {
+          "criterion": "koszt",
+          "score": 4,
+          "reason": "Dobrze.",
+          "evidence": ""
+        },
+        {
+          "criterion": "zespol",
+          "score": 3,
+          "reason": "Średnio.",
+          "evidence": ""
+        },
+        {
+          "criterion": "wplyw",
+          "score": 4,
+          "reason": "Dobrze.",
+          "evidence": ""
+        },
+        {
+          "criterion": "ip",
+          "score": 2,
+          "reason": "Poniżej średniej.",
+          "evidence": ""
+        }
+      ],
+      "confidence": 0.85,
+      "status": "opublikowana",
+      "reports": 0,
+      "isClaimed": true,
+      "model": "seed"
+    },
+    {
+      "id": "zielone-sciany-szkola",
+      "source": "crawler",
+      "sourceUrl": "https://example.pl/zielone-sciany-szkola",
+      "sourceLabel": "Strona instytucji · aktualności",
+      "sourceText": "Uczniowie posadzili w szkole zielone ściany z roślin, które poprawiają jakość powietrza.",
+      "title": "Zielone ściany filtrujące powietrze",
+      "problem": "",
+      "solution": "Uczniowie posadzili w szkole zielone ściany z roślin, które poprawiają jakość powietrza.",
+      "effect": "",
+      "type": "spoleczna",
+      "readinessScale": "ORL",
+      "readiness": 7,
+      "sector": "jakosc-zycia",
+      "creators": "Koło ekologiczne",
+      "hasMinors": true,
+      "isYoungCreator": true,
+      "institution": "Liceum (demo)",
+      "region": "powiat leżajski",
+      "resources": "",
+      "tags": [
+        "jakość powietrza",
+        "rośliny",
+        "szkoła",
+        "ekologia"
+      ],
+      "missing": [],
+      "quotes": {
+        "solution": "Uczniowie posadzili w szkole zielone ściany z roślin, które poprawiają jakość powietrza."
+      },
+      "scores": [
+        {
+          "criterion": "nowosc",
+          "score": 2,
+          "reason": "Poniżej średniej.",
+          "evidence": ""
+        },
+        {
+          "criterion": "skala",
+          "score": 3,
+          "reason": "Średnio.",
+          "evidence": ""
+        },
+        {
+          "criterion": "replikowalnosc",
+          "score": 5,
+          "reason": "Bardzo dobrze.",
+          "evidence": ""
+        },
+        {
+          "criterion": "gotowosc",
+          "score": 4,
+          "reason": "Dobrze.",
+          "evidence": ""
+        },
+        {
+          "criterion": "koszt",
+          "score": 5,
+          "reason": "Bardzo dobrze.",
+          "evidence": ""
+        },
+        {
+          "criterion": "zespol",
+          "score": 2,
+          "reason": "Poniżej średniej.",
+          "evidence": ""
+        },
+        {
+          "criterion": "wplyw",
+          "score": 3,
+          "reason": "Średnio.",
+          "evidence": ""
+        },
+        {
+          "criterion": "ip",
+          "score": 1,
+          "reason": "Słabo.",
+          "evidence": ""
+        }
+      ],
+      "confidence": 0.85,
+      "status": "opublikowana",
+      "reports": 0,
+      "isClaimed": false,
+      "model": "seed"
+    },
+    {
+      "id": "matematyka-escape-room",
+      "source": "zgloszenie",
+      "sourceUrl": null,
+      "sourceLabel": "Zgłoszenie twórcy",
+      "sourceText": "Lekcje matematyki w formie escape roomu, w którym zadania otwierają kolejne kłódki.",
+      "title": "Escape room z matematyki",
+      "problem": "",
+      "solution": "Lekcje matematyki w formie escape roomu, w którym zadania otwierają kolejne kłódki.",
+      "effect": "",
+      "type": "edukacyjna",
+      "readinessScale": "ORL",
+      "readiness": 6,
+      "sector": "jakosc-zycia",
+      "creators": "Nauczycielka matematyki",
+      "hasMinors": false,
+      "isYoungCreator": false,
+      "institution": "Szkoła Podstawowa (demo)",
+      "region": "powiat niżański",
+      "resources": "",
+      "tags": [
+        "matematyka",
+        "gamifikacja",
+        "lekcje",
+        "szkoła"
+      ],
+      "missing": [],
+      "quotes": {
+        "solution": "Lekcje matematyki w formie escape roomu, w którym zadania otwierają kolejne kłódki."
+      },
+      "scores": [
+        {
+          "criterion": "nowosc",
+          "score": 4,
+          "reason": "Dobrze.",
+          "evidence": ""
+        },
+        {
+          "criterion": "skala",
+          "score": 4,
+          "reason": "Dobrze.",
+          "evidence": ""
+        },
+        {
+          "criterion": "replikowalnosc",
+          "score": 5,
+          "reason": "Bardzo dobrze.",
+          "evidence": ""
+        },
+        {
+          "criterion": "gotowosc",
+          "score": 4,
+          "reason": "Dobrze.",
+          "evidence": ""
+        },
+        {
+          "criterion": "koszt",
+          "score": 5,
+          "reason": "Bardzo dobrze.",
+          "evidence": ""
+        },
+        {
+          "criterion": "zespol",
+          "score": 3,
+          "reason": "Średnio.",
+          "evidence": ""
+        },
+        {
+          "criterion": "wplyw",
+          "score": 3,
+          "reason": "Średnio.",
+          "evidence": ""
+        },
+        {
+          "criterion": "ip",
+          "score": 1,
+          "reason": "Słabo.",
+          "evidence": ""
+        }
+      ],
+      "confidence": 0.85,
+      "status": "opublikowana",
+      "reports": 0,
+      "isClaimed": true,
+      "model": "seed"
+    },
+    {
+      "id": "tutoring-online-wies",
+      "source": "crawler",
+      "sourceUrl": "https://example.pl/tutoring-online-wies",
+      "sourceLabel": "Strona instytucji · aktualności",
+      "sourceText": "Studenci prowadzą zdalne korepetycje z matematyki dla uczniów małych szkół wiejskich.",
+      "title": "Tutoring online dla szkół wiejskich",
+      "problem": "",
+      "solution": "Studenci prowadzą zdalne korepetycje z matematyki dla uczniów małych szkół wiejskich.",
+      "effect": "",
+      "type": "edukacyjna",
+      "readinessScale": "ORL",
+      "readiness": 6,
+      "sector": "ict",
+      "creators": "Studenci 20–24 lata",
+      "hasMinors": false,
+      "isYoungCreator": true,
+      "institution": "Uczelnia (demo)",
+      "region": "Rzeszów",
+      "resources": "",
+      "tags": [
+        "korepetycje",
+        "matematyka",
+        "tutoring rówieśniczy",
+        "wieś",
+        "online"
+      ],
+      "missing": [],
+      "quotes": {
+        "solution": "Studenci prowadzą zdalne korepetycje z matematyki dla uczniów małych szkół wiejskich."
+      },
+      "scores": [
+        {
+          "criterion": "nowosc",
+          "score": 3,
+          "reason": "Średnio.",
+          "evidence": ""
+        },
+        {
+          "criterion": "skala",
+          "score": 5,
+          "reason": "Bardzo dobrze.",
+          "evidence": ""
+        },
+        {
+          "criterion": "replikowalnosc",
+          "score": 5,
+          "reason": "Bardzo dobrze.",
+          "evidence": ""
+        },
+        {
+          "criterion": "gotowosc",
+          "score": 4,
+          "reason": "Dobrze.",
+          "evidence": ""
+        },
+        {
+          "criterion": "koszt",
+          "score": 4,
+          "reason": "Dobrze.",
+          "evidence": ""
+        },
+        {
+          "criterion": "zespol",
+          "score": 3,
+          "reason": "Średnio.",
+          "evidence": ""
+        },
+        {
+          "criterion": "wplyw",
+          "score": 4,
+          "reason": "Dobrze.",
+          "evidence": ""
+        },
+        {
+          "criterion": "ip",
+          "score": 1,
+          "reason": "Słabo.",
+          "evidence": ""
+        }
+      ],
+      "confidence": 0.85,
+      "status": "opublikowana",
+      "reports": 0,
+      "isClaimed": false,
+      "model": "seed"
+    },
+    {
+      "id": "matura-bank-zadan",
+      "source": "zgloszenie",
+      "sourceUrl": null,
+      "sourceLabel": "Zgłoszenie twórcy",
+      "sourceText": "Nauczyciele z kilku szkół tworzą wspólny bank zadań maturalnych z matematyki z rozwiązaniami wideo.",
+      "title": "Wspólny bank zadań maturalnych",
+      "problem": "",
+      "solution": "Nauczyciele z kilku szkół tworzą wspólny bank zadań maturalnych z matematyki z rozwiązaniami wideo.",
+      "effect": "",
+      "type": "edukacyjna",
+      "readinessScale": "ORL",
+      "readiness": 5,
+      "sector": "ict",
+      "creators": "Nauczyciele 5 szkół",
+      "hasMinors": false,
+      "isYoungCreator": false,
+      "institution": "Sieć szkół (demo)",
+      "region": "powiat mielecki",
+      "resources": "",
+      "tags": [
+        "matematyka",
+        "matura",
+        "nauczyciele",
+        "platforma"
+      ],
+      "missing": [],
+      "quotes": {
+        "solution": "Nauczyciele z kilku szkół tworzą wspólny bank zadań maturalnych z matematyki z rozwiązaniami wideo."
+      },
+      "scores": [
+        {
+          "criterion": "nowosc",
+          "score": 3,
+          "reason": "Średnio.",
+          "evidence": ""
+        },
+        {
+          "criterion": "skala",
+          "score": 4,
+          "reason": "Dobrze.",
+          "evidence": ""
+        },
+        {
+          "criterion": "replikowalnosc",
+          "score": 5,
+          "reason": "Bardzo dobrze.",
+          "evidence": ""
+        },
+        {
+          "criterion": "gotowosc",
+          "score": 4,
+          "reason": "Dobrze.",
+          "evidence": ""
+        },
+        {
+          "criterion": "koszt",
+          "score": 3,
+          "reason": "Średnio.",
+          "evidence": ""
+        },
+        {
+          "criterion": "zespol",
+          "score": 4,
+          "reason": "Dobrze.",
+          "evidence": ""
+        },
+        {
+          "criterion": "wplyw",
+          "score": 4,
+          "reason": "Dobrze.",
+          "evidence": ""
+        },
+        {
+          "criterion": "ip",
+          "score": 1,
+          "reason": "Słabo.",
+          "evidence": ""
+        }
+      ],
+      "confidence": 0.85,
+      "status": "opublikowana",
+      "reports": 0,
+      "isClaimed": true,
+      "model": "seed"
+    },
+    {
+      "id": "seniorzy-teleopieka",
+      "source": "crawler",
+      "sourceUrl": "https://example.pl/seniorzy-teleopieka",
+      "sourceLabel": "Strona instytucji · aktualności",
+      "sourceText": "Gmina rozdała seniorom opaski z przyciskiem SOS połączone z centrum opieki.",
+      "title": "Teleopaski dla samotnych seniorów",
+      "problem": "",
+      "solution": "Gmina rozdała seniorom opaski z przyciskiem SOS połączone z centrum opieki.",
+      "effect": "",
+      "type": "technologiczna",
+      "readinessScale": "TRL",
+      "readiness": 8,
+      "sector": "jakosc-zycia",
+      "creators": "Ośrodek pomocy społecznej",
+      "hasMinors": false,
+      "isYoungCreator": false,
+      "institution": "Urząd Gminy (demo)",
+      "region": "powiat brzozowski",
+      "resources": "",
+      "tags": [
+        "seniorzy",
+        "teleopieka",
+        "zdrowie",
+        "bezpieczeństwo"
+      ],
+      "missing": [],
+      "quotes": {
+        "solution": "Gmina rozdała seniorom opaski z przyciskiem SOS połączone z centrum opieki."
+      },
+      "scores": [
+        {
+          "criterion": "nowosc",
+          "score": 2,
+          "reason": "Poniżej średniej.",
+          "evidence": ""
+        },
+        {
+          "criterion": "skala",
+          "score": 5,
+          "reason": "Bardzo dobrze.",
+          "evidence": ""
+        },
+        {
+          "criterion": "replikowalnosc",
+          "score": 4,
+          "reason": "Dobrze.",
+          "evidence": ""
+        },
+        {
+          "criterion": "gotowosc",
+          "score": 5,
+          "reason": "Bardzo dobrze.",
+          "evidence": ""
+        },
+        {
+          "criterion": "koszt",
+          "score": 3,
+          "reason": "Średnio.",
+          "evidence": ""
+        },
+        {
+          "criterion": "zespol",
+          "score": 3,
+          "reason": "Średnio.",
+          "evidence": ""
+        },
+        {
+          "criterion": "wplyw",
+          "score": 5,
+          "reason": "Bardzo dobrze.",
+          "evidence": ""
+        },
+        {
+          "criterion": "ip",
+          "score": 4,
+          "reason": "Dobrze.",
+          "evidence": ""
+        }
+      ],
+      "confidence": 0.85,
+      "status": "opublikowana",
+      "reports": 0,
+      "isClaimed": false,
+      "model": "seed"
+    },
+    {
+      "id": "seniorzy-sasiedzi",
+      "source": "crawler",
+      "sourceUrl": "https://example.pl/seniorzy-sasiedzi",
+      "sourceLabel": "Strona instytucji · aktualności",
+      "sourceText": "Mieszkańcy zapisują się jako sąsiedzi-pomocnicy i robią seniorom zakupy przez prostą tablicę zgłoszeń.",
+      "title": "Sąsiedzka sieć pomocy seniorom",
+      "problem": "",
+      "solution": "Mieszkańcy zapisują się jako sąsiedzi-pomocnicy i robią seniorom zakupy przez prostą tablicę zgłoszeń.",
+      "effect": "",
+      "type": "spoleczna",
+      "readinessScale": "ORL",
+      "readiness": 6,
+      "sector": "jakosc-zycia",
+      "creators": "Stowarzyszenie lokalne",
+      "hasMinors": false,
+      "isYoungCreator": false,
+      "institution": "NGO (demo)",
+      "region": "powiat bieszczadzki",
+      "resources": "",
+      "tags": [
+        "seniorzy",
+        "wolontariat",
+        "sąsiedztwo",
+        "pomoc"
+      ],
+      "missing": [],
+      "quotes": {
+        "solution": "Mieszkańcy zapisują się jako sąsiedzi-pomocnicy i robią seniorom zakupy przez prostą tablicę zgłoszeń."
+      },
+      "scores": [
+        {
+          "criterion": "nowosc",
+          "score": 3,
+          "reason": "Średnio.",
+          "evidence": ""
+        },
+        {
+          "criterion": "skala",
+          "score": 4,
+          "reason": "Dobrze.",
+          "evidence": ""
+        },
+        {
+          "criterion": "replikowalnosc",
+          "score": 5,
+          "reason": "Bardzo dobrze.",
+          "evidence": ""
+        },
+        {
+          "criterion": "gotowosc",
+          "score": 4,
+          "reason": "Dobrze.",
+          "evidence": ""
+        },
+        {
+          "criterion": "koszt",
+          "score": 4,
+          "reason": "Dobrze.",
+          "evidence": ""
+        },
+        {
+          "criterion": "zespol",
+          "score": 3,
+          "reason": "Średnio.",
+          "evidence": ""
+        },
+        {
+          "criterion": "wplyw",
+          "score": 4,
+          "reason": "Dobrze.",
+          "evidence": ""
+        },
+        {
+          "criterion": "ip",
+          "score": 1,
+          "reason": "Słabo.",
+          "evidence": ""
+        }
+      ],
+      "confidence": 0.85,
+      "status": "opublikowana",
+      "reports": 0,
+      "isClaimed": false,
+      "model": "seed"
+    },
+    {
+      "id": "seniorzy-uniwersytet-cyfrowy",
+      "source": "zgloszenie",
+      "sourceUrl": null,
+      "sourceLabel": "Zgłoszenie twórcy",
+      "sourceText": "Bezpłatny kurs cyfrowych umiejętności dla seniorów prowadzony w bibliotece przez studentów.",
+      "title": "Cyfrowy uniwersytet trzeciego wieku",
+      "problem": "",
+      "solution": "Bezpłatny kurs cyfrowych umiejętności dla seniorów prowadzony w bibliotece przez studentów.",
+      "effect": "",
+      "type": "edukacyjna",
+      "readinessScale": "ORL",
+      "readiness": 7,
+      "sector": "jakosc-zycia",
+      "creators": "Studenci i bibliotekarze",
+      "hasMinors": false,
+      "isYoungCreator": true,
+      "institution": "Biblioteka (demo)",
+      "region": "Przemyśl",
+      "resources": "",
+      "tags": [
+        "seniorzy",
+        "cyfryzacja",
+        "biblioteka",
+        "wolontariat"
+      ],
+      "missing": [],
+      "quotes": {
+        "solution": "Bezpłatny kurs cyfrowych umiejętności dla seniorów prowadzony w bibliotece przez studentów."
+      },
+      "scores": [
+        {
+          "criterion": "nowosc",
+          "score": 2,
+          "reason": "Poniżej średniej.",
+          "evidence": ""
+        },
+        {
+          "criterion": "skala",
+          "score": 4,
+          "reason": "Dobrze.",
+          "evidence": ""
+        },
+        {
+          "criterion": "replikowalnosc",
+          "score": 5,
+          "reason": "Bardzo dobrze.",
+          "evidence": ""
+        },
+        {
+          "criterion": "gotowosc",
+          "score": 4,
+          "reason": "Dobrze.",
+          "evidence": ""
+        },
+        {
+          "criterion": "koszt",
+          "score": 4,
+          "reason": "Dobrze.",
+          "evidence": ""
+        },
+        {
+          "criterion": "zespol",
+          "score": 3,
+          "reason": "Średnio.",
+          "evidence": ""
+        },
+        {
+          "criterion": "wplyw",
+          "score": 4,
+          "reason": "Dobrze.",
+          "evidence": ""
+        },
+        {
+          "criterion": "ip",
+          "score": 1,
+          "reason": "Słabo.",
+          "evidence": ""
+        }
+      ],
+      "confidence": 0.85,
+      "status": "opublikowana",
+      "reports": 0,
+      "isClaimed": true,
+      "model": "seed"
+    },
+    {
+      "id": "urzad-chatbot",
+      "source": "crawler",
+      "sourceUrl": "https://example.pl/urzad-chatbot",
+      "sourceLabel": "Strona instytucji · aktualności",
+      "sourceText": "Urząd uruchomił chatbota, który odpowiada na pytania o odpady, podatki i godziny pracy.",
+      "title": "Chatbot odpowiadający mieszkańcom",
+      "problem": "",
+      "solution": "Urząd uruchomił chatbota, który odpowiada na pytania o odpady, podatki i godziny pracy.",
+      "effect": "",
+      "type": "technologiczna",
+      "readinessScale": "TRL",
+      "readiness": 7,
+      "sector": "ict",
+      "creators": "Dział IT urzędu",
+      "hasMinors": false,
+      "isYoungCreator": false,
+      "institution": "Urząd Miasta (demo)",
+      "region": "Tarnobrzeg",
+      "resources": "",
+      "tags": [
+        "urząd",
+        "e-usługi",
+        "chatbot",
+        "AI"
+      ],
+      "missing": [],
+      "quotes": {
+        "solution": "Urząd uruchomił chatbota, który odpowiada na pytania o odpady, podatki i godziny pracy."
+      },
+      "scores": [
+        {
+          "criterion": "nowosc",
+          "score": 3,
+          "reason": "Średnio.",
+          "evidence": ""
+        },
+        {
+          "criterion": "skala",
+          "score": 4,
+          "reason": "Dobrze.",
+          "evidence": ""
+        },
+        {
+          "criterion": "replikowalnosc",
+          "score": 4,
+          "reason": "Dobrze.",
+          "evidence": ""
+        },
+        {
+          "criterion": "gotowosc",
+          "score": 4,
+          "reason": "Dobrze.",
+          "evidence": ""
+        },
+        {
+          "criterion": "koszt",
+          "score": 4,
+          "reason": "Dobrze.",
+          "evidence": ""
+        },
+        {
+          "criterion": "zespol",
+          "score": 3,
+          "reason": "Średnio.",
+          "evidence": ""
+        },
+        {
+          "criterion": "wplyw",
+          "score": 4,
+          "reason": "Dobrze.",
+          "evidence": ""
+        },
+        {
+          "criterion": "ip",
+          "score": 2,
+          "reason": "Poniżej średniej.",
+          "evidence": ""
+        }
+      ],
+      "confidence": 0.85,
+      "status": "opublikowana",
+      "reports": 0,
+      "isClaimed": false,
+      "model": "seed"
+    },
+    {
+      "id": "urzad-e-zgloszenia",
+      "source": "crawler",
+      "sourceUrl": "https://example.pl/urzad-e-zgloszenia",
+      "sourceLabel": "Strona instytucji · aktualności",
+      "sourceText": "Mieszkańcy zgłaszają dziury w drogach i zepsute lampy przez mapę online.",
+      "title": "E-zgłoszenia usterek w mieście",
+      "problem": "",
+      "solution": "Mieszkańcy zgłaszają dziury w drogach i zepsute lampy przez mapę online.",
+      "effect": "",
+      "type": "organizacyjna",
+      "readinessScale": "ORL",
+      "readiness": 8,
+      "sector": "ict",
+      "creators": "Urząd miasta",
+      "hasMinors": false,
+      "isYoungCreator": false,
+      "institution": "Urząd Miasta (demo)",
+      "region": "Stalowa Wola",
+      "resources": "",
+      "tags": [
+        "urząd",
+        "e-usługi",
+        "mapa",
+        "zgłoszenia"
+      ],
+      "missing": [],
+      "quotes": {
+        "solution": "Mieszkańcy zgłaszają dziury w drogach i zepsute lampy przez mapę online."
+      },
+      "scores": [
+        {
+          "criterion": "nowosc",
+          "score": 2,
+          "reason": "Poniżej średniej.",
+          "evidence": ""
+        },
+        {
+          "criterion": "skala",
+          "score": 4,
+          "reason": "Dobrze.",
+          "evidence": ""
+        },
+        {
+          "criterion": "replikowalnosc",
+          "score": 5,
+          "reason": "Bardzo dobrze.",
+          "evidence": ""
+        },
+        {
+          "criterion": "gotowosc",
+          "score": 4,
+          "reason": "Dobrze.",
+          "evidence": ""
+        },
+        {
+          "criterion": "koszt",
+          "score": 4,
+          "reason": "Dobrze.",
+          "evidence": ""
+        },
+        {
+          "criterion": "zespol",
+          "score": 3,
+          "reason": "Średnio.",
+          "evidence": ""
+        },
+        {
+          "criterion": "wplyw",
+          "score": 4,
+          "reason": "Dobrze.",
+          "evidence": ""
+        },
+        {
+          "criterion": "ip",
+          "score": 1,
+          "reason": "Słabo.",
+          "evidence": ""
+        }
+      ],
+      "confidence": 0.85,
+      "status": "opublikowana",
+      "reports": 0,
+      "isClaimed": false,
+      "model": "seed"
+    },
+    {
+      "id": "urzad-budzet-obywatelski-online",
+      "source": "crawler",
+      "sourceUrl": "https://example.pl/urzad-budzet-obywatelski-online",
+      "sourceLabel": "Strona instytucji · aktualności",
+      "sourceText": "Gmina przeniosła głosowanie w budżecie obywatelskim do internetu, co podwoiło frekwencję.",
+      "title": "Głosowanie w budżecie obywatelskim online",
+      "problem": "",
+      "solution": "Gmina przeniosła głosowanie w budżecie obywatelskim do internetu, co podwoiło frekwencję.",
+      "effect": "",
+      "type": "procesowa",
+      "readinessScale": "ORL",
+      "readiness": 8,
+      "sector": "ict",
+      "creators": "Urząd gminy",
+      "hasMinors": false,
+      "isYoungCreator": false,
+      "institution": "Urząd Gminy (demo)",
+      "region": "powiat ropczycko-sędziszowski",
+      "resources": "",
+      "tags": [
+        "urząd",
+        "e-usługi",
+        "partycypacja",
+        "głosowanie"
+      ],
+      "missing": [],
+      "quotes": {
+        "solution": "Gmina przeniosła głosowanie w budżecie obywatelskim do internetu, co podwoiło frekwencję."
+      },
+      "scores": [
+        {
+          "criterion": "nowosc",
+          "score": 2,
+          "reason": "Poniżej średniej.",
+          "evidence": ""
+        },
+        {
+          "criterion": "skala",
+          "score": 4,
+          "reason": "Dobrze.",
+          "evidence": ""
+        },
+        {
+          "criterion": "replikowalnosc",
+          "score": 5,
+          "reason": "Bardzo dobrze.",
+          "evidence": ""
+        },
+        {
+          "criterion": "gotowosc",
+          "score": 4,
+          "reason": "Dobrze.",
+          "evidence": ""
+        },
+        {
+          "criterion": "koszt",
+          "score": 4,
+          "reason": "Dobrze.",
+          "evidence": ""
+        },
+        {
+          "criterion": "zespol",
+          "score": 4,
+          "reason": "Dobrze.",
+          "evidence": ""
+        },
+        {
+          "criterion": "wplyw",
+          "score": 4,
+          "reason": "Dobrze.",
+          "evidence": ""
+        },
+        {
+          "criterion": "ip",
+          "score": 1,
+          "reason": "Słabo.",
+          "evidence": ""
+        }
+      ],
+      "confidence": 0.85,
+      "status": "opublikowana",
+      "reports": 0,
+      "isClaimed": false,
+      "model": "seed"
+    },
+    {
+      "id": "urzad-elektroniczne-faktury",
+      "source": "zgloszenie",
+      "sourceUrl": null,
+      "sourceLabel": "Zgłoszenie twórcy",
+      "sourceText": "System odczytuje faktury i sam przypisuje je do budżetu gminy.",
+      "title": "Automatyczne księgowanie faktur w gminie",
+      "problem": "",
+      "solution": "System odczytuje faktury i sam przypisuje je do budżetu gminy.",
+      "effect": "",
+      "type": "procesowa",
+      "readinessScale": "ORL",
+      "readiness": 5,
+      "sector": "ict",
+      "creators": "Skarbnik gminy",
+      "hasMinors": false,
+      "isYoungCreator": false,
+      "institution": "Urząd Gminy (demo)",
+      "region": "powiat dębicki",
+      "resources": "",
+      "tags": [
+        "urząd",
+        "dokumenty",
+        "automatyzacja",
+        "AI"
+      ],
+      "missing": [],
+      "quotes": {
+        "solution": "System odczytuje faktury i sam przypisuje je do budżetu gminy."
+      },
+      "scores": [
+        {
+          "criterion": "nowosc",
+          "score": 3,
+          "reason": "Średnio.",
+          "evidence": ""
+        },
+        {
+          "criterion": "skala",
+          "score": 4,
+          "reason": "Dobrze.",
+          "evidence": ""
+        },
+        {
+          "criterion": "replikowalnosc",
+          "score": 3,
+          "reason": "Średnio.",
+          "evidence": ""
+        },
+        {
+          "criterion": "gotowosc",
+          "score": 3,
+          "reason": "Średnio.",
+          "evidence": ""
+        },
+        {
+          "criterion": "koszt",
+          "score": 3,
+          "reason": "Średnio.",
+          "evidence": ""
+        },
+        {
+          "criterion": "zespol",
+          "score": 4,
+          "reason": "Dobrze.",
+          "evidence": ""
+        },
+        {
+          "criterion": "wplyw",
+          "score": 4,
+          "reason": "Dobrze.",
+          "evidence": ""
+        },
+        {
+          "criterion": "ip",
+          "score": 3,
+          "reason": "Średnio.",
+          "evidence": ""
+        }
+      ],
+      "confidence": 0.85,
+      "status": "opublikowana",
+      "reports": 0,
+      "isClaimed": true,
+      "model": "seed"
+    },
+    {
+      "id": "rowery-miejskie-wies",
+      "source": "crawler",
+      "sourceUrl": "https://example.pl/rowery-miejskie-wies",
+      "sourceLabel": "Strona instytucji · aktualności",
+      "sourceText": "Gmina wypożycza mieszkańcom rowery elektryczne na dojazd do stacji kolejowej.",
+      "title": "Rowery elektryczne dla dojeżdżających",
+      "problem": "",
+      "solution": "Gmina wypożycza mieszkańcom rowery elektryczne na dojazd do stacji kolejowej.",
+      "effect": "",
+      "type": "organizacyjna",
+      "readinessScale": "ORL",
+      "readiness": 6,
+      "sector": "motoryzacja",
+      "creators": "Urząd gminy",
+      "hasMinors": false,
+      "isYoungCreator": false,
+      "institution": "Urząd Gminy (demo)",
+      "region": "powiat rzeszowski",
+      "resources": "",
+      "tags": [
+        "mobilność",
+        "dojazdy",
+        "rowery",
+        "transport"
+      ],
+      "missing": [],
+      "quotes": {
+        "solution": "Gmina wypożycza mieszkańcom rowery elektryczne na dojazd do stacji kolejowej."
+      },
+      "scores": [
+        {
+          "criterion": "nowosc",
+          "score": 3,
+          "reason": "Średnio.",
+          "evidence": ""
+        },
+        {
+          "criterion": "skala",
+          "score": 4,
+          "reason": "Dobrze.",
+          "evidence": ""
+        },
+        {
+          "criterion": "replikowalnosc",
+          "score": 4,
+          "reason": "Dobrze.",
+          "evidence": ""
+        },
+        {
+          "criterion": "gotowosc",
+          "score": 3,
+          "reason": "Średnio.",
+          "evidence": ""
+        },
+        {
+          "criterion": "koszt",
+          "score": 3,
+          "reason": "Średnio.",
+          "evidence": ""
+        },
+        {
+          "criterion": "zespol",
+          "score": 3,
+          "reason": "Średnio.",
+          "evidence": ""
+        },
+        {
+          "criterion": "wplyw",
+          "score": 5,
+          "reason": "Bardzo dobrze.",
+          "evidence": ""
+        },
+        {
+          "criterion": "ip",
+          "score": 1,
+          "reason": "Słabo.",
+          "evidence": ""
+        }
+      ],
+      "confidence": 0.85,
+      "status": "opublikowana",
+      "reports": 0,
+      "isClaimed": false,
+      "model": "seed"
+    },
+    {
+      "id": "carpooling-zaklady",
+      "source": "zgloszenie",
+      "sourceUrl": null,
+      "sourceLabel": "Zgłoszenie twórcy",
+      "sourceText": "Aplikacja łączy pracowników tej samej strefy przemysłowej we wspólne dojazdy.",
+      "title": "Wspólne dojazdy pracowników zakładów",
+      "problem": "",
+      "solution": "Aplikacja łączy pracowników tej samej strefy przemysłowej we wspólne dojazdy.",
+      "effect": "",
+      "type": "technologiczna",
+      "readinessScale": "TRL",
+      "readiness": 4,
+      "sector": "motoryzacja",
+      "creators": "Zespół startupu 24–29 lat",
+      "hasMinors": false,
+      "isYoungCreator": true,
+      "institution": "Startup (demo)",
+      "region": "Mielec",
+      "resources": "",
+      "tags": [
+        "mobilność",
+        "carpooling",
+        "dojazdy",
+        "aplikacja"
+      ],
+      "missing": [],
+      "quotes": {
+        "solution": "Aplikacja łączy pracowników tej samej strefy przemysłowej we wspólne dojazdy."
+      },
+      "scores": [
+        {
+          "criterion": "nowosc",
+          "score": 3,
+          "reason": "Średnio.",
+          "evidence": ""
+        },
+        {
+          "criterion": "skala",
+          "score": 4,
+          "reason": "Dobrze.",
+          "evidence": ""
+        },
+        {
+          "criterion": "replikowalnosc",
+          "score": 4,
+          "reason": "Dobrze.",
+          "evidence": ""
+        },
+        {
+          "criterion": "gotowosc",
+          "score": 3,
+          "reason": "Średnio.",
+          "evidence": ""
+        },
+        {
+          "criterion": "koszt",
+          "score": 3,
+          "reason": "Średnio.",
+          "evidence": ""
+        },
+        {
+          "criterion": "zespol",
+          "score": 4,
+          "reason": "Dobrze.",
+          "evidence": ""
+        },
+        {
+          "criterion": "wplyw",
+          "score": 4,
+          "reason": "Dobrze.",
+          "evidence": ""
+        },
+        {
+          "criterion": "ip",
+          "score": 2,
+          "reason": "Poniżej średniej.",
+          "evidence": ""
+        }
+      ],
+      "confidence": 0.85,
+      "status": "opublikowana",
+      "reports": 0,
+      "isClaimed": true,
+      "model": "seed"
+    },
+    {
+      "id": "szkolny-bus-gps",
+      "source": "crawler",
+      "sourceUrl": "https://example.pl/szkolny-bus-gps",
+      "sourceLabel": "Strona instytucji · aktualności",
+      "sourceText": "Rodzice widzą w aplikacji, gdzie jest szkolny bus i kiedy dojedzie.",
+      "title": "Śledzenie szkolnego busa na żywo",
+      "problem": "",
+      "solution": "Rodzice widzą w aplikacji, gdzie jest szkolny bus i kiedy dojedzie.",
+      "effect": "",
+      "type": "technologiczna",
+      "readinessScale": "TRL",
+      "readiness": 7,
+      "sector": "motoryzacja",
+      "creators": "Gmina i przewoźnik",
+      "hasMinors": false,
+      "isYoungCreator": false,
+      "institution": "Urząd Gminy (demo)",
+      "region": "powiat kolbuszowski",
+      "resources": "",
+      "tags": [
+        "mobilność",
+        "dojazdy",
+        "GPS",
+        "szkoła",
+        "aplikacja"
+      ],
+      "missing": [],
+      "quotes": {
+        "solution": "Rodzice widzą w aplikacji, gdzie jest szkolny bus i kiedy dojedzie."
+      },
+      "scores": [
+        {
+          "criterion": "nowosc",
+          "score": 2,
+          "reason": "Poniżej średniej.",
+          "evidence": ""
+        },
+        {
+          "criterion": "skala",
+          "score": 4,
+          "reason": "Dobrze.",
+          "evidence": ""
+        },
+        {
+          "criterion": "replikowalnosc",
+          "score": 5,
+          "reason": "Bardzo dobrze.",
+          "evidence": ""
+        },
+        {
+          "criterion": "gotowosc",
+          "score": 4,
+          "reason": "Dobrze.",
+          "evidence": ""
+        },
+        {
+          "criterion": "koszt",
+          "score": 4,
+          "reason": "Dobrze.",
+          "evidence": ""
+        },
+        {
+          "criterion": "zespol",
+          "score": 3,
+          "reason": "Średnio.",
+          "evidence": ""
+        },
+        {
+          "criterion": "wplyw",
+          "score": 4,
+          "reason": "Dobrze.",
+          "evidence": ""
+        },
+        {
+          "criterion": "ip",
+          "score": 1,
+          "reason": "Słabo.",
+          "evidence": ""
+        }
+      ],
+      "confidence": 0.85,
+      "status": "opublikowana",
+      "reports": 0,
+      "isClaimed": false,
+      "model": "seed"
+    },
+    {
+      "id": "auto-elektryczne-warsztat",
+      "source": "zgloszenie",
+      "sourceUrl": null,
+      "sourceLabel": "Zgłoszenie twórcy",
+      "sourceText": "Uczniowie technikum przerabiają stare auto na napęd elektryczny w ramach zajęć.",
+      "title": "Szkolny warsztat konwersji aut na elektryczne",
+      "problem": "",
+      "solution": "Uczniowie technikum przerabiają stare auto na napęd elektryczny w ramach zajęć.",
+      "effect": "",
+      "type": "edukacyjna",
+      "readinessScale": "ORL",
+      "readiness": 4,
+      "sector": "motoryzacja",
+      "creators": "Uczniowie technikum samochodowego",
+      "hasMinors": true,
+      "isYoungCreator": true,
+      "institution": "Technikum (demo)",
+      "region": "Jasło",
+      "resources": "",
+      "tags": [
+        "samochód elektryczny",
+        "technikum",
+        "warsztat",
+        "energia"
+      ],
+      "missing": [],
+      "quotes": {
+        "solution": "Uczniowie technikum przerabiają stare auto na napęd elektryczny w ramach zajęć."
+      },
+      "scores": [
+        {
+          "criterion": "nowosc",
+          "score": 4,
+          "reason": "Dobrze.",
+          "evidence": ""
+        },
+        {
+          "criterion": "skala",
+          "score": 3,
+          "reason": "Średnio.",
+          "evidence": ""
+        },
+        {
+          "criterion": "replikowalnosc",
+          "score": 2,
+          "reason": "Poniżej średniej.",
+          "evidence": ""
+        },
+        {
+          "criterion": "gotowosc",
+          "score": 3,
+          "reason": "Średnio.",
+          "evidence": ""
+        },
+        {
+          "criterion": "koszt",
+          "score": 4,
+          "reason": "Dobrze.",
+          "evidence": ""
+        },
+        {
+          "criterion": "zespol",
+          "score": 4,
+          "reason": "Dobrze.",
+          "evidence": ""
+        },
+        {
+          "criterion": "wplyw",
+          "score": 4,
+          "reason": "Dobrze.",
+          "evidence": ""
+        },
+        {
+          "criterion": "ip",
+          "score": 3,
+          "reason": "Średnio.",
+          "evidence": ""
+        }
+      ],
+      "confidence": 0.85,
+      "status": "opublikowana",
+      "reports": 0,
+      "isClaimed": true,
+      "model": "seed"
+    },
+    {
+      "id": "dron-inspekcja-dachow",
+      "source": "zgloszenie",
+      "sourceUrl": null,
+      "sourceLabel": "Zgłoszenie twórcy",
+      "sourceText": "Dron z kamerą termowizyjną wykrywa uszkodzenia paneli fotowoltaicznych na dachach.",
+      "title": "Dron do inspekcji dachów i paneli",
+      "problem": "",
+      "solution": "Dron z kamerą termowizyjną wykrywa uszkodzenia paneli fotowoltaicznych na dachach.",
+      "effect": "",
+      "type": "technologiczna",
+      "readinessScale": "TRL",
+      "readiness": 5,
+      "sector": "lotnictwo",
+      "creators": "Studenci 22–25 lat",
+      "hasMinors": false,
+      "isYoungCreator": true,
+      "institution": "Uczelnia (demo)",
+      "region": "Rzeszów",
+      "resources": "",
+      "tags": [
+        "dron",
+        "fotowoltaika",
+        "inspekcja",
+        "kamera"
+      ],
+      "missing": [],
+      "quotes": {
+        "solution": "Dron z kamerą termowizyjną wykrywa uszkodzenia paneli fotowoltaicznych na dachach."
+      },
+      "scores": [
+        {
+          "criterion": "nowosc",
+          "score": 3,
+          "reason": "Średnio.",
+          "evidence": ""
+        },
+        {
+          "criterion": "skala",
+          "score": 4,
+          "reason": "Dobrze.",
+          "evidence": ""
+        },
+        {
+          "criterion": "replikowalnosc",
+          "score": 3,
+          "reason": "Średnio.",
+          "evidence": ""
+        },
+        {
+          "criterion": "gotowosc",
+          "score": 3,
+          "reason": "Średnio.",
+          "evidence": ""
+        },
+        {
+          "criterion": "koszt",
+          "score": 3,
+          "reason": "Średnio.",
+          "evidence": ""
+        },
+        {
+          "criterion": "zespol",
+          "score": 4,
+          "reason": "Dobrze.",
+          "evidence": ""
+        },
+        {
+          "criterion": "wplyw",
+          "score": 4,
+          "reason": "Dobrze.",
+          "evidence": ""
+        },
+        {
+          "criterion": "ip",
+          "score": 4,
+          "reason": "Dobrze.",
+          "evidence": ""
+        }
+      ],
+      "confidence": 0.85,
+      "status": "opublikowana",
+      "reports": 0,
+      "isClaimed": true,
+      "model": "seed"
+    },
+    {
+      "id": "dron-opryski-precyzyjne",
+      "source": "crawler",
+      "sourceUrl": "https://example.pl/dron-opryski-precyzyjne",
+      "sourceLabel": "Strona instytucji · aktualności",
+      "sourceText": "Grupa rolników testuje drona, który pryska tylko chore fragmenty pola.",
+      "title": "Precyzyjne opryski dronem",
+      "problem": "",
+      "solution": "Grupa rolników testuje drona, który pryska tylko chore fragmenty pola.",
+      "effect": "",
+      "type": "technologiczna",
+      "readinessScale": "TRL",
+      "readiness": 5,
+      "sector": "lotnictwo",
+      "creators": "Grupa producencka",
+      "hasMinors": false,
+      "isYoungCreator": false,
+      "institution": "Grupa producencka (demo)",
+      "region": "powiat jarosławski",
+      "resources": "",
+      "tags": [
+        "dron",
+        "rolnictwo",
+        "rolnictwo precyzyjne",
+        "opryski"
+      ],
+      "missing": [],
+      "quotes": {
+        "solution": "Grupa rolników testuje drona, który pryska tylko chore fragmenty pola."
+      },
+      "scores": [
+        {
+          "criterion": "nowosc",
+          "score": 4,
+          "reason": "Dobrze.",
+          "evidence": ""
+        },
+        {
+          "criterion": "skala",
+          "score": 4,
+          "reason": "Dobrze.",
+          "evidence": ""
+        },
+        {
+          "criterion": "replikowalnosc",
+          "score": 3,
+          "reason": "Średnio.",
+          "evidence": ""
+        },
+        {
+          "criterion": "gotowosc",
+          "score": 3,
+          "reason": "Średnio.",
+          "evidence": ""
+        },
+        {
+          "criterion": "koszt",
+          "score": 3,
+          "reason": "Średnio.",
+          "evidence": ""
+        },
+        {
+          "criterion": "zespol",
+          "score": 4,
+          "reason": "Dobrze.",
+          "evidence": ""
+        },
+        {
+          "criterion": "wplyw",
+          "score": 5,
+          "reason": "Bardzo dobrze.",
+          "evidence": ""
+        },
+        {
+          "criterion": "ip",
+          "score": 4,
+          "reason": "Dobrze.",
+          "evidence": ""
+        }
+      ],
+      "confidence": 0.85,
+      "status": "opublikowana",
+      "reports": 0,
+      "isClaimed": false,
+      "model": "seed"
+    },
+    {
+      "id": "kompozyty-lotnicze-recykling",
+      "source": "zgloszenie",
+      "sourceUrl": null,
+      "sourceLabel": "Zgłoszenie twórcy",
+      "sourceText": "Metoda odzyskiwania włókna węglowego ze zużytych części samolotów.",
+      "title": "Recykling kompozytów lotniczych",
+      "problem": "",
+      "solution": "Metoda odzyskiwania włókna węglowego ze zużytych części samolotów.",
+      "effect": "",
+      "type": "technologiczna",
+      "readinessScale": "TRL",
+      "readiness": 4,
+      "sector": "lotnictwo",
+      "creators": "Zespół badawczy",
+      "hasMinors": false,
+      "isYoungCreator": false,
+      "institution": "Uczelnia (demo)",
+      "region": "Rzeszów",
+      "resources": "",
+      "tags": [
+        "lotnictwo",
+        "recykling",
+        "kompozyty",
+        "materiały"
+      ],
+      "missing": [],
+      "quotes": {
+        "solution": "Metoda odzyskiwania włókna węglowego ze zużytych części samolotów."
+      },
+      "scores": [
+        {
+          "criterion": "nowosc",
+          "score": 5,
+          "reason": "Bardzo dobrze.",
+          "evidence": ""
+        },
+        {
+          "criterion": "skala",
+          "score": 4,
+          "reason": "Dobrze.",
+          "evidence": ""
+        },
+        {
+          "criterion": "replikowalnosc",
+          "score": 2,
+          "reason": "Poniżej średniej.",
+          "evidence": ""
+        },
+        {
+          "criterion": "gotowosc",
+          "score": 3,
+          "reason": "Średnio.",
+          "evidence": ""
+        },
+        {
+          "criterion": "koszt",
+          "score": 4,
+          "reason": "Dobrze.",
+          "evidence": ""
+        },
+        {
+          "criterion": "zespol",
+          "score": 3,
+          "reason": "Średnio.",
+          "evidence": ""
+        },
+        {
+          "criterion": "wplyw",
+          "score": 5,
+          "reason": "Bardzo dobrze.",
+          "evidence": ""
+        },
+        {
+          "criterion": "ip",
+          "score": 5,
+          "reason": "Bardzo dobrze.",
+          "evidence": ""
+        }
+      ],
+      "confidence": 0.85,
+      "status": "opublikowana",
+      "reports": 0,
+      "isClaimed": true,
+      "model": "seed"
+    },
+    {
+      "id": "cubesat-liceum",
+      "source": "crawler",
+      "sourceUrl": "https://example.pl/cubesat-liceum",
+      "sourceLabel": "Strona instytucji · aktualności",
+      "sourceText": "Uczniowie zbudowali minisatelitę CanSat mierzącą ciśnienie i temperaturę podczas spadku.",
+      "title": "Licealny model satelity CanSat",
+      "problem": "",
+      "solution": "Uczniowie zbudowali minisatelitę CanSat mierzącą ciśnienie i temperaturę podczas spadku.",
+      "effect": "",
+      "type": "edukacyjna",
+      "readinessScale": "ORL",
+      "readiness": 5,
+      "sector": "kosmos",
+      "creators": "Uczniowie liceum 16–18 lat",
+      "hasMinors": true,
+      "isYoungCreator": true,
+      "institution": "Liceum (demo)",
+      "region": "Rzeszów",
+      "resources": "",
+      "tags": [
+        "satelita",
+        "CanSat",
+        "szkoła",
+        "konkurs"
+      ],
+      "missing": [],
+      "quotes": {
+        "solution": "Uczniowie zbudowali minisatelitę CanSat mierzącą ciśnienie i temperaturę podczas spadku."
+      },
+      "scores": [
+        {
+          "criterion": "nowosc",
+          "score": 4,
+          "reason": "Dobrze.",
+          "evidence": ""
+        },
+        {
+          "criterion": "skala",
+          "score": 4,
+          "reason": "Dobrze.",
+          "evidence": ""
+        },
+        {
+          "criterion": "replikowalnosc",
+          "score": 4,
+          "reason": "Dobrze.",
+          "evidence": ""
+        },
+        {
+          "criterion": "gotowosc",
+          "score": 3,
+          "reason": "Średnio.",
+          "evidence": ""
+        },
+        {
+          "criterion": "koszt",
+          "score": 4,
+          "reason": "Dobrze.",
+          "evidence": ""
+        },
+        {
+          "criterion": "zespol",
+          "score": 3,
+          "reason": "Średnio.",
+          "evidence": ""
+        },
+        {
+          "criterion": "wplyw",
+          "score": 3,
+          "reason": "Średnio.",
+          "evidence": ""
+        },
+        {
+          "criterion": "ip",
+          "score": 1,
+          "reason": "Słabo.",
+          "evidence": ""
+        }
+      ],
+      "confidence": 0.85,
+      "status": "opublikowana",
+      "reports": 0,
+      "isClaimed": false,
+      "model": "seed"
+    },
+    {
+      "id": "satelita-dane-rolnicy",
+      "source": "zgloszenie",
+      "sourceUrl": null,
+      "sourceLabel": "Zgłoszenie twórcy",
+      "sourceText": "Serwis łączy darmowe zdjęcia satelitarne z mapą pól, pokazując susze i choroby upraw.",
+      "title": "Zdjęcia satelitarne dla rolników",
+      "problem": "",
+      "solution": "Serwis łączy darmowe zdjęcia satelitarne z mapą pól, pokazując susze i choroby upraw.",
+      "effect": "",
+      "type": "technologiczna",
+      "readinessScale": "TRL",
+      "readiness": 5,
+      "sector": "kosmos",
+      "creators": "Zespół startupu",
+      "hasMinors": false,
+      "isYoungCreator": true,
+      "institution": "Startup (demo)",
+      "region": "Krosno",
+      "resources": "",
+      "tags": [
+        "satelita",
+        "obserwacja Ziemi",
+        "rolnictwo",
+        "dane"
+      ],
+      "missing": [],
+      "quotes": {
+        "solution": "Serwis łączy darmowe zdjęcia satelitarne z mapą pól, pokazując susze i choroby upraw."
+      },
+      "scores": [
+        {
+          "criterion": "nowosc",
+          "score": 4,
+          "reason": "Dobrze.",
+          "evidence": ""
+        },
+        {
+          "criterion": "skala",
+          "score": 4,
+          "reason": "Dobrze.",
+          "evidence": ""
+        },
+        {
+          "criterion": "replikowalnosc",
+          "score": 4,
+          "reason": "Dobrze.",
+          "evidence": ""
+        },
+        {
+          "criterion": "gotowosc",
+          "score": 4,
+          "reason": "Dobrze.",
+          "evidence": ""
+        },
+        {
+          "criterion": "koszt",
+          "score": 3,
+          "reason": "Średnio.",
+          "evidence": ""
+        },
+        {
+          "criterion": "zespol",
+          "score": 4,
+          "reason": "Dobrze.",
+          "evidence": ""
+        },
+        {
+          "criterion": "wplyw",
+          "score": 4,
+          "reason": "Dobrze.",
+          "evidence": ""
+        },
+        {
+          "criterion": "ip",
+          "score": 3,
+          "reason": "Średnio.",
+          "evidence": ""
+        }
+      ],
+      "confidence": 0.85,
+      "status": "opublikowana",
+      "reports": 0,
+      "isClaimed": true,
+      "model": "seed"
+    },
+    {
+      "id": "kosmos-planetarium-mobilne",
+      "source": "crawler",
+      "sourceUrl": "https://example.pl/kosmos-planetarium-mobilne",
+      "sourceLabel": "Strona instytucji · aktualności",
+      "sourceText": "Nadmuchiwane planetarium odwiedza wiejskie szkoły z lekcjami astronomii.",
+      "title": "Mobilne planetarium dla szkół",
+      "problem": "",
+      "solution": "Nadmuchiwane planetarium odwiedza wiejskie szkoły z lekcjami astronomii.",
+      "effect": "",
+      "type": "edukacyjna",
+      "readinessScale": "ORL",
+      "readiness": 8,
+      "sector": "kosmos",
+      "creators": "Fundacja",
+      "hasMinors": false,
+      "isYoungCreator": false,
+      "institution": "NGO (demo)",
+      "region": "powiat sanocki",
+      "resources": "",
+      "tags": [
+        "kosmos",
+        "astronomia",
+        "szkoła",
+        "edukacja"
+      ],
+      "missing": [],
+      "quotes": {
+        "solution": "Nadmuchiwane planetarium odwiedza wiejskie szkoły z lekcjami astronomii."
+      },
+      "scores": [
+        {
+          "criterion": "nowosc",
+          "score": 3,
+          "reason": "Średnio.",
+          "evidence": ""
+        },
+        {
+          "criterion": "skala",
+          "score": 4,
+          "reason": "Dobrze.",
+          "evidence": ""
+        },
+        {
+          "criterion": "replikowalnosc",
+          "score": 5,
+          "reason": "Bardzo dobrze.",
+          "evidence": ""
+        },
+        {
+          "criterion": "gotowosc",
+          "score": 4,
+          "reason": "Dobrze.",
+          "evidence": ""
+        },
+        {
+          "criterion": "koszt",
+          "score": 4,
+          "reason": "Dobrze.",
+          "evidence": ""
+        },
+        {
+          "criterion": "zespol",
+          "score": 3,
+          "reason": "Średnio.",
+          "evidence": ""
+        },
+        {
+          "criterion": "wplyw",
+          "score": 3,
+          "reason": "Średnio.",
+          "evidence": ""
+        },
+        {
+          "criterion": "ip",
+          "score": 1,
+          "reason": "Słabo.",
+          "evidence": ""
+        }
+      ],
+      "confidence": 0.85,
+      "status": "opublikowana",
+      "reports": 0,
+      "isClaimed": false,
+      "model": "seed"
+    },
+    {
+      "id": "panele-na-szkolach",
+      "source": "crawler",
+      "sourceUrl": "https://example.pl/panele-na-szkolach",
+      "sourceLabel": "Strona instytucji · aktualności",
+      "sourceText": "Panele na dachu szkoły z ekranem, na którym uczniowie śledzą produkcję energii.",
+      "title": "Fotowoltaika na szkołach z lekcjami energii",
+      "problem": "",
+      "solution": "Panele na dachu szkoły z ekranem, na którym uczniowie śledzą produkcję energii.",
+      "effect": "",
+      "type": "organizacyjna",
+      "readinessScale": "ORL",
+      "readiness": 8,
+      "sector": "jakosc-zycia",
+      "creators": "Gmina i szkoła",
+      "hasMinors": false,
+      "isYoungCreator": false,
+      "institution": "Urząd Gminy (demo)",
+      "region": "powiat przeworski",
+      "resources": "",
+      "tags": [
+        "energia",
+        "fotowoltaika",
+        "szkoła",
+        "OZE"
+      ],
+      "missing": [],
+      "quotes": {
+        "solution": "Panele na dachu szkoły z ekranem, na którym uczniowie śledzą produkcję energii."
+      },
+      "scores": [
+        {
+          "criterion": "nowosc",
+          "score": 2,
+          "reason": "Poniżej średniej.",
+          "evidence": ""
+        },
+        {
+          "criterion": "skala",
+          "score": 4,
+          "reason": "Dobrze.",
+          "evidence": ""
+        },
+        {
+          "criterion": "replikowalnosc",
+          "score": 5,
+          "reason": "Bardzo dobrze.",
+          "evidence": ""
+        },
+        {
+          "criterion": "gotowosc",
+          "score": 3,
+          "reason": "Średnio.",
+          "evidence": ""
+        },
+        {
+          "criterion": "koszt",
+          "score": 3,
+          "reason": "Średnio.",
+          "evidence": ""
+        },
+        {
+          "criterion": "zespol",
+          "score": 3,
+          "reason": "Średnio.",
+          "evidence": ""
+        },
+        {
+          "criterion": "wplyw",
+          "score": 4,
+          "reason": "Dobrze.",
+          "evidence": ""
+        },
+        {
+          "criterion": "ip",
+          "score": 1,
+          "reason": "Słabo.",
+          "evidence": ""
+        }
+      ],
+      "confidence": 0.85,
+      "status": "opublikowana",
+      "reports": 0,
+      "isClaimed": false,
+      "model": "seed"
+    },
+    {
+      "id": "spoldzielnia-energetyczna",
+      "source": "crawler",
+      "sourceUrl": "https://example.pl/spoldzielnia-energetyczna",
+      "sourceLabel": "Strona instytucji · aktualności",
+      "sourceText": "Mieszkańcy i gmina wspólnie produkują i dzielą energię z biogazowni.",
+      "title": "Gminna spółdzielnia energetyczna",
+      "problem": "",
+      "solution": "Mieszkańcy i gmina wspólnie produkują i dzielą energię z biogazowni.",
+      "effect": "",
+      "type": "organizacyjna",
+      "readinessScale": "ORL",
+      "readiness": 6,
+      "sector": "jakosc-zycia",
+      "creators": "Gmina i mieszkańcy",
+      "hasMinors": false,
+      "isYoungCreator": false,
+      "institution": "Spółdzielnia (demo)",
+      "region": "powiat lubaczowski",
+      "resources": "",
+      "tags": [
+        "energia",
+        "OZE",
+        "spółdzielnia",
+        "biogaz"
+      ],
+      "missing": [],
+      "quotes": {
+        "solution": "Mieszkańcy i gmina wspólnie produkują i dzielą energię z biogazowni."
+      },
+      "scores": [
+        {
+          "criterion": "nowosc",
+          "score": 4,
+          "reason": "Dobrze.",
+          "evidence": ""
+        },
+        {
+          "criterion": "skala",
+          "score": 5,
+          "reason": "Bardzo dobrze.",
+          "evidence": ""
+        },
+        {
+          "criterion": "replikowalnosc",
+          "score": 3,
+          "reason": "Średnio.",
+          "evidence": ""
+        },
+        {
+          "criterion": "gotowosc",
+          "score": 2,
+          "reason": "Poniżej średniej.",
+          "evidence": ""
+        },
+        {
+          "criterion": "koszt",
+          "score": 3,
+          "reason": "Średnio.",
+          "evidence": ""
+        },
+        {
+          "criterion": "zespol",
+          "score": 3,
+          "reason": "Średnio.",
+          "evidence": ""
+        },
+        {
+          "criterion": "wplyw",
+          "score": 5,
+          "reason": "Bardzo dobrze.",
+          "evidence": ""
+        },
+        {
+          "criterion": "ip",
+          "score": 2,
+          "reason": "Poniżej średniej.",
+          "evidence": ""
+        }
+      ],
+      "confidence": 0.85,
+      "status": "opublikowana",
+      "reports": 0,
+      "isClaimed": false,
+      "model": "seed"
+    },
+    {
+      "id": "inteligentne-oswietlenie",
+      "source": "zgloszenie",
+      "sourceUrl": null,
+      "sourceLabel": "Zgłoszenie twórcy",
+      "sourceText": "Latarnie przyciemniają się, gdy nikogo nie ma, i rozjaśniają przy ruchu.",
+      "title": "Inteligentne oświetlenie ulic",
+      "problem": "",
+      "solution": "Latarnie przyciemniają się, gdy nikogo nie ma, i rozjaśniają przy ruchu.",
+      "effect": "",
+      "type": "technologiczna",
+      "readinessScale": "TRL",
+      "readiness": 6,
+      "sector": "ict",
+      "creators": "Firma lokalna",
+      "hasMinors": false,
+      "isYoungCreator": false,
+      "institution": "Firma (demo)",
+      "region": "Stalowa Wola",
+      "resources": "",
+      "tags": [
+        "energia",
+        "oświetlenie",
+        "czujnik",
+        "miasto"
+      ],
+      "missing": [],
+      "quotes": {
+        "solution": "Latarnie przyciemniają się, gdy nikogo nie ma, i rozjaśniają przy ruchu."
+      },
+      "scores": [
+        {
+          "criterion": "nowosc",
+          "score": 3,
+          "reason": "Średnio.",
+          "evidence": ""
+        },
+        {
+          "criterion": "skala",
+          "score": 4,
+          "reason": "Dobrze.",
+          "evidence": ""
+        },
+        {
+          "criterion": "replikowalnosc",
+          "score": 4,
+          "reason": "Dobrze.",
+          "evidence": ""
+        },
+        {
+          "criterion": "gotowosc",
+          "score": 3,
+          "reason": "Średnio.",
+          "evidence": ""
+        },
+        {
+          "criterion": "koszt",
+          "score": 3,
+          "reason": "Średnio.",
+          "evidence": ""
+        },
+        {
+          "criterion": "zespol",
+          "score": 4,
+          "reason": "Dobrze.",
+          "evidence": ""
+        },
+        {
+          "criterion": "wplyw",
+          "score": 4,
+          "reason": "Dobrze.",
+          "evidence": ""
+        },
+        {
+          "criterion": "ip",
+          "score": 2,
+          "reason": "Poniżej średniej.",
+          "evidence": ""
+        }
+      ],
+      "confidence": 0.85,
+      "status": "opublikowana",
+      "reports": 0,
+      "isClaimed": true,
+      "model": "seed"
+    },
+    {
+      "id": "telemedycyna-wies",
+      "source": "crawler",
+      "sourceUrl": "https://example.pl/telemedycyna-wies",
+      "sourceLabel": "Strona instytucji · aktualności",
+      "sourceText": "Pielęgniarka łączy pacjenta na wideo ze specjalistą w szpitalu powiatowym.",
+      "title": "Teleporady w wiejskim ośrodku zdrowia",
+      "problem": "",
+      "solution": "Pielęgniarka łączy pacjenta na wideo ze specjalistą w szpitalu powiatowym.",
+      "effect": "",
+      "type": "organizacyjna",
+      "readinessScale": "ORL",
+      "readiness": 7,
+      "sector": "jakosc-zycia",
+      "creators": "Ośrodek zdrowia",
+      "hasMinors": false,
+      "isYoungCreator": false,
+      "institution": "Ośrodek zdrowia (demo)",
+      "region": "powiat bieszczadzki",
+      "resources": "",
+      "tags": [
+        "zdrowie",
+        "telemedycyna",
+        "wieś",
+        "wideo"
+      ],
+      "missing": [],
+      "quotes": {
+        "solution": "Pielęgniarka łączy pacjenta na wideo ze specjalistą w szpitalu powiatowym."
+      },
+      "scores": [
+        {
+          "criterion": "nowosc",
+          "score": 3,
+          "reason": "Średnio.",
+          "evidence": ""
+        },
+        {
+          "criterion": "skala",
+          "score": 5,
+          "reason": "Bardzo dobrze.",
+          "evidence": ""
+        },
+        {
+          "criterion": "replikowalnosc",
+          "score": 4,
+          "reason": "Dobrze.",
+          "evidence": ""
+        },
+        {
+          "criterion": "gotowosc",
+          "score": 4,
+          "reason": "Dobrze.",
+          "evidence": ""
+        },
+        {
+          "criterion": "koszt",
+          "score": 4,
+          "reason": "Dobrze.",
+          "evidence": ""
+        },
+        {
+          "criterion": "zespol",
+          "score": 3,
+          "reason": "Średnio.",
+          "evidence": ""
+        },
+        {
+          "criterion": "wplyw",
+          "score": 5,
+          "reason": "Bardzo dobrze.",
+          "evidence": ""
+        },
+        {
+          "criterion": "ip",
+          "score": 2,
+          "reason": "Poniżej średniej.",
+          "evidence": ""
+        }
+      ],
+      "confidence": 0.85,
+      "status": "opublikowana",
+      "reports": 0,
+      "isClaimed": false,
+      "model": "seed"
+    },
+    {
+      "id": "zdrowie-aplikacja-leki",
+      "source": "zgloszenie",
+      "sourceUrl": null,
+      "sourceLabel": "Zgłoszenie twórcy",
+      "sourceText": "Prosta aplikacja i głośnik przypominają seniorom o lekach i powiadamiają rodzinę.",
+      "title": "Przypominacz o lekach dla seniorów",
+      "problem": "",
+      "solution": "Prosta aplikacja i głośnik przypominają seniorom o lekach i powiadamiają rodzinę.",
+      "effect": "",
+      "type": "technologiczna",
+      "readinessScale": "TRL",
+      "readiness": 4,
+      "sector": "jakosc-zycia",
+      "creators": "Uczniowie technikum 18 lat",
+      "hasMinors": false,
+      "isYoungCreator": true,
+      "institution": "Technikum (demo)",
+      "region": "Dębica",
+      "resources": "",
+      "tags": [
+        "seniorzy",
+        "zdrowie",
+        "aplikacja",
+        "przypomnienia"
+      ],
+      "missing": [],
+      "quotes": {
+        "solution": "Prosta aplikacja i głośnik przypominają seniorom o lekach i powiadamiają rodzinę."
+      },
+      "scores": [
+        {
+          "criterion": "nowosc",
+          "score": 3,
+          "reason": "Średnio.",
+          "evidence": ""
+        },
+        {
+          "criterion": "skala",
+          "score": 4,
+          "reason": "Dobrze.",
+          "evidence": ""
+        },
+        {
+          "criterion": "replikowalnosc",
+          "score": 4,
+          "reason": "Dobrze.",
+          "evidence": ""
+        },
+        {
+          "criterion": "gotowosc",
+          "score": 3,
+          "reason": "Średnio.",
+          "evidence": ""
+        },
+        {
+          "criterion": "koszt",
+          "score": 3,
+          "reason": "Średnio.",
+          "evidence": ""
+        },
+        {
+          "criterion": "zespol",
+          "score": 3,
+          "reason": "Średnio.",
+          "evidence": ""
+        },
+        {
+          "criterion": "wplyw",
+          "score": 4,
+          "reason": "Dobrze.",
+          "evidence": ""
+        },
+        {
+          "criterion": "ip",
+          "score": 3,
+          "reason": "Średnio.",
+          "evidence": ""
+        }
+      ],
+      "confidence": 0.85,
+      "status": "opublikowana",
+      "reports": 0,
+      "isClaimed": true,
+      "model": "seed"
     }
   ],
   "challenges": [

@@ -63,41 +63,50 @@ function getFittedPoints(points: Point[]): Point[] {
   return points.map((point) => ({ x: offsetX + (point.x - minX) * scale, y: offsetY + (point.y - minY) * scale }));
 }
 
+/** Label propagation: each idea repeatedly joins the group its most similar neighbours belong to. */
 function getClusterGroups(matrix: number[][]): number[][] {
-  const visited = new Set<number>();
-  const groups: number[][] = [];
-  for (let start = 0; start < matrix.length; start++) {
-    if (visited.has(start)) {
-      continue;
-    }
-    const group: number[] = [];
-    const queue = [start];
-    visited.add(start);
-    while (queue.length > 0) {
-      const current = queue.shift() ?? start;
-      group.push(current);
-      matrix[current].forEach((similarity, other) => {
-        if (!visited.has(other) && similarity >= CLUSTER_SIMILARITY) {
-          visited.add(other);
-          queue.push(other);
+  const labels = matrix.map((_, index) => index);
+  for (let round = 0; round < 10; round++) {
+    let hasChanged = false;
+    for (let i = 0; i < matrix.length; i++) {
+      const weights = new Map<number, number>();
+      matrix[i].forEach((similarity, j) => {
+        if (i !== j && similarity >= CLUSTER_SIMILARITY) {
+          weights.set(labels[j], (weights.get(labels[j]) ?? 0) + similarity);
         }
       });
+      const [best] = [...weights.entries()].sort((first, second) => second[1] - first[1] || first[0] - second[0]);
+      if (best && best[0] !== labels[i]) {
+        labels[i] = best[0];
+        hasChanged = true;
+      }
     }
-    groups.push(group);
+    if (!hasChanged) {
+      break;
+    }
   }
-  return groups;
+  const groups = new Map<number, number[]>();
+  labels.forEach((label, index) => groups.set(label, [...(groups.get(label) ?? []), index]));
+  return [...groups.values()];
 }
 
-function getMostCommonTag(cards: Card[]): string | null {
-  const counts = new Map<string, number>();
-  for (const card of cards) {
-    for (const tag of card.tags) {
-      const normalized = tag.toLowerCase();
-      counts.set(normalized, (counts.get(normalized) ?? 0) + 1);
+/** Picks the tag most specific to the group: frequent inside it, rare outside it. */
+function getGroupTag(group: Card[], allCards: Card[]): string | null {
+  const getCounts = (cards: Card[]) => {
+    const counts = new Map<string, number>();
+    for (const card of cards) {
+      for (const tag of new Set(card.tags.map((cardTag) => cardTag.toLowerCase()))) {
+        counts.set(tag, (counts.get(tag) ?? 0) + 1);
+      }
     }
-  }
-  const [best] = [...counts.entries()].sort((first, second) => second[1] - first[1]);
-  return best && best[1] >= 2 ? best[0] : null;
+    return counts;
+  };
+  const totalCounts = getCounts(allCards);
+  const [best] = [...getCounts(group).entries()]
+    .filter(([, count]) => count >= 2)
+    .map(([tag, count]) => ({ tag, score: (count / group.length) * (count / (totalCounts.get(tag) ?? count)) }))
+    .sort((first, second) => second.score - first.score);
+  return best?.tag ?? null;
 }
 
 export function getIdeaGraph(cards: Card[]): IdeaGraph {
@@ -128,7 +137,7 @@ export function getIdeaGraph(cards: Card[]): IdeaGraph {
   }));
 
   const clusters = getClusterGroups(matrix).flatMap((group) => {
-    const label = group.length >= 2 ? getMostCommonTag(group.map((index) => cards[index])) : null;
+    const label = group.length >= 2 ? getGroupTag(group.map((index) => cards[index]), cards) : null;
     if (!label) {
       return [];
     }
