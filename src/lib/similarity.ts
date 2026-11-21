@@ -134,3 +134,8 @@ export function getChallengesForCard(card: Card, challenges: Challenge[], limit 
     .sort((first, second) => second.similarity - first.similarity)
     .slice(0, limit);
 }
+
+export function getSimilarityMatrix(cards: Card[]): number[][] {
+  const vectors = getVectors(cards.map(getCardText));
+  return vectors.map((first, i) => vectors.map((second, j) => (i === j ? 1 : getCosine(first, second))));
+}
