@@ -61,6 +61,70 @@ export function isTechnological(card: Pick<Card, "type">): boolean {
   return card.type === "technologiczna";
 }
 
+/** Ordered by priority: getRecommendedPath returns the first path whose rule matches. */
+export const RECOMMENDED_PATHS = {
+  komercjalizacja: {
+    name: "Komercjalizacja: licencja lub spin-off",
+    rule: "technologiczna + potencjał IP ≥ 4 + TRL ≥ 6",
+    steps: [
+      { title: "Analiza czystości patentowej i wycena", owner: "Centrum transferu technologii uczelni" },
+      { title: "Dopasowanie inwestora lub licencjobiorcy z branży", owner: "PCI" },
+      { title: "Term sheet lub umowa licencyjna", owner: "Twórcy + inwestor" },
+    ],
+    kpi: "Podpisana umowa licencyjna lub założona spółka w ciągu 12 miesięcy",
+  },
+  walidacja: {
+    name: "Walidacja w laboratorium PCI + ochrona IP",
+    rule: "technologiczna + potencjał IP ≥ 4 + TRL < 6",
+    steps: [
+      { title: "Testy w laboratorium PCI do poziomu TRL 6", owner: "Laboratorium PCI" },
+      { title: "Zabezpieczenie zgłoszenia patentowego", owner: "Rzecznik patentowy" },
+      { title: "Pilotaż z partnerem z wyzwania", owner: "Twórcy + partner" },
+    ],
+    kpi: "Osiągnięcie TRL 6 i pilotaż u 1 partnera w ciągu 9 miesięcy",
+  },
+  transfer: {
+    name: "Transfer do podobnych instytucji",
+    rule: "nietechnologiczna + replikowalność ≥ 4",
+    steps: [
+      { title: "Wygeneruj 1-stronicowy przepis wdrożeniowy", owner: "Radar (automatycznie)" },
+      { title: "Zaproponuj 3 instytucjom o podobnym profilu", owner: "Radar (dopasowania)" },
+      { title: "Spotkanie twórców z zainteresowanymi", owner: "Twórcy" },
+    ],
+    kpi: "Liczba instytucji, które wdrożyły model po 6 miesiącach (cel: 3)",
+  },
+  akcelerator: {
+    name: "Laboratorium PCI → akcelerator dla młodych",
+    rule: "twórcy 16–30 lat + gotowość ≤ 4",
+    steps: [
+      { title: "Konsultacja z opiekunem laboratorium PCI", owner: "PCI" },
+      { title: "Budowa prototypu w laboratorium", owner: "Twórcy" },
+      { title: "Zgłoszenie do naboru akceleratora", owner: "Twórcy + PCI" },
+    ],
+    kpi: "Prototyp gotowy do testów z użytkownikami w ciągu 6 miesięcy",
+  },
+  grant: {
+    name: "Pozyskanie finansowania grantowego",
+    rule: "ocena „Niski koszt” ≤ 2, czyli drogie wdrożenie",
+    steps: [
+      { title: "Wybór naboru (FENG, FEP Podkarpackie, NCBiR)", owner: "Radar (dopasowania)" },
+      { title: "Przygotowanie wniosku z partnerem", owner: "Twórcy + partner" },
+      { title: "Złożenie wniosku", owner: "Twórcy" },
+    ],
+    kpi: "Złożony wniosek grantowy w najbliższym naborze",
+  },
+  mentoring: {
+    name: "Mentoring i walidacja potrzeby",
+    rule: "żadna z powyższych reguł nie pasuje",
+    steps: [
+      { title: "Rozmowy z 5 potencjalnymi użytkownikami", owner: "Twórcy" },
+      { title: "Dopisanie wyników do opisu", owner: "Twórcy" },
+      { title: "Ponowna ocena przez Radar", owner: "Radar (automatycznie)" },
+    ],
+    kpi: "Potwierdzona potrzeba u co najmniej 3 użytkowników",
+  },
+} satisfies Record<string, RecommendedPath>;
+
 export function getRecommendedPath(card: Card): RecommendedPath {
   const ip = getCriterionScore(card.scores, "ip");
   const replicability = getCriterionScore(card.scores, "replikowalnosc");
@@ -68,73 +132,19 @@ export function getRecommendedPath(card: Card): RecommendedPath {
   const isTech = isTechnological(card);
 
   if (isTech && ip >= 4 && card.readiness >= 6) {
-    return {
-      name: "Komercjalizacja: licencja lub spin-off",
-      rule: "technologiczna + potencjał IP ≥ 4 + TRL ≥ 6",
-      steps: [
-        { title: "Analiza czystości patentowej i wycena", owner: "Centrum transferu technologii uczelni" },
-        { title: "Dopasowanie inwestora lub licencjobiorcy z branży", owner: "PCI" },
-        { title: "Term sheet lub umowa licencyjna", owner: "Twórcy + inwestor" },
-      ],
-      kpi: "Podpisana umowa licencyjna lub założona spółka w ciągu 12 miesięcy",
-    };
+    return RECOMMENDED_PATHS.komercjalizacja;
   }
   if (isTech && ip >= 4) {
-    return {
-      name: "Walidacja w laboratorium PCI + ochrona IP",
-      rule: "technologiczna + potencjał IP ≥ 4 + TRL < 6",
-      steps: [
-        { title: "Testy w laboratorium PCI do poziomu TRL 6", owner: "Laboratorium PCI" },
-        { title: "Zabezpieczenie zgłoszenia patentowego", owner: "Rzecznik patentowy" },
-        { title: "Pilotaż z partnerem z wyzwania", owner: "Twórcy + partner" },
-      ],
-      kpi: "Osiągnięcie TRL 6 i pilotaż u 1 partnera w ciągu 9 miesięcy",
-    };
+    return RECOMMENDED_PATHS.walidacja;
   }
   if (!isTech && replicability >= 4) {
-    return {
-      name: "Transfer do podobnych instytucji",
-      rule: "nietechnologiczna + replikowalność ≥ 4",
-      steps: [
-        { title: "Wygeneruj 1-stronicowy przepis wdrożeniowy", owner: "Radar (automatycznie)" },
-        { title: "Zaproponuj 3 instytucjom o podobnym profilu", owner: "Radar (dopasowania)" },
-        { title: "Spotkanie twórców z zainteresowanymi", owner: "Twórcy" },
-      ],
-      kpi: "Liczba instytucji, które wdrożyły model po 6 miesiącach (cel: 3)",
-    };
+    return RECOMMENDED_PATHS.transfer;
   }
   if (card.isYoungCreator && card.readiness <= 4) {
-    return {
-      name: "Laboratorium PCI → akcelerator dla młodych",
-      rule: "twórcy 16–30 lat + gotowość ≤ 4",
-      steps: [
-        { title: "Konsultacja z opiekunem laboratorium PCI", owner: "PCI" },
-        { title: "Budowa prototypu w laboratorium", owner: "Twórcy" },
-        { title: "Zgłoszenie do naboru akceleratora", owner: "Twórcy + PCI" },
-      ],
-      kpi: "Prototyp gotowy do testów z użytkownikami w ciągu 6 miesięcy",
-    };
+    return RECOMMENDED_PATHS.akcelerator;
   }
   if (cost <= 2) {
-    return {
-      name: "Pozyskanie finansowania grantowego",
-      rule: "wysoki koszt wdrożenia (niski koszt ≤ 2)",
-      steps: [
-        { title: "Wybór naboru (FENG, FEP Podkarpackie, NCBiR)", owner: "Radar (dopasowania)" },
-        { title: "Przygotowanie wniosku z partnerem", owner: "Twórcy + partner" },
-        { title: "Złożenie wniosku", owner: "Twórcy" },
-      ],
-      kpi: "Złożony wniosek grantowy w najbliższym naborze",
-    };
+    return RECOMMENDED_PATHS.grant;
   }
-  return {
-    name: "Mentoring i walidacja potrzeby",
-    rule: "żadna z reguł szczegółowych nie pasuje",
-    steps: [
-      { title: "Rozmowy z 5 potencjalnymi użytkownikami", owner: "Twórcy" },
-      { title: "Dopisanie wyników do opisu", owner: "Twórcy" },
-      { title: "Ponowna ocena przez Radar", owner: "Radar (automatycznie)" },
-    ],
-    kpi: "Potwierdzona potrzeba u co najmniej 3 użytkowników",
-  };
+  return RECOMMENDED_PATHS.mentoring;
 }

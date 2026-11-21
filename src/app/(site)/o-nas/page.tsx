@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { PANEL_CLASS } from "@/components/CardDetails";
+import { RECOMMENDED_PATHS } from "@/lib/rules";
 import {
   CRITERIA,
   CRITERION_LABELS,
@@ -18,15 +19,6 @@ const PIPELINE_STEPS = [
   ["Ocena", "8 kryteriów, skala 1–5, z uzasadnieniem."],
   ["Ścieżka", "Jawne reguły poniżej."],
   ["Kontrola", `${REPORTS_TO_UNCONFIRM} zgłoszenia błędu cofają pomysł do weryfikacji.`],
-];
-
-const PATH_RULES = [
-  ["Technologiczna + IP ≥ 4 + TRL ≥ 6", "Komercjalizacja: licencja lub spin-off"],
-  ["Technologiczna + IP ≥ 4 + TRL < 6", "Walidacja w laboratorium PCI + ochrona IP"],
-  ["Nietechnologiczna + replikowalność ≥ 4", "Transfer do podobnych instytucji"],
-  ["Twórcy 16–30 + gotowość ≤ 4", "Laboratorium PCI → akcelerator"],
-  ["Wysoki koszt (niski koszt ≤ 2)", "Finansowanie grantowe"],
-  ["Pozostałe", "Mentoring i walidacja potrzeby"],
 ];
 
 const LIMITATIONS = [
@@ -50,7 +42,7 @@ export default function AboutPage() {
     <>
       <div className="flex max-w-3xl flex-col gap-4">
         <h1 className="font-display text-[clamp(34px,4.5vw,54px)] leading-none font-extrabold tracking-tight">
-          O <span className="text-teal">Radarze Innowacji</span>
+          O <span className="text-primary">Radarze Innowacji</span>
         </h1>
         <p className="text-[17px] leading-relaxed text-ink-soft">
           Dobre pomysły powstają w szkołach, uczelniach i urzędach, ale zostają w murach jednej instytucji. Radar sam je wyłapuje ze stron i
@@ -67,7 +59,7 @@ export default function AboutPage() {
         ))}
       </section>
       <h2 className="font-display text-3xl font-extrabold tracking-tight">
-        Jak <span className="text-teal">oceniamy</span>
+        Jak <span className="text-primary">oceniamy</span>
       </h2>
       <div className="flex flex-wrap items-start gap-6">
         <section className={`${PANEL_CLASS} flex-[3_1_420px]`}>
@@ -75,7 +67,7 @@ export default function AboutPage() {
           <ol className="flex flex-col gap-3">
             {PIPELINE_STEPS.map(([title, text], index) => (
               <li key={title} className="flex gap-3.5">
-                <span className="flex size-7 flex-none items-center justify-center rounded-full bg-mint text-sm font-bold text-teal-dark">{index + 1}</span>
+                <span className="flex size-7 flex-none items-center justify-center rounded-full bg-primary-soft text-sm font-bold text-primary-dark">{index + 1}</span>
                 <span className="flex flex-col gap-0.5 text-[15px] leading-normal">
                   <b>{title}</b>
                   <span className="text-ink-soft">{text}</span>
@@ -97,7 +89,13 @@ export default function AboutPage() {
         </section>
       </div>
       <section className={PANEL_CLASS}>
-        <h2 className="font-display text-xl font-semibold">Ścieżki</h2>
+        <div className="flex flex-col gap-1">
+          <h2 className="font-display text-xl font-semibold">Ścieżki</h2>
+          <p className="text-[15px] text-ink-soft">
+            Każdy pomysł dostaje jedną ścieżkę rozwoju z konkretnymi krokami. Reguły sprawdzamy od góry — obowiązuje pierwsza pasująca. Oceny w skali
+            1–5, TRL w skali 1–9.
+          </p>
+        </div>
         <div className="overflow-x-auto">
           <table className="w-full min-w-120 text-left text-[15px]">
             <thead className="text-xs tracking-wide text-muted uppercase">
@@ -107,10 +105,10 @@ export default function AboutPage() {
               </tr>
             </thead>
             <tbody className="divide-y divide-line-soft">
-              {PATH_RULES.map(([condition, path]) => (
-                <tr key={condition}>
-                  <td className="py-2.5 pr-4">{condition}</td>
-                  <td className="py-2.5 font-semibold">{path}</td>
+              {Object.values(RECOMMENDED_PATHS).map((path) => (
+                <tr key={path.name}>
+                  <td className="py-2.5 pr-4">{path.rule}</td>
+                  <td className="py-2.5 font-semibold">{path.name}</td>
                 </tr>
               ))}
             </tbody>
